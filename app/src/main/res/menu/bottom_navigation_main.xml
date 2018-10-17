@@ -5,24 +5,24 @@
         android:id="@+id/frag1"
         android:enabled="true"
         android:icon="@drawable/ic_favorite_white_24dp"
-        android:title="@string/text_favorites"
+        android:title="Explore"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/frag2"
+        android:id="@+id/musicFragment"
         android:enabled="true"
         android:icon="@drawable/ic_access_time_white_24dp"
-        android:title="@string/text_schedules"
+        android:title="Music"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/frag3"
         android:enabled="true"
         android:icon="@drawable/ic_audiotrack_white_24dp"
-        android:title="@string/text_music"
+        android:title="Search"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/frag4"
         android:enabled="true"
         android:icon="@drawable/ic_cake_black_24dp"
-        android:title="Cake"
+        android:title="My"
         app:showAsAction="ifRoom" />
 </menu>

@@ -11,7 +11,7 @@ import com.exam.english.R;
 import com.exam.english.databinding.ActivityMainBinding;
 import com.test.english.ui.adapter.MainViewPagerAdapter;
 import com.test.english.ui.frag1.Fragment1;
-import com.test.english.ui.frag2.Fragment2;
+import com.test.english.ui.fragmentmusic.MusicFragment;
 import com.test.english.ui.frag3.Fragment3;
 import com.test.english.ui.frag4.Fragment4;
 import com.test.english.ui.helper.BottomNavigationNotShiftHelper;
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.frag1:
                         binding.mainViewPager.setCurrentItem(0);
                         return true;
-                    case R.id.frag2:
+                    case R.id.musicFragment:
                         binding.mainViewPager.setCurrentItem(1);
                         return true;
                     case R.id.frag3:
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         mainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
 
         mainViewPagerAdapter.addFragment(Fragment1.newInstance());
-        mainViewPagerAdapter.addFragment(Fragment2.newInstance());
+        mainViewPagerAdapter.addFragment(MusicFragment.newInstance());
         mainViewPagerAdapter.addFragment(Fragment3.newInstance());
         mainViewPagerAdapter.addFragment(Fragment4.newInstance());
 

@@ -14,4 +14,8 @@
     <color name="graytone_5">#81CFB5</color>
     <color name="graytone_6">#B2C891</color>
 
+    <color name="transparent">#00000000</color>
+    <color name="colorBack">#efefef</color>
+    <color name="grey2">#343434</color>
+
 </resources>

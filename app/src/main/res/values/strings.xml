@@ -5,4 +5,14 @@
     <string name="text_schedules">Schedules</string>
     <string name="text_music">Music</string>
     <string name="text_cake">Cake</string>
+
+    <string name="discover_popular">Popular</string>
+    <string name="discover_mothergoose">Mother Goose / Nursery Rhyme</string>
+    <string name="discover_favorite">Favorite</string>
+    <string name="discover_history">Watched</string>
+    <string name="discover_sentences">Sentences</string>
+    <string name="discover_patterns">Patterns</string>
+    <string name="discover_words">Words</string>
+    <string name="discover_genres">Genres</string>
+
 </resources>

@@ -8,4 +8,29 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="text_desc_title_black">
+        <item name="android:fontFamily">@font/nanumsquareroundb</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18dp</item>
+    </style>
+
+    <!-- menu text -->
+    <style name="text_button_black">
+        <item name="android:fontFamily">@font/cereal_light</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:minHeight">20dp</item>
+        <item name="android:minWidth">55dp</item>
+        <item name="android:background">@drawable/button_border</item>
+        <item name="android:theme">@style/MyButton7</item>
+    </style>
+
+    <style name="MyButton7" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/colorBack</item>
+        <item name="colorButtonNormal">@color/transparent</item>
+        <item name="android:textColor">@color/grey2</item>
+        <item name="android:minHeight">40dip</item>
+        <item name="android:minWidth">55dip</item>
+    </style>
+
 </resources>
