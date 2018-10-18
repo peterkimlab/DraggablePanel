@@ -15,8 +15,7 @@ import com.test.english.api.APIClient;
 import com.test.english.api.APIInterface;
 import com.test.english.api.Datums;
 import com.test.english.api.SearchResource;
-import com.test.english.ui.adapter.MusicFragementAdapter;
-import com.test.english.ui.adapter.RecyclerItemClickListener;
+import com.test.english.ui.adapter.MusicFragmentAdapter;
 import com.test.english.ui.adapter.SpacesItemDecoration;
 
 import java.util.ArrayList;
@@ -28,8 +27,9 @@ import retrofit2.Response;
 public class MusicFragment extends Fragment {
 
     private FragmentMusicBinding binding;
-    private MusicFragementAdapter mAdapter03;
-    private List<Datums> dataList03;
+    private MusicFragmentAdapter mAdapter;
+    private List<Datums> datumsList;
+    private ArrayList<List<Datums>> dataset;
     private APIInterface apiInterface;
 
     public static MusicFragment newInstance() {
@@ -39,11 +39,15 @@ public class MusicFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_music, container, false);
-
         apiInterface = APIClient.getClient().create(APIInterface.class);
-        dataList03 = new ArrayList<>();
+        datumsList = new ArrayList<>();
+        dataset = new ArrayList<>();
 
+        SpacesItemDecoration decoration = new SpacesItemDecoration(5);
+
+        // 최신문장 데이터
         Handler handler0 = new Handler();
         handler0.postDelayed(new Runnable() {
             @Override public void run() {
@@ -51,46 +55,86 @@ public class MusicFragment extends Fragment {
             }
         }, 500);
 
-        SpacesItemDecoration decoration = new SpacesItemDecoration(5);
+        /*Handler handler1 = new Handler();
+        handler1.postDelayed(new Runnable() {
+            @Override public void run() {
+                getDataDiscover(1);
+            }
+        }, 1000);*/
 
-        binding.display03.addItemDecoration(decoration);
-        LinearLayoutManager layoutManager03 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        binding.display03.setLayoutManager(layoutManager03);
-        binding.display03.setHasFixedSize(true);
+        // 최신문장 레이이웃
+        //binding.display03.addItemDecoration(decoration);
 
-        mAdapter03 = new MusicFragementAdapter(getActivity(), dataList03);
-        binding.display03.setAdapter(mAdapter03);
-        binding.display03.setNestedScrollingEnabled(false);
+        // 아덥터
+        mAdapter = new MusicFragmentAdapter(getActivity(), dataset);
 
-        binding.display03.addOnItemTouchListener(
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        binding.rv.setLayoutManager(linearLayoutManager);
+        //binding.display03.setHasFixedSize(true);
+
+        binding.rv.setAdapter(mAdapter);
+        //binding.display03.setNestedScrollingEnabled(false);
+
+        /*binding.rv.addOnItemTouchListener(
                 new RecyclerItemClickListener(getActivity(), binding.display03 ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        Datums datums = dataList03.get(position);
+                        Datums datums = dataList.get(position);
                         //mainActivity.setVideoUrl(datums);
                     }
                     @Override public void onLongItemClick(View view, int position) {
                     }
                 })
-        );
+        );*/
 
         return binding.getRoot();
     }
 
+    // 최신문장 레트로핏
     public void getDataLatestSentences(int current_page, String sort) {
         Call<SearchResource> call = apiInterface.getSentences(current_page+"", "", sort, "");
         call.enqueue(new Callback<SearchResource>() {
             @Override
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
                 SearchResource resource = response.body();
-                if(resource != null && resource.hits != null){
-                    dataList03.addAll(resource.hits.hits);
+                if(resource != null && resource.hits != null) {
+                    datumsList.addAll(resource.hits.hits);
                 }
-                mAdapter03.notifyDataSetChanged();
+                dataset.add(datumsList);
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<SearchResource> call, Throwable t) {
                 //Log.e(TAG,t.getMessage());
+                call.cancel();
+            }
+        });
+    }
+
+    public void getDataDiscover(int current_page) {
+        Call<List<SearchResource>> call = apiInterface.getDiscover(current_page+"", "");
+        call.enqueue(new Callback<List<SearchResource>>() {
+            @Override
+            public void onResponse(Call<List<SearchResource>> call, Response<List<SearchResource>> response) {
+                List<SearchResource> resource = response.body();
+                if(resource != null){
+                    for (int i = 0; i < resource.size(); i++) {
+                        if(resource.get(i).typeName.equals("pattern") && resource.get(i).hits.hits != null){
+                            datumsList.addAll(resource.get(i).hits.hits);
+                        }else if(resource.get(i).typeName.equals("word") && resource.get(i).hits.hits != null){
+                            datumsList.addAll(resource.get(i).hits.hits);
+                        }else if(resource.get(i).typeName.equals("genre") && resource.get(i).hits.hits != null){
+                            datumsList.addAll(resource.get(i).hits.hits);
+                        }
+                    }
+                }
+                mAdapter.notifyDataSetChanged();
+                //mAdapter04.notifyDataSetChanged();
+                //mAdapter06.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<List<SearchResource>> call, Throwable t) {
                 call.cancel();
             }
         });
