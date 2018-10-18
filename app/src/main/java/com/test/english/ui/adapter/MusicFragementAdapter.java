@@ -15,22 +15,22 @@ import com.test.english.util.HummingUtils;
 
 import java.util.List;
 
-public class MainItemDisplay03Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MusicFragementAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final String TAG = MainItemDisplay03Adapter.class.getSimpleName();
+    private static final String TAG = MusicFragementAdapter.class.getSimpleName();
 
     private Context context;
     private List<Datums> playlists;
 
-    public MainItemDisplay03Adapter(Context context, List<Datums> playlists) {
+    public MusicFragementAdapter(Context context, List<Datums> playlists) {
         this.context = context;
         this.playlists = playlists;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_discover_display03, parent, false);
-        return new MainItemDisplay03ViewHolder(view);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_music_image_type, parent, false);
+        return new ImageTypeViewHolder(view);
     }
 
     @Override
@@ -38,20 +38,21 @@ public class MainItemDisplay03Adapter extends RecyclerView.Adapter<RecyclerView.
         final Datums playlistObject = playlists.get(position);
         //holder.sentence.setText(HummingUtils.getSentenceByMode(playlistObject, context));
         //holder.vtitle.setText(HummingUtils.getTitleByMode(playlistObject, context));
-        ((MainItemDisplay03ViewHolder) holder).time.setText(HummingUtils.getTime(playlistObject, context));
-        if (HummingUtils.isEmpty(((MainItemDisplay03ViewHolder) holder).time)) {
-            ((MainItemDisplay03ViewHolder) holder).time.setVisibility(View.GONE);
+        ((ImageTypeViewHolder) holder).time.setText(HummingUtils.getTime(playlistObject, context));
+
+        if (HummingUtils.isEmpty(((ImageTypeViewHolder) holder).time)) {
+            ((ImageTypeViewHolder) holder).time.setVisibility(View.GONE);
         }
 
-        Picasso.with(context).load(HummingUtils.IMAGE_PATH + playlistObject.source.get(HummingUtils.ElasticField.THUMBNAIL_URL)).into(((MainItemDisplay03ViewHolder) holder).thumbnail, new Callback() {
+        Picasso.with(context).load(HummingUtils.IMAGE_PATH + playlistObject.source.get(HummingUtils.ElasticField.THUMBNAIL_URL)).into(((ImageTypeViewHolder) holder).thumbnail, new Callback() {
             @Override
             public void onSuccess() {
-                ((MainItemDisplay03ViewHolder) holder).thumbnail.setVisibility(View.VISIBLE);
+                ((ImageTypeViewHolder) holder).thumbnail.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onError() {
-                ((MainItemDisplay03ViewHolder) holder).thumbnail.setVisibility(View.VISIBLE);
+                ((ImageTypeViewHolder) holder).thumbnail.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -61,14 +62,14 @@ public class MainItemDisplay03Adapter extends RecyclerView.Adapter<RecyclerView.
         return playlists.size();
     }
 
-    public static class MainItemDisplay03ViewHolder extends RecyclerView.ViewHolder {
+    public static class ImageTypeViewHolder extends RecyclerView.ViewHolder {
 
         private TextView sentence;
         private TextView vtitle;
         private TextView time;
         private ImageView thumbnail;
 
-        public MainItemDisplay03ViewHolder(View itemView) {
+        public ImageTypeViewHolder(View itemView) {
             super(itemView);
             sentence = (TextView)itemView.findViewById(R.id.sentence);
             vtitle = (TextView)itemView.findViewById(R.id.vtitle);

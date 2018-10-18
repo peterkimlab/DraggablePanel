@@ -15,7 +15,7 @@ import com.test.english.api.APIClient;
 import com.test.english.api.APIInterface;
 import com.test.english.api.Datums;
 import com.test.english.api.SearchResource;
-import com.test.english.ui.adapter.MainItemDisplay03Adapter;
+import com.test.english.ui.adapter.MusicFragementAdapter;
 import com.test.english.ui.adapter.RecyclerItemClickListener;
 import com.test.english.ui.adapter.SpacesItemDecoration;
 
@@ -28,7 +28,7 @@ import retrofit2.Response;
 public class MusicFragment extends Fragment {
 
     private FragmentMusicBinding binding;
-    private MainItemDisplay03Adapter mAdapter03;
+    private MusicFragementAdapter mAdapter03;
     private List<Datums> dataList03;
     private APIInterface apiInterface;
 
@@ -58,7 +58,7 @@ public class MusicFragment extends Fragment {
         binding.display03.setLayoutManager(layoutManager03);
         binding.display03.setHasFixedSize(true);
 
-        mAdapter03 = new MainItemDisplay03Adapter(getActivity(), dataList03);
+        mAdapter03 = new MusicFragementAdapter(getActivity(), dataList03);
         binding.display03.setAdapter(mAdapter03);
         binding.display03.setNestedScrollingEnabled(false);
 

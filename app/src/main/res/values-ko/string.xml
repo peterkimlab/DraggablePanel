@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="discover_popular">인기 문장</string>
+    <string name="discover_mothergoose">동요</string>
+    <string name="discover_sentences">최신 문장</string>
+    <string name="discover_patterns">패턴</string>
+    <string name="discover_words">단어</string>
+    <string name="discover_genres">장르</string>
+</resources>
