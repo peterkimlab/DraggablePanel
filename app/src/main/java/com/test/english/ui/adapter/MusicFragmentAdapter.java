@@ -47,32 +47,47 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
         //List<Datums> object = dataset.get(position);
         //final Datums playlistObject = playlists.get(position);
         ArrayList<MusicFragmentItemModel> singleItem = new ArrayList<MusicFragmentItemModel>();
+        List<Datums> dataList;
+        MusicFragmentDataAdapter itemListDataAdapter;
 
         switch (position) {
             case 0:
-                List<Datums> object = dataset.get(DataTypeMusicFragment.SENTENCE_TYPE);
-                for (Datums datas : object) {
-                    //(((ImageTypeViewHolder) holder).sentence.setText(HummingUtils.getSentenceByMode(datas, context));
-                    //(((ImageTypeViewHolder) holder).vtitle.setText(HummingUtils.getTitleByMode(datas, context));
-                    singleItem.add(new MusicFragmentItemModel("", "", HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context)));
+                dataList = dataset.get(DataTypeMusicFragment.POPULAR_TYPE);
+
+                if (dataList != null) {
+                    for (Datums datas : dataList) {
+                        singleItem.add(new MusicFragmentItemModel("", "", HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context)));
+                    }
+
+                    itemListDataAdapter = new MusicFragmentDataAdapter(context, singleItem);
+
+                    ((ImageTypeViewHolder) holder).recycler_view_list.setHasFixedSize(true);
+                    ((ImageTypeViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+                    ((ImageTypeViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
+                    ((ImageTypeViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
                 }
-
-                MusicFragmentDataAdapter itemListDataAdapter = new MusicFragmentDataAdapter(context, singleItem);
-
-                ((ImageTypeViewHolder) holder).recycler_view_list.setHasFixedSize(true);
-                ((ImageTypeViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-                ((ImageTypeViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
-                ((ImageTypeViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
                 break;
             case 1:
+                dataList = dataset.get(DataTypeMusicFragment.SENTENCE_TYPE);
+
+                if (dataList != null) {
+                    for (Datums datas : dataList) {
+                        //(((ImageTypeViewHolder) holder).sentence.setText(HummingUtils.getSentenceByMode(datas, context));
+                        //(((ImageTypeViewHolder) holder).vtitle.setText(HummingUtils.getTitleByMode(datas, context));
+                        singleItem.add(new MusicFragmentItemModel("", "", HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context)));
+                    }
+
+                    itemListDataAdapter = new MusicFragmentDataAdapter(context, singleItem);
+
+                    ((ImageTypeViewHolder) holder).recycler_view_list.setHasFixedSize(true);
+                    ((ImageTypeViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+                    ((ImageTypeViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
+                    ((ImageTypeViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
+                }
                 break;
             case 2:
                 break;
-
         }
-
-
-        //}
     }
 
     @Override
@@ -84,6 +99,8 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
     public int getItemViewType(int position) {
         switch (position) {
             case 0:
+                return DataTypeMusicFragment.IMAGE_TYPE;
+            case 1:
                 return DataTypeMusicFragment.IMAGE_TYPE;
         }
         return -1;

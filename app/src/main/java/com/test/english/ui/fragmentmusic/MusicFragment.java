@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ public class MusicFragment extends Fragment {
 
     private FragmentMusicBinding binding;
     private MusicFragmentAdapter mAdapter;
-    private List<Datums> sentenceList, patternList;
+    private List<Datums> popularList, sentenceList, patternList;
     private HashMap<String, List<Datums>> dataset;
     private APIInterface apiInterface;
 
@@ -43,11 +44,20 @@ public class MusicFragment extends Fragment {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_music, container, false);
         apiInterface = APIClient.getClient().create(APIInterface.class);
+        popularList = new ArrayList<>();
         sentenceList = new ArrayList<>();
         patternList = new ArrayList<>();
         dataset = new HashMap<String, List<Datums>>();
 
         SpacesItemDecoration decoration = new SpacesItemDecoration(5);
+
+        // 인기문장
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override public void run() {
+                getDataPopularSentences(1, "viewcnt");
+            }
+        }, 0);
 
         // 최신문장 데이터
         Handler handler0 = new Handler();
@@ -89,6 +99,26 @@ public class MusicFragment extends Fragment {
         );*/
 
         return binding.getRoot();
+    }
+
+    // 인기문장
+    public void getDataPopularSentences(int current_page, String sort) {
+        Call<SearchResource> call = apiInterface.getPopular(current_page+"", "", sort);
+        call.enqueue(new Callback<SearchResource>() {
+            @Override
+            public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
+                SearchResource resource = response.body();
+                if (resource != null && resource.hits != null) {
+                    popularList.addAll(resource.hits.hits);
+                }
+                dataset.put(DataTypeMusicFragment.POPULAR_TYPE, popularList);
+                mAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onFailure(Call<SearchResource> call, Throwable t) {
+                call.cancel();
+            }
+        });
     }
 
     // 최신문장 레트로핏
