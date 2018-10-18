@@ -1,13 +1,13 @@
 package com.test.english.ui.data;
 
-public class SingleItemModel {
+public class MusicFragmentItemModel {
 
     private String sentence;
     private String vtitle;
     private String item_thumbnail;
     private String time;
 
-    public SingleItemModel(String sentence, String vtitle, String item_thumbnail, String time) {
+    public MusicFragmentItemModel(String sentence, String vtitle, String item_thumbnail, String time) {
         this.sentence = sentence;
         this.vtitle = vtitle;
         this.item_thumbnail = item_thumbnail;

@@ -3,17 +3,16 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
+    android:paddingRight="10dp"
     android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0">
-
         <ImageView
             android:id="@+id/thumbnail"
             style="@style/item_thumbnail" />
-
         <TextView
             android:id="@+id/time"
             style="@style/text_time" />
@@ -25,18 +24,15 @@
         android:layout_marginLeft="5dp"
         android:layout_weight="1"
         android:orientation="vertical">
-
         <TextView
             android:id="@+id/sentence"
             style="@style/text_sentence_en_black"
             android:layout_weight="0" />
-
         <TextView
             android:id="@+id/vtitle"
             style="@style/text_title_en_black"
             android:layout_weight="0"
             android:visibility="gone" />
-
     </LinearLayout>
+    
 </LinearLayout>
-

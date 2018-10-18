@@ -15,10 +15,11 @@ import com.test.english.api.APIClient;
 import com.test.english.api.APIInterface;
 import com.test.english.api.Datums;
 import com.test.english.api.SearchResource;
+import com.test.english.ui.data.DataTypeMusicFragment;
 import com.test.english.ui.adapter.MusicFragmentAdapter;
 import com.test.english.ui.adapter.SpacesItemDecoration;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,8 +29,8 @@ public class MusicFragment extends Fragment {
 
     private FragmentMusicBinding binding;
     private MusicFragmentAdapter mAdapter;
-    private List<Datums> datumsList;
-    private ArrayList<List<Datums>> dataset;
+    private List<Datums> sentenceList, patternList;
+    private HashMap<String, List<Datums>> dataset;
     private APIInterface apiInterface;
 
     public static MusicFragment newInstance() {
@@ -42,8 +43,9 @@ public class MusicFragment extends Fragment {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_music, container, false);
         apiInterface = APIClient.getClient().create(APIInterface.class);
-        datumsList = new ArrayList<>();
-        dataset = new ArrayList<>();
+        sentenceList = new ArrayList<>();
+        patternList = new ArrayList<>();
+        dataset = new HashMap<String, List<Datums>>();
 
         SpacesItemDecoration decoration = new SpacesItemDecoration(5);
 
@@ -97,9 +99,9 @@ public class MusicFragment extends Fragment {
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
                 SearchResource resource = response.body();
                 if(resource != null && resource.hits != null) {
-                    datumsList.addAll(resource.hits.hits);
+                    sentenceList.addAll(resource.hits.hits);
                 }
-                dataset.add(datumsList);
+                dataset.put(DataTypeMusicFragment.SENTENCE_TYPE, sentenceList);
                 mAdapter.notifyDataSetChanged();
             }
 
@@ -117,20 +119,21 @@ public class MusicFragment extends Fragment {
             @Override
             public void onResponse(Call<List<SearchResource>> call, Response<List<SearchResource>> response) {
                 List<SearchResource> resource = response.body();
-                if(resource != null){
+                if (resource != null) {
                     for (int i = 0; i < resource.size(); i++) {
-                        if(resource.get(i).typeName.equals("pattern") && resource.get(i).hits.hits != null){
-                            datumsList.addAll(resource.get(i).hits.hits);
-                        }else if(resource.get(i).typeName.equals("word") && resource.get(i).hits.hits != null){
-                            datumsList.addAll(resource.get(i).hits.hits);
-                        }else if(resource.get(i).typeName.equals("genre") && resource.get(i).hits.hits != null){
-                            datumsList.addAll(resource.get(i).hits.hits);
+                        if (resource.get(i).typeName.equals("pattern") && resource.get(i).hits.hits != null) {
+                            patternList.addAll(resource.get(i).hits.hits);
+                            dataset.put(DataTypeMusicFragment.PATTERN_TYPE, patternList);
+                        } else if (resource.get(i).typeName.equals("word") && resource.get(i).hits.hits != null) {
+                            //datumsList.addAll(resource.get(i).hits.hits);
+                            //dataset.add(datumsList);
+                        } else if (resource.get(i).typeName.equals("genre") && resource.get(i).hits.hits != null) {
+                            //datumsList.addAll(resource.get(i).hits.hits);
+                            //dataset.add(datumsList);
                         }
                     }
                 }
                 mAdapter.notifyDataSetChanged();
-                //mAdapter04.notifyDataSetChanged();
-                //mAdapter06.notifyDataSetChanged();
             }
 
             @Override

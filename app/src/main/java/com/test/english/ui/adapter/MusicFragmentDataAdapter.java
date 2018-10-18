@@ -7,19 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.exam.english.R;
-import com.test.english.ui.data.SingleItemModel;
+import com.test.english.ui.data.MusicFragmentItemModel;
 
 import java.util.ArrayList;
 
-public class SectionListDataAdapter extends RecyclerView.Adapter<SectionListDataAdapter.SingleItemRowHolder> {
+public class MusicFragmentDataAdapter extends RecyclerView.Adapter<MusicFragmentDataAdapter.SingleItemRowHolder> {
 
-    private ArrayList<SingleItemModel> itemsList;
+    private ArrayList<MusicFragmentItemModel> itemsList;
     private Context mContext;
 
-    public SectionListDataAdapter(Context context, ArrayList<SingleItemModel> itemsList) {
+    public MusicFragmentDataAdapter(Context context, ArrayList<MusicFragmentItemModel> itemsList) {
         this.itemsList = itemsList;
         this.mContext = context;
     }
@@ -34,25 +36,8 @@ public class SectionListDataAdapter extends RecyclerView.Adapter<SectionListData
     @Override
     public void onBindViewHolder(final SingleItemRowHolder holder, int i) {
 
-        SingleItemModel singleItem = itemsList.get(i);
-
+        MusicFragmentItemModel singleItem = itemsList.get(i);
         holder.tvTime.setText(singleItem.getTime());
-
-        /*Picasso.with(mContext).load(singleItem.getItem_thumbnail(), new Callback() {
-            @Override
-            public void onSuccess() {
-
-                //holder.itemView.setVisibility(View.VISIBLE);
-                //holder.thumbnail.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onError() {
-                //holder.itemView.setVisibility(View.VISIBLE);
-                //holder.thumbnail.setVisibility(View.VISIBLE);
-            }
-        });*/
-
         Glide.with(mContext)
                 .load(singleItem.getItem_thumbnail())
                 .apply(RequestOptions.centerCropTransform())
@@ -75,12 +60,12 @@ public class SectionListDataAdapter extends RecyclerView.Adapter<SectionListData
             this.tvTime = (TextView) view.findViewById(R.id.time);
             this.itemImage = (ImageView) view.findViewById(R.id.thumbnail);
 
-            /*view.setOnClickListener(new View.OnClickListener() {
+            view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(), tvTitle.getText(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(), tvTime.getText(), Toast.LENGTH_SHORT).show();
                 }
-            });*/
+            });
         }
     }
 }
