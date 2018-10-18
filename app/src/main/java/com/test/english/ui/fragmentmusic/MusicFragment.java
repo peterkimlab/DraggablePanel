@@ -51,7 +51,6 @@ public class MusicFragment extends Fragment {
             }
         }, 500);
 
-
         SpacesItemDecoration decoration = new SpacesItemDecoration(5);
 
         binding.display03.addItemDecoration(decoration);

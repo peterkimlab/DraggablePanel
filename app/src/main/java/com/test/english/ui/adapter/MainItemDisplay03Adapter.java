@@ -15,7 +15,7 @@ import com.test.english.util.HummingUtils;
 
 import java.util.List;
 
-public class MainItemDisplay03Adapter extends RecyclerView.Adapter<MainItemDisplay03Adapter.MainItemDisplay03ViewHolder> {
+public class MainItemDisplay03Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final String TAG = MainItemDisplay03Adapter.class.getSimpleName();
 
@@ -28,30 +28,30 @@ public class MainItemDisplay03Adapter extends RecyclerView.Adapter<MainItemDispl
     }
 
     @Override
-    public MainItemDisplay03ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_discover_display03, parent, false);
         return new MainItemDisplay03ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final MainItemDisplay03ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         final Datums playlistObject = playlists.get(position);
         //holder.sentence.setText(HummingUtils.getSentenceByMode(playlistObject, context));
         //holder.vtitle.setText(HummingUtils.getTitleByMode(playlistObject, context));
-        holder.time.setText(HummingUtils.getTime(playlistObject, context));
-        if (HummingUtils.isEmpty(holder.time)) {
-            holder.time.setVisibility(View.GONE);
+        ((MainItemDisplay03ViewHolder) holder).time.setText(HummingUtils.getTime(playlistObject, context));
+        if (HummingUtils.isEmpty(((MainItemDisplay03ViewHolder) holder).time)) {
+            ((MainItemDisplay03ViewHolder) holder).time.setVisibility(View.GONE);
         }
 
-        Picasso.with(context).load(HummingUtils.IMAGE_PATH + playlistObject.source.get(HummingUtils.ElasticField.THUMBNAIL_URL)).into(holder.thumbnail, new Callback() {
+        Picasso.with(context).load(HummingUtils.IMAGE_PATH + playlistObject.source.get(HummingUtils.ElasticField.THUMBNAIL_URL)).into(((MainItemDisplay03ViewHolder) holder).thumbnail, new Callback() {
             @Override
             public void onSuccess() {
-                holder.thumbnail.setVisibility(View.VISIBLE);
+                ((MainItemDisplay03ViewHolder) holder).thumbnail.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onError() {
-                holder.thumbnail.setVisibility(View.VISIBLE);
+                ((MainItemDisplay03ViewHolder) holder).thumbnail.setVisibility(View.VISIBLE);
             }
         });
     }
