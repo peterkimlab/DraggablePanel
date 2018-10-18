@@ -61,8 +61,8 @@ public class MusicFragment extends Fragment {
 
         mAdapter03 = new MainItemDisplay03Adapter(getActivity(), dataList03);
         binding.display03.setAdapter(mAdapter03);
-        binding.display03.setNestedScrollingEnabled(false)
-        ;
+        binding.display03.setNestedScrollingEnabled(false);
+
         binding.display03.addOnItemTouchListener(
                 new RecyclerItemClickListener(getActivity(), binding.display03 ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
