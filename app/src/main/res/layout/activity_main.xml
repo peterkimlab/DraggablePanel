@@ -10,6 +10,10 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <android.support.v4.view.ViewPager
+                android:id="@+id/mainViewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
             <com.github.pedrovgs.DraggablePanel
                 android:id="@+id/draggable_panel"
                 android:layout_width="fill_parent"
@@ -20,11 +24,7 @@
                 draggable_panel:top_fragment_margin_right="@dimen/top_fragment_margin"
                 draggable_panel:top_fragment_margin_bottom="@dimen/top_fragment_margin_bottom"
                 draggable_panel:enable_horizontal_alpha_effect="false"/>
-            <android.support.v4.view.ViewPager
-                android:id="@+id/mainViewPager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-            <com.github.pedrovgs.DraggablePanel2
+            <!--<com.github.pedrovgs.DraggablePanel2
                 android:id="@+id/draggable_panel_tube"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -33,7 +33,7 @@
                 draggable_panel:top_fragment_height="@dimen/top_fragment_height"
                 draggable_panel:top_fragment_margin_right="@dimen/top_fragment_margin"
                 draggable_panel:top_fragment_margin_bottom="@dimen/top_fragment_margin"
-                draggable_panel:enable_horizontal_alpha_effect="false"/>
+                draggable_panel:enable_horizontal_alpha_effect="false"/>-->
         </FrameLayout>
 
         <android.support.design.widget.BottomNavigationView

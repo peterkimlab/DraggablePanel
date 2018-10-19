@@ -2,6 +2,7 @@ package com.test.english.ui.main;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
@@ -9,6 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import com.exam.english.R;
 import com.exam.english.databinding.ActivityMainBinding;
+import com.github.pedrovgs.DraggableListener;
+import com.github.pedrovgs.DraggablePanel;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
+import com.squareup.picasso.Picasso;
 import com.test.english.api.Datums;
 import com.test.english.application.MyCustomApplication;
 import com.test.english.ui.adapter.MainViewPagerAdapter;
@@ -17,6 +24,9 @@ import com.test.english.ui.frag3.Fragment3;
 import com.test.english.ui.frag4.Fragment4;
 import com.test.english.ui.fragmentmusic.MusicFragment;
 import com.test.english.ui.helper.BottomNavigationNotShiftHelper;
+import com.test.english.ui.youtube.MoviePosterFragment;
+
+import static com.test.english.application.MyCustomApplication.getApplicationInstance;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,7 +35,22 @@ public class MainActivity extends AppCompatActivity {
 
     private int isSpeakLo = 0;
 
-    //private DraggablePanel draggableView;
+    //YouTube
+    private DraggablePanel draggablePanel;
+    boolean changeIds = true;
+    private YouTubePlayer youtubePlayer;
+    private YouTubePlayerSupportFragment youtubeFragment;
+    private static final String YOUTUBE_API_KEY = "AIzaSyC1rMU-mkhoyTvBIdTnYU0dss0tU9vtK48";
+    private static final String VIDEO_KEY = "gsjtg7m1MMM";
+
+    //YouTube Test
+    private static final String VIDEO_POSTER_THUMBNAIL =
+            "http://4.bp.blogspot.com/-BT6IshdVsoA/UjfnTo_TkBI/AAAAAAAAMWk/JvDCYCoFRlQ/s1600/"
+                    + "xmenDOFP.wobbly.1.jpg";
+    private static final String VIDEO_POSTER_TITLE = "X-Men: Days of Future Past";
+    private static final String SECOND_VIDEO_POSTER_THUMBNAIL =
+            "http://media.comicbook.com/wp-content/uploads/2013/07/x-men-days-of-future-past"
+                    + "-wolverine-poster.jpg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +63,24 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationNotShiftHelper.disableShiftMode(binding.bottomNavigation);
         setupViewPager(binding.mainViewPager);
+
+        draggablePanel = binding.draggablePanel;
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override public void run() {
+                initializeYoutubeFragment();
+                initializeDraggablePanel();
+                hookDraggablePanelListeners();
+                /*if (getApplicationInstance().getConfig().getVideoMode().equals("youtube")) {
+                    draggablePanel = binding.draggablePanelTube;
+                    initializeYoutubeFragment();
+                    initializeDraggablePanel();
+                    //videoListFragment = VideoListFragment.newInstance();
+                } else {
+                    draggbleView();
+                }*/
+            }
+        }, 500);
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -74,6 +117,88 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void initializeYoutubeFragment() {
+        youtubeFragment = new YouTubePlayerSupportFragment();
+        youtubeFragment.initialize(YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
+
+            @Override public void onInitializationSuccess(YouTubePlayer.Provider provider,
+                                                          YouTubePlayer player, boolean wasRestored) {
+                if (!wasRestored) {
+                    youtubePlayer = player;
+                    youtubePlayer.loadVideo(VIDEO_KEY);
+                    youtubePlayer.setShowFullscreenButton(true);
+                }
+            }
+            @Override public void onInitializationFailure(YouTubePlayer.Provider provider,
+                                                          YouTubeInitializationResult error) {
+            }
+        });
+    }
+
+    /**
+     * Initialize and configure the DraggablePanel widget with two fragments and some attributes.
+     */
+    private void initializeDraggablePanel() {
+        draggablePanel.setFragmentManager(getSupportFragmentManager());
+        draggablePanel.setTopFragment(youtubeFragment);
+        MoviePosterFragment moviePosterFragment = new MoviePosterFragment();
+        moviePosterFragment.setPoster(VIDEO_POSTER_THUMBNAIL);
+        moviePosterFragment.setPosterTitle(VIDEO_POSTER_TITLE);
+        draggablePanel.setBottomFragment(moviePosterFragment);
+        draggablePanel.initializeView();
+        /*Picasso.with(this)
+                .load(SECOND_VIDEO_POSTER_THUMBNAIL)
+                .placeholder(R.drawable.ic_cake_black_24dp)
+                .into(thumbnailImageView);*/
+    }
+
+    /**
+     * Hook the DraggableListener to DraggablePanel to pause or resume the video when the
+     * DragglabePanel is maximized or closed.
+     */
+    private void hookDraggablePanelListeners() {
+        draggablePanel.setDraggableListener(new DraggableListener() {
+            @Override public void onMaximized() {
+                playVideo();
+            }
+
+            @Override public void onMinimized() {
+                //Empty
+            }
+
+            @Override public void onClosedToLeft() {
+                pauseVideo();
+            }
+
+            @Override public void onClosedToRight() {
+                pauseVideo();
+            }
+
+            @Override
+            public void onStartTouch() {
+
+            }
+        });
+    }
+
+    /**
+     * Pause the video reproduced in the YouTubePlayer.
+     */
+    private void pauseVideo() {
+        if (youtubePlayer.isPlaying()) {
+            youtubePlayer.pause();
+        }
+    }
+
+    /**
+     * Resume the video reproduced in the YouTubePlayer.
+     */
+    private void playVideo() {
+        if (!youtubePlayer.isPlaying()) {
+            youtubePlayer.play();
+        }
     }
 
     /*public void setVideoUrl(final Datums datums) {

@@ -80,4 +80,9 @@
         <item name="android:singleLine">true</item>
     </style>
 
+    //Youtube Test
+    <style name="image_view">
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
 </resources>
