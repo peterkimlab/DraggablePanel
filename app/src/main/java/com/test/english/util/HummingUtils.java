@@ -9,6 +9,8 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.widget.TextView;
 import com.test.english.api.Datums;
+import com.test.english.application.MyCustomApplication;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -277,10 +279,10 @@ public class HummingUtils {
     }
 
     public static String getSentenceByMode(Datums playlistObject, Context context) {
-        String text = "";
 
-        //int mode = MyCustomApplication.getMainInstance().getSpeakLo();
-        int mode = 0;
+        String text = "";
+        int mode = MyCustomApplication.getMainInstance().getSpeakLo();
+
         if (HummingUtils.getSpeakLo(playlistObject, context).equals("")) {
             mode = 6;
         }
@@ -312,11 +314,9 @@ public class HummingUtils {
     }
 
     public static String getTitleByMode(Datums playlistObject, Context context) {
+
         String text = "";
-
-        //int mode = MyCustomApplication.getMainInstance().getSpeakLo();
-
-        int mode = 0;
+        int mode = MyCustomApplication.getMainInstance().getSpeakLo();
 
         if(HummingUtils.getSpeakLo(playlistObject, context).equals("")){
             mode = 6;
