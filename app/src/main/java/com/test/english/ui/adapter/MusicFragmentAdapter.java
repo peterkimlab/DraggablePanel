@@ -13,7 +13,6 @@ import com.test.english.api.Datums;
 import com.test.english.ui.data.DataTypeMusicFragment;
 import com.test.english.ui.data.MusicFragmentItemModel;
 import com.test.english.util.HummingUtils;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,8 +43,6 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
 
-        //List<Datums> object = dataset.get(position);
-        //final Datums playlistObject = playlists.get(position);
         ArrayList<MusicFragmentItemModel> singleItem = new ArrayList<MusicFragmentItemModel>();
         List<Datums> dataList;
         MusicFragmentDataAdapter itemListDataAdapter;
@@ -56,7 +53,7 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                 if (dataList != null) {
                     for (Datums datas : dataList) {
-                        singleItem.add(new MusicFragmentItemModel("", "", HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context)));
+                        singleItem.add(new MusicFragmentItemModel(HummingUtils.getTitle(datas, context), HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
                     }
 
                     itemListDataAdapter = new MusicFragmentDataAdapter(context, singleItem);
@@ -68,13 +65,11 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
                 break;
             case 1:
-                dataList = dataset.get(DataTypeMusicFragment.SENTENCE_TYPE);
+                dataList = dataset.get(DataTypeMusicFragment.MOTHERGOOSE_TYPE);
 
                 if (dataList != null) {
                     for (Datums datas : dataList) {
-                        //(((ImageTypeViewHolder) holder).sentence.setText(HummingUtils.getSentenceByMode(datas, context));
-                        //(((ImageTypeViewHolder) holder).vtitle.setText(HummingUtils.getTitleByMode(datas, context));
-                        singleItem.add(new MusicFragmentItemModel("", "", HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context)));
+                        singleItem.add(new MusicFragmentItemModel("", HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
                     }
 
                     itemListDataAdapter = new MusicFragmentDataAdapter(context, singleItem);
@@ -86,6 +81,22 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
                 break;
             case 2:
+                dataList = dataset.get(DataTypeMusicFragment.SENTENCE_TYPE);
+
+                if (dataList != null) {
+                    for (Datums datas : dataList) {
+                        //(((ImageTypeViewHolder) holder).sentence.setText(HummingUtils.getSentenceByMode(datas, context));
+                        //(((ImageTypeViewHolder) holder).vtitle.setText(HummingUtils.getTitleByMode(datas, context));
+                        singleItem.add(new MusicFragmentItemModel("", HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
+                    }
+
+                    itemListDataAdapter = new MusicFragmentDataAdapter(context, singleItem);
+
+                    ((ImageTypeViewHolder) holder).recycler_view_list.setHasFixedSize(true);
+                    ((ImageTypeViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+                    ((ImageTypeViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
+                    ((ImageTypeViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
+                }
                 break;
         }
     }
@@ -101,6 +112,8 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
             case 0:
                 return DataTypeMusicFragment.IMAGE_TYPE;
             case 1:
+                return DataTypeMusicFragment.IMAGE_TYPE;
+            case 2:
                 return DataTypeMusicFragment.IMAGE_TYPE;
         }
         return -1;

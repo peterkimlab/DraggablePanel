@@ -7,11 +7,11 @@ public class MusicFragmentItemModel {
     private String item_thumbnail;
     private String time;
 
-    public MusicFragmentItemModel(String sentence, String vtitle, String item_thumbnail, String time) {
-        this.sentence = sentence;
+    public MusicFragmentItemModel(String vtitle, String item_thumbnail, String time, String sentence) {
         this.vtitle = vtitle;
         this.item_thumbnail = item_thumbnail;
         this.time = time;
+        this.sentence = sentence;
     }
 
     public String getSentence() {

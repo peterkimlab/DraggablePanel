@@ -37,11 +37,14 @@ public class MusicFragmentDataAdapter extends RecyclerView.Adapter<MusicFragment
     public void onBindViewHolder(final SingleItemRowHolder holder, int i) {
 
         MusicFragmentItemModel singleItem = itemsList.get(i);
-        holder.tvTime.setText(singleItem.getTime());
+
+        holder.tvTitle.setText(singleItem.getVtitle());
         Glide.with(mContext)
                 .load(singleItem.getItem_thumbnail())
                 .apply(RequestOptions.centerCropTransform())
                 .into(holder.itemImage);
+        holder.tvTime.setText(singleItem.getTime());
+        holder.tvSentence.setText(singleItem.getSentence());
     }
 
     @Override
@@ -51,14 +54,18 @@ public class MusicFragmentDataAdapter extends RecyclerView.Adapter<MusicFragment
 
     public class SingleItemRowHolder extends RecyclerView.ViewHolder {
 
-        protected TextView tvTime;
-        protected ImageView itemImage;
+        TextView tvTitle;
+        ImageView itemImage;
+        TextView tvTime;
+        TextView tvSentence;
 
         public SingleItemRowHolder(View view) {
             super(view);
 
             this.tvTime = (TextView) view.findViewById(R.id.time);
             this.itemImage = (ImageView) view.findViewById(R.id.thumbnail);
+            this.tvTitle = (TextView) view.findViewById(R.id.vtitle);
+            this.tvSentence = (TextView) view.findViewById(R.id.sentence);
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override

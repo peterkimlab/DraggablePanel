@@ -30,7 +30,7 @@ public class MusicFragment extends Fragment {
 
     private FragmentMusicBinding binding;
     private MusicFragmentAdapter mAdapter;
-    private List<Datums> popularList, sentenceList, patternList;
+    private List<Datums> popularList, motherGooseList, latestList, patternList;
     private HashMap<String, List<Datums>> dataset;
     private APIInterface apiInterface;
 
@@ -44,24 +44,49 @@ public class MusicFragment extends Fragment {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_music, container, false);
         apiInterface = APIClient.getClient().create(APIInterface.class);
-        popularList = new ArrayList<>();
-        sentenceList = new ArrayList<>();
-        patternList = new ArrayList<>();
         dataset = new HashMap<String, List<Datums>>();
 
-        SpacesItemDecoration decoration = new SpacesItemDecoration(5);
+        popularList = new ArrayList<>();
+        motherGooseList = new ArrayList<>();
+        latestList = new ArrayList<>();
+        patternList = new ArrayList<>();
 
-        // 인기문장
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        //SpacesItemDecoration decoration = new SpacesItemDecoration(5);
+        //binding.display03.addItemDecoration(decoration);
+
+        getDataByRetrofit();
+
+        // 아덥터
+        mAdapter = new MusicFragmentAdapter(getActivity(), dataset);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        binding.rv.setLayoutManager(linearLayoutManager);
+        binding.rv.setAdapter(mAdapter);
+
+        return binding.getRoot();
+    }
+
+    private void getDataByRetrofit() {
+
+        // 인기문장 데이터
+        Handler getDataPopularSetenceHandler = new Handler();
+        getDataPopularSetenceHandler.postDelayed(new Runnable() {
             @Override public void run() {
                 getDataPopularSentences(1, "viewcnt");
             }
         }, 0);
 
+        // 동요 데이터
+        Handler getDataMotherGooseSetenceHandler = new Handler();
+        getDataMotherGooseSetenceHandler.postDelayed(new Runnable() {
+            @Override public void run() {
+                getDataMotherGooseSentences(1);
+            }
+        }, 100);
+
         // 최신문장 데이터
-        Handler handler0 = new Handler();
-        handler0.postDelayed(new Runnable() {
+        Handler getDataLatestSetenceHandler = new Handler();
+        getDataLatestSetenceHandler.postDelayed(new Runnable() {
             @Override public void run() {
                 getDataLatestSentences(1, "");
             }
@@ -73,35 +98,9 @@ public class MusicFragment extends Fragment {
                 getDataDiscover(1);
             }
         }, 1000);*/
-
-        // 최신문장 레이이웃
-        //binding.display03.addItemDecoration(decoration);
-
-        // 아덥터
-        mAdapter = new MusicFragmentAdapter(getActivity(), dataset);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        binding.rv.setLayoutManager(linearLayoutManager);
-        //binding.display03.setHasFixedSize(true);
-
-        binding.rv.setAdapter(mAdapter);
-        //binding.display03.setNestedScrollingEnabled(false);
-
-        /*binding.rv.addOnItemTouchListener(
-                new RecyclerItemClickListener(getActivity(), binding.display03 ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
-                        Datums datums = dataList.get(position);
-                        //mainActivity.setVideoUrl(datums);
-                    }
-                    @Override public void onLongItemClick(View view, int position) {
-                    }
-                })
-        );*/
-
-        return binding.getRoot();
     }
 
-    // 인기문장
+    // 인기문장 레트로핏
     public void getDataPopularSentences(int current_page, String sort) {
         Call<SearchResource> call = apiInterface.getPopular(current_page+"", "", sort);
         call.enqueue(new Callback<SearchResource>() {
@@ -121,6 +120,27 @@ public class MusicFragment extends Fragment {
         });
     }
 
+    // 동요 레트로핏
+    public void getDataMotherGooseSentences(int current_page) {
+        Call<SearchResource> call = apiInterface.getContents(current_page+"", "youtube_mothergoose");
+        call.enqueue(new Callback<SearchResource>() {
+            @Override
+            public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
+                SearchResource resource = response.body();
+                if (resource != null && resource.hits != null) {
+                    motherGooseList.addAll(resource.hits.hits);
+                }
+                dataset.put(DataTypeMusicFragment.MOTHERGOOSE_TYPE, motherGooseList);
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<SearchResource> call, Throwable t) {
+                call.cancel();
+            }
+        });
+    }
+
     // 최신문장 레트로핏
     public void getDataLatestSentences(int current_page, String sort) {
         Call<SearchResource> call = apiInterface.getSentences(current_page+"", "", sort, "");
@@ -129,15 +149,13 @@ public class MusicFragment extends Fragment {
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
                 SearchResource resource = response.body();
                 if(resource != null && resource.hits != null) {
-                    sentenceList.addAll(resource.hits.hits);
+                    latestList.addAll(resource.hits.hits);
                 }
-                dataset.put(DataTypeMusicFragment.SENTENCE_TYPE, sentenceList);
+                dataset.put(DataTypeMusicFragment.SENTENCE_TYPE, latestList);
                 mAdapter.notifyDataSetChanged();
             }
-
             @Override
             public void onFailure(Call<SearchResource> call, Throwable t) {
-                //Log.e(TAG,t.getMessage());
                 call.cancel();
             }
         });
@@ -165,7 +183,6 @@ public class MusicFragment extends Fragment {
                 }
                 mAdapter.notifyDataSetChanged();
             }
-
             @Override
             public void onFailure(Call<List<SearchResource>> call, Throwable t) {
                 call.cancel();

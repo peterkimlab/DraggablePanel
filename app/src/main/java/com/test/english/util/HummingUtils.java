@@ -276,11 +276,12 @@ public class HummingUtils {
         return text == null ? "" : text;
     }
 
-    /*public static String getSentenceByMode(Datums playlistObject, Context context) {
+    public static String getSentenceByMode(Datums playlistObject, Context context) {
         String text = "";
 
-        int mode = MyCustomApplication.getMainInstance().getSpeakLo();
-        if(HummingUtils.getSpeakLo(playlistObject, context).equals("")){
+        //int mode = MyCustomApplication.getMainInstance().getSpeakLo();
+        int mode = 0;
+        if (HummingUtils.getSpeakLo(playlistObject, context).equals("")) {
             mode = 6;
         }
 
@@ -307,13 +308,16 @@ public class HummingUtils {
                 text = HummingUtils.getSentence(playlistObject, context);
                 break;
         }
-
         return text == null ? "" : text;
     }
+
     public static String getTitleByMode(Datums playlistObject, Context context) {
         String text = "";
 
-        int mode = MyCustomApplication.getMainInstance().getSpeakLo();
+        //int mode = MyCustomApplication.getMainInstance().getSpeakLo();
+
+        int mode = 0;
+
         if(HummingUtils.getSpeakLo(playlistObject, context).equals("")){
             mode = 6;
         }
@@ -344,6 +348,6 @@ public class HummingUtils {
 
         return text == null ? "" : text;
 
-    }*/
+    }
 
 }
