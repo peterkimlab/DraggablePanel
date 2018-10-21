@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import com.exam.english.R;
 import com.exam.english.databinding.ActivityMainBinding;
 import com.github.pedrovgs.DraggableListener;
@@ -15,7 +17,6 @@ import com.github.pedrovgs.DraggablePanel;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
-import com.squareup.picasso.Picasso;
 import com.test.english.api.Datums;
 import com.test.english.application.MyCustomApplication;
 import com.test.english.ui.adapter.MainViewPagerAdapter;
@@ -25,7 +26,10 @@ import com.test.english.ui.frag4.Fragment4;
 import com.test.english.ui.fragmentmusic.MusicFragment;
 import com.test.english.ui.helper.BottomNavigationNotShiftHelper;
 import com.test.english.ui.youtube.MoviePosterFragment;
-
+import com.test.english.ui.youtube.VideoFragment;
+import com.test.english.util.HummingUtils;
+import java.math.BigDecimal;
+import java.util.List;
 import static com.test.english.application.MyCustomApplication.getApplicationInstance;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private int isSpeakLo = 0;
 
     //YouTube
-    private DraggablePanel draggablePanel;
+    private DraggablePanel draggableView;
     boolean changeIds = true;
     private YouTubePlayer youtubePlayer;
     private YouTubePlayerSupportFragment youtubeFragment;
@@ -52,6 +56,14 @@ public class MainActivity extends AppCompatActivity {
             "http://media.comicbook.com/wp-content/uploads/2013/07/x-men-days-of-future-past"
                     + "-wolverine-poster.jpg";
 
+    private VideoFragment videoFragment;
+    public static FragmentManager fm;
+    public static String SEARCH_POPUP_VALUE = "";
+    public static String SEARCH_IDS_VALUE = "";
+    public static String SEARCH_YOUTUBE_VALUE = "";
+    public static String SEARCH_YOUTUBE_CHANNEL_VALUE = "";
+    public static boolean SEARCH_CHECK = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,21 +76,20 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationNotShiftHelper.disableShiftMode(binding.bottomNavigation);
         setupViewPager(binding.mainViewPager);
 
-        draggablePanel = binding.draggablePanel;
+        draggableView = binding.draggablePanel;
+        fm = getSupportFragmentManager();
+
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override public void run() {
-                initializeYoutubeFragment();
-                initializeDraggablePanel();
-                hookDraggablePanelListeners();
-                /*if (getApplicationInstance().getConfig().getVideoMode().equals("youtube")) {
-                    draggablePanel = binding.draggablePanelTube;
+                if (getApplicationInstance().getConfig().getVideoMode().equals("youtube")) {
                     initializeYoutubeFragment();
                     initializeDraggablePanel();
-                    //videoListFragment = VideoListFragment.newInstance();
+                    hookDraggablePanelListeners();
                 } else {
                     draggbleView();
-                }*/
+                }
             }
         }, 500);
 
@@ -119,6 +130,98 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void draggbleView() {
+        draggableView = (DraggablePanel) findViewById(R.id.draggable_panel);
+        draggableView.setFragmentManager(MainActivity.fm);
+        videoFragment = new VideoFragment();
+        videoFragment.setView(draggableView);
+        //videoListFragment = VideoListFragment.newInstance();
+        draggableView.setTopFragment(videoFragment);
+        //draggableView.setBottomFragment(videoListFragment);
+
+        draggableView.setDraggableListener(new DraggableListener() {
+            @Override public void onMaximized() {
+                /*if(musicFragment != null){
+                    musicFragment.stopVideo();
+                }*/
+                videoFragment.onMaximized();
+
+                // Relation Episode 리스트 새로고침
+                if(changeIds){
+                    changeIds = false;
+                    //videoListFragment.changeView();
+                }
+
+                //videoListFragment.showPanel();
+                //videoListFragment.showTab();
+                /*if(videoListFragment.getSpeakButtonTag().equals("on")){
+                    if(!menuRed.isOpened() && isMenuButton()){
+                        menuRed.showMenuButton(true);
+                    }
+                    if(!mFab.isShown()){
+                        mFab.show(true);
+                    }
+                }
+                if(videoListFragment.getRecordButtonTag().equals("on")){
+                    showSpeakButton(false);
+                    showRecordButton(true);
+                }*/
+
+                /*if(!voiceBtn.isOpened()){
+                    voiceBtn.showMenuButton(true);
+                }*/
+            }
+
+            //Empty
+            @Override public void onMinimized() {
+                videoFragment.onMinimized();
+                /*menuRed.hideMenuButton(true);
+                voiceBtn.hideMenuButton(true);
+                recordFab.hide(true);
+                deleteFile();*/
+            }
+
+            @Override public void onClosedToLeft() {
+                videoFragment.pauseVideo();
+                /*menuRed.hideMenuButton(true);
+                voiceBtn.hideMenuButton(true);
+                mFab.hide(true);
+                recordFab.hide(true);
+                videoListFragment.collapsePanel();
+                deleteFile();*/
+            }
+
+            @Override public void onClosedToRight() {
+                videoFragment.pauseVideo();
+                /*menuRed.hideMenuButton(true);
+                voiceBtn.hideMenuButton(true);
+                mFab.hide(true);
+                recordFab.hide(true);
+                videoListFragment.collapsePanel();
+                deleteFile();*/
+            }
+
+            @Override
+            public void onStartTouch() {
+                videoFragment.onStartTouch();
+            }
+        });
+        draggableView.setClickToMinimizeEnabled(false);
+        draggableView.setClickToMaximizeEnabled(false);
+        draggableView.initializeView();
+        draggableView.setVisibility(View.INVISIBLE);
+        //mStatusChecker.run();
+
+        /*Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override public void run() {
+                draggableView.minimize();
+                draggableView.setVisibility(View.GONE);
+            }
+        }, 500);*/
+
+    }
+
     private void initializeYoutubeFragment() {
         youtubeFragment = new YouTubePlayerSupportFragment();
         youtubeFragment.initialize(YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
@@ -141,13 +244,13 @@ public class MainActivity extends AppCompatActivity {
      * Initialize and configure the DraggablePanel widget with two fragments and some attributes.
      */
     private void initializeDraggablePanel() {
-        draggablePanel.setFragmentManager(getSupportFragmentManager());
-        draggablePanel.setTopFragment(youtubeFragment);
+        //draggablePanel.setFragmentManager(getSupportFragmentManager());
+        //draggablePanel.setTopFragment(youtubeFragment);
         MoviePosterFragment moviePosterFragment = new MoviePosterFragment();
         moviePosterFragment.setPoster(VIDEO_POSTER_THUMBNAIL);
         moviePosterFragment.setPosterTitle(VIDEO_POSTER_TITLE);
-        draggablePanel.setBottomFragment(moviePosterFragment);
-        draggablePanel.initializeView();
+        //draggablePanel.setBottomFragment(moviePosterFragment);
+        //draggablePanel.initializeView();
         /*Picasso.with(this)
                 .load(SECOND_VIDEO_POSTER_THUMBNAIL)
                 .placeholder(R.drawable.ic_cake_black_24dp)
@@ -159,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
      * DragglabePanel is maximized or closed.
      */
     private void hookDraggablePanelListeners() {
-        draggablePanel.setDraggableListener(new DraggableListener() {
+        /*draggablePanel.setDraggableListener(new DraggableListener() {
             @Override public void onMaximized() {
                 playVideo();
             }
@@ -180,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
             public void onStartTouch() {
 
             }
-        });
+        });*/
     }
 
     /**
@@ -201,7 +304,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*public void setVideoUrl(final Datums datums) {
+    public void setVideoUrl(final Datums datums) {
 
         if (getApplicationInstance().getConfig().getVideoMode().equals("youtube")) {
             Handler handler = new Handler();
@@ -216,7 +319,7 @@ public class MainActivity extends AppCompatActivity {
 
             // 재생 속도 초기화 : 100
             int initSpeed = 100;
-            getVideoListFragment().playSpeedButtonInit(initSpeed);
+            //getVideoListFragment().playSpeedButtonInit(initSpeed);
             BigDecimal pSpeed = new BigDecimal(initSpeed);
             pSpeed = pSpeed.divide(new BigDecimal(100), 1, BigDecimal.ROUND_UP);
             videoFragment.setPlaySpeed(pSpeed.floatValue());
@@ -225,7 +328,7 @@ public class MainActivity extends AppCompatActivity {
             videoFragment.setUrl(HummingUtils.IMAGE_PATH + datums.source.get(HummingUtils.ElasticField.VIDEO_URL), datums.source.get(HummingUtils.ElasticField.IDS).toString(), datums.source.get(HummingUtils.ElasticField.YOUTUBE_ID).toString());
             // text 설정
             videoFragment.setAlltext(datums.source.get(HummingUtils.ElasticField.TEXT_EN).toString(), datums.source.get(HummingUtils.ElasticField.TEXT_LO).toString(), "");
-            videoListFragment.initPlayer();
+            //videoListFragment.initPlayer();
             videoFragment.setBaseSentence(datums);
             MainActivity.SEARCH_POPUP_VALUE = datums.source.get(HummingUtils.ElasticField.TEXT_EN).toString();
             MainActivity.SEARCH_IDS_VALUE = datums.source.get(HummingUtils.ElasticField.IDS).toString();
@@ -235,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
 
             // 썸네일 설정
             List<String> thumbnails = (List<String>) datums.source.get(HummingUtils.ElasticField.THUMBNAILS);
-            videoListFragment.setThumbnails(thumbnails);
+            //videoListFragment.setThumbnails(thumbnails);
             changeIds = true;
 
             Handler handlers2 = new Handler();
@@ -245,14 +348,14 @@ public class MainActivity extends AppCompatActivity {
                     if (draggableView.isMaximized()) {
                         if (changeIds) {
                             changeIds = false;
-                            videoListFragment.changeView();
+                            //videoListFragment.changeView();
                         }
                     }
-                    postClick(MainActivity.SEARCH_IDS_VALUE);
+                    //postClick(MainActivity.SEARCH_IDS_VALUE);
                 }
             }, 100);
         }
-    }*/
+    }
 
     public void setupViewPager(ViewPager viewPager) {
         mainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());

@@ -767,6 +767,67 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
     public void pauseVideo() {
         //videoViewMedia.pause();
     }
+
+    public void setPlaySpeed(float playSpeed) {
+        this.playSpeed = playSpeed;
+    }
+
+    public void setAlltext(String alltextParam, String alltextKrParam,  String speakkoParam){
+        try {
+            alltextkr.setText(Html.fromHtml(URLDecoder.decode(alltextKrParam, "UTF-8")));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        alltext.setText(alltextParam);
+        speakko.setText(speakkoParam);
+
+        try {
+            speakko.setText(URLDecoder.decode(speakkoParam, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        if (alltextParam.trim().equals("I'm out of here.")) {
+            Handler handler11 = new Handler();
+            handler11.postDelayed(new Runnable() {
+                @Override public void run() {
+                    speakko.setText("아 마러 히r");//I'm outta here.
+                    alltextkr.setText("난 이만 가 볼게");
+                }
+            }, 200);
+        } else {
+            Handler handler2 = new Handler();
+            handler2.postDelayed(new Runnable() {
+                @Override public void run() {
+                    if(alltextkr.getText().toString().equals("")) {
+                        mGoogleThread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //textJa = HummingUtils.translateText(alltext.getText().toString(), "en", "ja");
+                                //textKo = HummingUtils.translateText(textJa, "ja", "ko");
+                                mHandler2.postDelayed(textExecutor, 100);
+                                putDataKo();
+                            }
+                        });
+                        mGoogleThread.start();
+                    }
+                }
+            }, 200);
+            Handler handler11 = new Handler();
+            handler11.postDelayed(new Runnable() {
+                @Override public void run() {
+                    if(speakko.getText().toString().equals("")) {
+                        getSpeakKo();
+                    }
+                }
+            }, 200);
+        }
+    }
+
+    public void setBaseSentence(Datums baseSentence) {
+        this.baseSentence = baseSentence;
+    }
+
     public void setView(DraggablePanel draggablePanel) {
         this.draggableView =  draggablePanel;
     }
