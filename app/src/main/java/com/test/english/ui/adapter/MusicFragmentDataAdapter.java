@@ -25,11 +25,6 @@ public class MusicFragmentDataAdapter extends RecyclerView.Adapter<MusicFragment
     private Context mContext;
     List<Datums> mDataList;
 
-    public MusicFragmentDataAdapter(Context context, ArrayList<MusicFragmentItemModel> itemsList) {
-        this.itemsList = itemsList;
-        this.mContext = context;
-    }
-
     public MusicFragmentDataAdapter(Context context, ArrayList<MusicFragmentItemModel> itemsList, List<Datums> dataList) {
         this.itemsList = itemsList;
         this.mContext = context;

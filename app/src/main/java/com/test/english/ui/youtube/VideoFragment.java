@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.exam.english.R;
 import com.github.pedrovgs.DraggablePanel;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -85,7 +84,6 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
     String videoUrl = "";
 
     Context context;
-    //private ProgressRunnable progressRunnable;
     private static Handler songProgressHandler;
 
     private SimpleExoPlayerView simpleExoPlayerView;
@@ -824,11 +822,77 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
         }
     }
 
+    public void setNowPlayListNo(int nowPlayListNo){
+        this.nowPlayListNo = nowPlayListNo;
+    }
+
+    public int getNowPlayListNo(){
+        return nowPlayListNo;
+    }
+
+    /*private void finalProgress() {
+        runProgress = true;
+        songProgressHandler.post(progressRunnable);
+    }
+
+
+    private void removeProgress() {
+        runProgress = false;
+        songProgressHandler.removeCallbacks(progressRunnable);
+        songProgressHandler.removeCallbacksAndMessages(null);
+    }
+
+    public void updateProgress() {
+            int pos = (int)player.getCurrentPosition();
+            mainActivity.getVideoListFragment().updateProgress(pos);
+            if(runProgress && player.getDuration() > pos){
+                songProgressHandler.postDelayed(progressRunnable, 100);
+            }
+    }*/
+
+    /*public void setSentence(String sentence) {
+        if(palyTfOtherVoice){
+            palyTfOtherVoice = false;
+            Voice selectedVoice = (Voice) mainActivity.voices.get(0);
+
+            SynthesizeSpeechPresignRequest synthesizeSpeechPresignRequest =  new SynthesizeSpeechPresignRequest()
+                    .withText(sentence)
+                    .withVoiceId(selectedVoice.getId())
+                    .withOutputFormat(OutputFormat.Mp3);
+
+            URL presignedSynthesizeSpeechUrl = mainActivity.client.getPresignedSynthesizeSpeechUrl(synthesizeSpeechPresignRequest);
+
+            setUrl2(presignedSynthesizeSpeechUrl.toString(), "");
+
+            palyTfOtherVoice = true;
+        }
+    }*/
+
+    boolean palyTfOtherVoice = true;
     public void setBaseSentence(Datums baseSentence) {
         this.baseSentence = baseSentence;
     }
 
+    public Datums getBaseSentence(){
+        return baseSentence;
+    }
+    /*private static class ProgressRunnable implements Runnable {
+
+        private final WeakReference<MainActivity> activityWeakReference;
+
+        public ProgressRunnable(MainActivity myClassInstance) {
+            activityWeakReference = new WeakReference<MainActivity>(myClassInstance);
+        }
+
+        @Override
+        public void run() {
+            MainActivity mainActivity = activityWeakReference.get();
+            mainActivity.getVideoFragment().updateProgress();
+        }
+    }*/
     public void setView(DraggablePanel draggablePanel) {
         this.draggableView =  draggablePanel;
     }
+	
+	
 }

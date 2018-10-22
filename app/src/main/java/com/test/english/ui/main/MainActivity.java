@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
         draggableView = binding.draggablePanel;
         fm = getSupportFragmentManager();
 
-
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override public void run() {
@@ -131,15 +130,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void draggbleView() {
-        //draggableView = (DraggablePanel) findViewById(R.id.draggable_panel);
+
         draggableView.setFragmentManager(MainActivity.fm);
         videoFragment = new VideoFragment();
-        //videoFragment.setView(draggableView);
+        videoFragment.setView(draggableView);
         //videoListFragment = VideoListFragment.newInstance();
         draggableView.setTopFragment(videoFragment);
         draggableView.setBottomFragment(new MoviePosterFragment());
         draggableView.initializeView();
         draggableView.setVisibility(View.INVISIBLE);
+        draggableView.setClickToMinimizeEnabled(false);
+        draggableView.setClickToMaximizeEnabled(false);
 
         draggableView.setDraggableListener(new DraggableListener() {
             @Override public void onMaximized() {
@@ -208,8 +209,7 @@ public class MainActivity extends AppCompatActivity {
                 videoFragment.onStartTouch();
             }
         });
-        draggableView.setClickToMinimizeEnabled(false);
-        draggableView.setClickToMaximizeEnabled(false);
+
     }
 
     private void initializeYoutubeFragment() {
@@ -388,5 +388,9 @@ public class MainActivity extends AppCompatActivity {
             seekTime = seek;
             youtubePlayer.seekToMillis(seek);
         }*/
+    }
+
+    public VideoFragment getVideoFragment(){
+        return videoFragment;
     }
 }

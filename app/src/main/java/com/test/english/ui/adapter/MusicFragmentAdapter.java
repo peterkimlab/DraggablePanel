@@ -73,7 +73,7 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
                         singleItem.add(new MusicFragmentItemModel("", HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
                     }
 
-                    itemListDataAdapter = new MusicFragmentDataAdapter(context, singleItem);
+                    itemListDataAdapter = new MusicFragmentDataAdapter(context, singleItem, dataList);
 
                     ((ImageTypeViewHolder) holder).recycler_view_list.setHasFixedSize(true);
                     ((ImageTypeViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
@@ -91,7 +91,7 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
                         singleItem.add(new MusicFragmentItemModel("", HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
                     }
 
-                    itemListDataAdapter = new MusicFragmentDataAdapter(context, singleItem);
+                    itemListDataAdapter = new MusicFragmentDataAdapter(context, singleItem, dataList);
 
                     ((ImageTypeViewHolder) holder).recycler_view_list.setHasFixedSize(true);
                     ((ImageTypeViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
