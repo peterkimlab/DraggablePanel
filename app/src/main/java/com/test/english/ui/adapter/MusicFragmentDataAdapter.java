@@ -12,18 +12,28 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.exam.english.R;
+import com.test.english.api.Datums;
 import com.test.english.ui.data.MusicFragmentItemModel;
+import com.test.english.ui.main.MainActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MusicFragmentDataAdapter extends RecyclerView.Adapter<MusicFragmentDataAdapter.SingleItemRowHolder> {
 
     private ArrayList<MusicFragmentItemModel> itemsList;
     private Context mContext;
+    List<Datums> mDataList;
 
     public MusicFragmentDataAdapter(Context context, ArrayList<MusicFragmentItemModel> itemsList) {
         this.itemsList = itemsList;
         this.mContext = context;
+    }
+
+    public MusicFragmentDataAdapter(Context context, ArrayList<MusicFragmentItemModel> itemsList, List<Datums> dataList) {
+        this.itemsList = itemsList;
+        this.mContext = context;
+        this.mDataList = dataList;
     }
 
     @Override
@@ -34,7 +44,7 @@ public class MusicFragmentDataAdapter extends RecyclerView.Adapter<MusicFragment
     }
 
     @Override
-    public void onBindViewHolder(final SingleItemRowHolder holder, int i) {
+    public void onBindViewHolder(final SingleItemRowHolder holder, final int i) {
 
         MusicFragmentItemModel singleItem = itemsList.get(i);
 
@@ -45,6 +55,14 @@ public class MusicFragmentDataAdapter extends RecyclerView.Adapter<MusicFragment
                 .into(holder.itemImage);
         holder.tvTime.setText(singleItem.getTime());
         holder.tvSentence.setText(singleItem.getSentence());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)mContext).setVideoUrl(mDataList.get(i));
+            }
+        });
+
     }
 
     @Override
@@ -52,7 +70,7 @@ public class MusicFragmentDataAdapter extends RecyclerView.Adapter<MusicFragment
         return (null != itemsList ? itemsList.size() : 0);
     }
 
-    public class SingleItemRowHolder extends RecyclerView.ViewHolder {
+    public static class SingleItemRowHolder extends RecyclerView.ViewHolder {
 
         TextView tvTitle;
         ImageView itemImage;
@@ -67,12 +85,12 @@ public class MusicFragmentDataAdapter extends RecyclerView.Adapter<MusicFragment
             this.tvTitle = (TextView) view.findViewById(R.id.vtitle);
             this.tvSentence = (TextView) view.findViewById(R.id.sentence);
 
-            view.setOnClickListener(new View.OnClickListener() {
+            /*view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(), tvTime.getText(), Toast.LENGTH_SHORT).show();
+
                 }
-            });
+            });*/
         }
     }
 }

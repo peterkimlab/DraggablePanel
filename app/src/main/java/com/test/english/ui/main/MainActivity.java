@@ -296,7 +296,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void setVideoUrl(final Datums datums) {
 
-        if (getApplicationInstance().getConfig().getVideoMode().equals("youtube")) {
+        if (false) { //if (getApplicationInstance().getConfig().getVideoMode().equals("youtube")) {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override public void run() {

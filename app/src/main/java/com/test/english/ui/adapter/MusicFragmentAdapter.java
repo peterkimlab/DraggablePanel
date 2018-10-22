@@ -12,6 +12,7 @@ import com.exam.english.R;
 import com.test.english.api.Datums;
 import com.test.english.ui.data.DataTypeMusicFragment;
 import com.test.english.ui.data.MusicFragmentItemModel;
+import com.test.english.ui.main.MainActivity;
 import com.test.english.util.HummingUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,7 +57,7 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
                         singleItem.add(new MusicFragmentItemModel(HummingUtils.getTitle(datas, context), HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
                     }
 
-                    itemListDataAdapter = new MusicFragmentDataAdapter(context, singleItem);
+                    itemListDataAdapter = new MusicFragmentDataAdapter(context, singleItem, dataList);
 
                     ((ImageTypeViewHolder) holder).recycler_view_list.setHasFixedSize(true);
                     ((ImageTypeViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
