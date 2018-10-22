@@ -670,7 +670,7 @@ public class DraggableView extends RelativeLayout {
    * @param fragment to be attached.
    */
   private void addFragmentToView(final int viewId, final Fragment fragment) {
-    fragmentManager.beginTransaction().replace(viewId, fragment).commit();
+    fragmentManager.beginTransaction().replace(viewId, fragment).commitAllowingStateLoss();
   }
 
   /**

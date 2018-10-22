@@ -83,13 +83,13 @@ public class MainActivity extends AppCompatActivity {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override public void run() {
-                if (getApplicationInstance().getConfig().getVideoMode().equals("youtube")) {
-                    initializeYoutubeFragment();
-                    initializeDraggablePanel();
-                    hookDraggablePanelListeners();
-                } else {
+                //if (getApplicationInstance().getConfig().getVideoMode().equals("youtube")) {
+                    //initializeYoutubeFragment();
+                    //initializeDraggablePanel();
+                    //hookDraggablePanelListeners();
+                //} else {
                     draggbleView();
-                }
+                //}
             }
         }, 500);
 
@@ -131,13 +131,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void draggbleView() {
-        draggableView = (DraggablePanel) findViewById(R.id.draggable_panel);
+        //draggableView = (DraggablePanel) findViewById(R.id.draggable_panel);
         draggableView.setFragmentManager(MainActivity.fm);
         videoFragment = new VideoFragment();
-        videoFragment.setView(draggableView);
+        //videoFragment.setView(draggableView);
         //videoListFragment = VideoListFragment.newInstance();
         draggableView.setTopFragment(videoFragment);
-        //draggableView.setBottomFragment(videoListFragment);
+        draggableView.setBottomFragment(new MoviePosterFragment());
+        draggableView.initializeView();
+        draggableView.setVisibility(View.INVISIBLE);
 
         draggableView.setDraggableListener(new DraggableListener() {
             @Override public void onMaximized() {
@@ -208,18 +210,6 @@ public class MainActivity extends AppCompatActivity {
         });
         draggableView.setClickToMinimizeEnabled(false);
         draggableView.setClickToMaximizeEnabled(false);
-        draggableView.initializeView();
-        draggableView.setVisibility(View.INVISIBLE);
-        //mStatusChecker.run();
-
-        /*Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override public void run() {
-                draggableView.minimize();
-                draggableView.setVisibility(View.GONE);
-            }
-        }, 500);*/
-
     }
 
     private void initializeYoutubeFragment() {

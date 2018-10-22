@@ -58,7 +58,7 @@ dependencies {
     implementation 'com.android.support:animated-vector-drawable:27.1.1'
 
     //butternife
-    compile 'com.jakewharton:butterknife:4.0.1'
+    implementation 'com.jakewharton:butterknife:4.0.1'
     annotationProcessor 'com.jakewharton:butterknife:4.0.1'
 
     //Player
