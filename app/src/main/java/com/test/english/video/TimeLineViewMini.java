@@ -122,76 +122,76 @@ public class TimeLineViewMini extends View {
     public void getBitmap(final int viewWidth) {
 
         BackgroundExecutor.execute(new BackgroundExecutor.Task("", 0L, "") {
-                                       @Override
-                                       public void execute() {
-                                           try {
-                                               Log.e("test", "-------=============");
-                                               LongSparseArray<Bitmap> thumbnailList = new LongSparseArray<>();
+                   @Override
+                   public void execute() {
+                       try {
+                           Log.e("test", "-------=============");
+                           LongSparseArray<Bitmap> thumbnailList = new LongSparseArray<>();
 
-                                               MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
-                                               if (Build.VERSION.SDK_INT >= 14)
-                                                   mediaMetadataRetriever.setDataSource(mVideoUrl, new HashMap<String, String>());
-                                               else
-                                                   mediaMetadataRetriever.setDataSource(mVideoUrl);
+                           MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+                           if (Build.VERSION.SDK_INT >= 14)
+                               mediaMetadataRetriever.setDataSource(mVideoUrl, new HashMap<String, String>());
+                           else
+                               mediaMetadataRetriever.setDataSource(mVideoUrl);
 
-                                               // Retrieve media data
-                                               long videoLengthInMs = Integer.parseInt(mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)) * 1000;
+                           // Retrieve media data
+                           long videoLengthInMs = Integer.parseInt(mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)) * 1000;
 
-                                               // Set thumbnail properties (Thumbs are squares)
-                                               final int thumbWidth = mHeightView;
-                                               final int thumbHeight = mHeightView;
-                                               int numThumbs = (int) Math.ceil(((float) viewWidth) / thumbWidth);
-                                               final long interval = videoLengthInMs / numThumbs;
+                           // Set thumbnail properties (Thumbs are squares)
+                           final int thumbWidth = mHeightView;
+                           final int thumbHeight = mHeightView;
+                           int numThumbs = (int) Math.ceil(((float) viewWidth) / thumbWidth);
+                           final long interval = videoLengthInMs / numThumbs;
 
-                                               seekArry = new Long[numThumbs];
+                           seekArry = new Long[numThumbs];
 
-                                               if(thumbnails != null){ //5
-                                                   List<Bitmap> list = new ArrayList<>();
+                           if(thumbnails != null){ //5
+                               List<Bitmap> list = new ArrayList<>();
 
-                                                   for (int i = 0; i < thumbnails.size(); i++) {
-                                                       URL url = new URL(HummingUtils.IMAGE_PATH+thumbnails.get(i).toString());
-                                                       Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                                                       bitmap = Bitmap.createScaledBitmap(bitmap, thumbWidth, thumbHeight, false);
-                                                       list.add(bitmap);
-                                                   }
-                                                   BigDecimal la = new BigDecimal(list.size());
-                                                   BigDecimal nu = new BigDecimal(numThumbs);
-                                                   BigDecimal value = la.divide(nu, 1, BigDecimal.ROUND_UP);
-                                                   for (int i = 0; i < numThumbs; i++) { //10
-                                                       int idx = value.multiply(new BigDecimal(i)).intValue();
-                                                       if(idx >= list.size()){
-                                                           idx = idx-1;
-                                                       }
-                                                       try {
-                                                           thumbnailList.put(i, list.get(idx));
-                                                           seekArry[i] = i * interval;
-                                                       } catch (Exception e) {
-                                                           e.printStackTrace();
-                                                       }
-
-                                                   }
-                                               }else{
-
-                                                   for (int i = 0; i < numThumbs; ++i) {
-
-                                                       Bitmap bitmap = mediaMetadataRetriever.getFrameAtTime(i * interval, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
-                                                       try {
-                                                           bitmap = Bitmap.createScaledBitmap(bitmap, thumbWidth, thumbHeight, false);
-                                                       } catch (Exception e) {
-                                                           e.printStackTrace();
-                                                       }
-                                                       thumbnailList.put(i, bitmap);
-                                                       seekArry[i] = i * interval;
-                                                   }
-                                               }
-
-                                               mediaMetadataRetriever.release();
-                                               returnBitmaps(thumbnailList);
-                                           } catch (final Throwable e) {
-                                               Thread.getDefaultUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), e);
-                                           }
-                                       }
+                               for (int i = 0; i < thumbnails.size(); i++) {
+                                   URL url = new URL(HummingUtils.IMAGE_PATH+thumbnails.get(i).toString());
+                                   Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                                   bitmap = Bitmap.createScaledBitmap(bitmap, thumbWidth, thumbHeight, false);
+                                   list.add(bitmap);
+                               }
+                               BigDecimal la = new BigDecimal(list.size());
+                               BigDecimal nu = new BigDecimal(numThumbs);
+                               BigDecimal value = la.divide(nu, 1, BigDecimal.ROUND_UP);
+                               for (int i = 0; i < numThumbs; i++) { //10
+                                   int idx = value.multiply(new BigDecimal(i)).intValue();
+                                   if(idx >= list.size()){
+                                       idx = idx-1;
                                    }
+                                   try {
+                                       thumbnailList.put(i, list.get(idx));
+                                       seekArry[i] = i * interval;
+                                   } catch (Exception e) {
+                                       e.printStackTrace();
+                                   }
+
+                               }
+                           }else{
+
+                               for (int i = 0; i < numThumbs; ++i) {
+
+                                   Bitmap bitmap = mediaMetadataRetriever.getFrameAtTime(i * interval, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+                                   try {
+                                       bitmap = Bitmap.createScaledBitmap(bitmap, thumbWidth, thumbHeight, false);
+                                   } catch (Exception e) {
+                                       e.printStackTrace();
+                                   }
+                                   thumbnailList.put(i, bitmap);
+                                   seekArry[i] = i * interval;
+                               }
+                           }
+
+                           mediaMetadataRetriever.release();
+                           returnBitmaps(thumbnailList);
+                       } catch (final Throwable e) {
+                           Thread.getDefaultUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), e);
+                       }
+                   }
+               }
         );
 
        /* Handler handler = new Handler();

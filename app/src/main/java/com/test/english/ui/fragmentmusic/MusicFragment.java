@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +17,6 @@ import com.test.english.api.Datums;
 import com.test.english.api.SearchResource;
 import com.test.english.ui.data.DataTypeMusicFragment;
 import com.test.english.ui.adapter.MusicFragmentAdapter;
-import com.test.english.ui.adapter.SpacesItemDecoration;
-import com.test.english.ui.main.MainActivity;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

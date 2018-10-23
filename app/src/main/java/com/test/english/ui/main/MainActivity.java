@@ -10,6 +10,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import com.amazonaws.services.polly.model.Voice;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.exam.english.R;
 import com.exam.english.databinding.ActivityMainBinding;
 import com.github.pedrovgs.DraggableListener;
@@ -27,10 +29,10 @@ import com.test.english.ui.fragmentmusic.MusicFragment;
 import com.test.english.ui.helper.BottomNavigationNotShiftHelper;
 import com.test.english.ui.youtube.MoviePosterFragment;
 import com.test.english.ui.youtube.VideoFragment;
+import com.test.english.ui.youtube.VideoListFragment;
 import com.test.english.util.HummingUtils;
 import java.math.BigDecimal;
 import java.util.List;
-import static com.test.english.application.MyCustomApplication.getApplicationInstance;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,11 +60,17 @@ public class MainActivity extends AppCompatActivity {
 
     private VideoFragment videoFragment;
     public static FragmentManager fm;
+    public static String SEARCH_VALUE = "";
     public static String SEARCH_POPUP_VALUE = "";
     public static String SEARCH_IDS_VALUE = "";
     public static String SEARCH_YOUTUBE_VALUE = "";
     public static String SEARCH_YOUTUBE_CHANNEL_VALUE = "";
     public static boolean SEARCH_CHECK = false;
+
+    public List<Voice> allvoices;
+    public List<Voice> voices;
+    private AmazonS3Client s3Client;
+    private VideoListFragment videoListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,9 +142,10 @@ public class MainActivity extends AppCompatActivity {
         draggableView.setFragmentManager(MainActivity.fm);
         videoFragment = new VideoFragment();
         videoFragment.setView(draggableView);
-        //videoListFragment = VideoListFragment.newInstance();
+        videoListFragment = VideoListFragment.newInstance();
         draggableView.setTopFragment(videoFragment);
-        draggableView.setBottomFragment(new MoviePosterFragment());
+        //draggableView.setBottomFragment(new MoviePosterFragment());
+        draggableView.setBottomFragment(videoListFragment);
         draggableView.initializeView();
         draggableView.setVisibility(View.INVISIBLE);
         draggableView.setClickToMinimizeEnabled(false);
@@ -392,5 +401,60 @@ public class MainActivity extends AppCompatActivity {
 
     public VideoFragment getVideoFragment(){
         return videoFragment;
+    }
+
+    public void seekTo(int seek){
+        videoFragment.seekTo(seek);
+    }
+
+    public String getVideoUrl() {
+        return videoFragment.getVideoUrl();
+    }
+
+    public boolean doesObjectExist(String fileName) {
+        return s3Client.doesObjectExist("humming", fileName);
+    }
+
+    public int getTotalDuration(){
+        return videoFragment.getTotalDuration();
+    }
+
+    public void setVideoEpisodeUrl(final Datums datums, final int nowPlayListNo, boolean refresh) {
+
+        changeIds = true;
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override public void run() {
+
+                videoFragment.setUrl(HummingUtils.IMAGE_PATH+datums.source.get(HummingUtils.ElasticField.VIDEO_URL), datums.source.get(HummingUtils.ElasticField.IDS).toString(), datums.source.get(HummingUtils.ElasticField.YOUTUBE_ID).toString());
+                videoFragment.setAlltext(datums.source.get(HummingUtils.ElasticField.TEXT_EN).toString(), datums.source.get(HummingUtils.ElasticField.TEXT_LO).toString(), "");
+                videoFragment.setNowPlayListNo(nowPlayListNo);
+                MainActivity.SEARCH_POPUP_VALUE = datums.source.get(HummingUtils.ElasticField.TEXT_EN).toString();
+                MainActivity.SEARCH_IDS_VALUE = datums.source.get(HummingUtils.ElasticField.IDS).toString();
+
+                // 썸네일 설정
+                List<String> thumbnails = (List<String>) datums.source.get(HummingUtils.ElasticField.THUMBNAILS);
+                videoListFragment.setThumbnails(thumbnails);
+
+                if(true){//if(refresh){
+                    videoFragment.setBaseSentence(datums);
+                    Handler handlers3 = new Handler();
+                    handlers3.postDelayed(new Runnable() {
+                        @Override public void run() {
+                            //refreshRelation();
+                        }
+                    }, 100);
+                }
+
+
+                Handler handlers2 = new Handler();
+                handlers2.postDelayed(new Runnable() {
+                    @Override public void run() {
+                        //postClick(MainActivity.SEARCH_IDS_VALUE);
+                    }
+                }, 100);
+            }
+        }, 10);
     }
 }

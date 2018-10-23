@@ -1,7 +1,6 @@
 package com.test.english.application;
 
 import android.app.Application;
-
 import com.test.english.entities.HummingSoonConfig;
 import com.test.english.ui.main.MainActivity;
 
@@ -13,7 +12,6 @@ public class MyCustomApplication extends Application {
     private static MainActivity mainActivity;
     private static HummingSoonConfig hummingSoonConfig;
     //private static PlayerMusicActivity playerMusicActivity;
-
 
     public static MyCustomApplication getApplicationInstance(){
         return singleton;
