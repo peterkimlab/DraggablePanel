@@ -66,7 +66,7 @@
             android:clickable="true"
             android:focusable="false"
             android:orientation="vertical">
-            <!--<FrameLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.flurgle.blurkit.BlurLayout
@@ -133,7 +133,7 @@
                         android:layout_height="50dp"
                         android:layout_below="@+id/timeVideoView" />
                 </FrameLayout>
-            </FrameLayout>-->
+            </FrameLayout>
 
             <com.flurgle.blurkit.BlurLayout
                 android:layout_width="match_parent"
@@ -162,13 +162,12 @@
                             android:scaleType="centerCrop"
                             android:src="@drawable/ic_action_up"
                             android:visibility="invisible" />
-                        <!--<android.support.v7.widget.CardView
+                        <android.support.v7.widget.CardView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="left"
                             app:cardBackgroundColor="@color/transparent"
                             card:cardCornerRadius="5dp">
-
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -195,9 +194,9 @@
                                     style="@style/text_play_speed"
                                     android:text="120%" />
                             </LinearLayout>
-                        </android.support.v7.widget.CardView>-->
+                        </android.support.v7.widget.CardView>
 
-                        <!--<LinearLayout
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -211,11 +210,11 @@
                                 android:layout_gravity="center|top"
                                 android:background="@drawable/border3"
                                 android:layout_marginBottom="10dp"
-                                android:src="@drawable/ic_action_repeatx1" />
-                        </LinearLayout>-->
+                                android:src="@drawable/ic_action_repeatx1"/>
+                        </LinearLayout>
                     </LinearLayout>
 
-                    <!--<LinearLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="top|center_horizontal"
@@ -264,13 +263,11 @@
                                 android:layout_marginLeft="15dp"
                                 android:src="@drawable/fast_forward_normal" />
                         </LinearLayout>
-                    </LinearLayout>-->
-
+                    </LinearLayout>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="10dp"
                         android:background="@color/transparent"/>
-
                     <TextView
                         android:id="@+id/otherVoices"
                         style="@style/textview_player_voice"
