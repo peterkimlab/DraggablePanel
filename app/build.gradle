@@ -64,6 +64,9 @@ dependencies {
     //Player
     implementation "com.google.android.exoplayer:exoplayer:2.7.2"
 
+    //Trimmer
+    implementation project(path: ':k4l-video-trimmer')
+
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
