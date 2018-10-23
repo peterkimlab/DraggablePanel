@@ -6,7 +6,7 @@ dependencies {
     implementation 'com.nineoldandroids:library:2.4.0'
 }
 android {
-    compileSdkVersion 24
+    compileSdkVersion 27
     defaultConfig {
         versionName '2.0.0-SNAPSHOT'
         versionCode 200000
@@ -24,7 +24,6 @@ android {
     lintOptions {
         abortOnError false
     }
-    buildToolsVersion '28.0.3'
 }
 
 //apply from: 'https://raw.github.com/jpardogo/gradle-mvn-push/master/gradle-mvn-push.gradle'
