@@ -118,4 +118,70 @@
         <item name="android:fontFamily">@font/cereal_bold</item>
     </style>
 
+    <!-- text player plat speed -->
+    <style name="text_play_speed">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:paddingLeft">4px</item>
+        <item name="android:paddingBottom">4px</item>
+        <item name="android:textColor">#ffffffff</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">1</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <!-- tab text -->
+    <style name="text_tab" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14dp</item>
+    </style>
+
+    <!-- player imageview -->
+    <style name="imageview_player">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:background">@drawable/ripple</item>
+    </style>
+
+    <!-- player TextView time-->
+    <style name="textview_player_time">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">end|center</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">end|center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <!-- player TextView othervoice-->
+    <style name="textview_player_voice">
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/textbg</item>
+        <item name="android:textSize">14dp</item>
+    </style>
+
+    <!-- button circle  white smaill @font/cereal_black-->
+    <style name="btn_circle_white_smaill">
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/round_button_background2</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
