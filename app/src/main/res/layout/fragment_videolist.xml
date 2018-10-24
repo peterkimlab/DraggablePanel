@@ -20,7 +20,7 @@
         android:gravity="bottom"
         sothree:umanoDragView="@+id/dragView"
         sothree:umanoOverlay="true"
-        sothree:umanoPanelHeight="50dp"
+        sothree:umanoPanelHeight="250dp"
         sothree:umanoParallaxOffset="200dp"
         sothree:umanoShadowHeight="4dp">
         <android.support.design.widget.CoordinatorLayout

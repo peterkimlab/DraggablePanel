@@ -18,7 +18,4 @@ public class YoutubeChannel {
     public PageInfo pageInfo;
     @SerializedName("items")
     public List<HashMap<String, Object>> items;
-
-
-
 }

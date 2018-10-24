@@ -72,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
     private AmazonS3Client s3Client;
     private VideoListFragment videoListFragment;
 
+    private onKeyBackPressedListener mOnKeyBackPressedListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -359,7 +361,7 @@ public class MainActivity extends AppCompatActivity {
     public void setupViewPager(ViewPager viewPager) {
         mainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
 
-        mainViewPagerAdapter.addFragment(Fragment1.newInstance());
+        mainViewPagerAdapter.addFragment(Fragment4.newInstance());
         mainViewPagerAdapter.addFragment(MusicFragment.newInstance());
         mainViewPagerAdapter.addFragment(Fragment3.newInstance());
         mainViewPagerAdapter.addFragment(Fragment4.newInstance());
@@ -456,5 +458,13 @@ public class MainActivity extends AppCompatActivity {
                 }, 100);
             }
         }, 10);
+    }
+
+    public interface onKeyBackPressedListener {
+        public void onBack();
+    }
+
+    public void setOnKeyBackPressedListener(onKeyBackPressedListener listener) {
+        mOnKeyBackPressedListener = listener;
     }
 }

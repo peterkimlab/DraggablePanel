@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/clickLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <TextView
+        android:id="@+id/orderNo"
+        style="@style/text_orderNo"
+        />
+
+    <!--
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cardview"
+        style="@style/CardView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0">
+
+-->
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/thumbnail"
+                android:layout_margin="2dp"
+                style="@style/item_thumbnail_small" />
+
+            <TextView
+                android:id="@+id/time"
+                style="@style/text_time"/>
+
+            <com.github.ybq.android.spinkit.SpinKitView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/nowplay"
+                style="@style/SpinKitView.Large.Circle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:visibility="invisible"
+                app:SpinKit_Color="@color/white" />
+        </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/sentence"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            style="@style/text_sentence_en_black"
+            android:layout_weight="0" />
+
+        <TextView
+            android:id="@+id/vtitle"
+            style="@style/text_title_en_black"
+            android:layout_weight="0"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/cnt"
+            style="@style/text_cnt"
+            android:layout_weight="1"
+            android:visibility="gone" />
+    </LinearLayout>
+
+
+</LinearLayout>

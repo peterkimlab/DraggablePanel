@@ -218,7 +218,7 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
                 SearchResource resource = response.body();
                 String ens = alltext.getText().toString().toLowerCase();
-                if(resource != null && resource.hits != null){
+                if (resource != null && resource.hits != null) {
                     for (int i = 0; i < resource.hits.hits.size(); i++) {
                         String e = resource.hits.hits.get(i).source.get(HummingUtils.ElasticField.TEXT_EN).toString().toLowerCase();
                         if(ens.toLowerCase().contains(e)){
@@ -662,10 +662,10 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
 
     public void setUrl(String url, String ids, String youtubeidParam) {
 
-        if(HummingUtils.getExtension(url).equals("mp3") || url.contains("OutputFormat=mp3")){
+        if (HummingUtils.getExtension(url).equals("mp3") || url.contains("OutputFormat=mp3")) {
             Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.vinty1);
             simpleExoPlayerView.setDefaultArtwork(largeIcon);
-        }else{
+        } else {
             simpleExoPlayerView.setDefaultArtwork(null);
         }
 
@@ -673,7 +673,7 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
         videoUrl = url;
         youtubeid = youtubeidParam;
 
-        if(player == null){
+        if (player == null) {
             initExoPlayer(view);
         }
 

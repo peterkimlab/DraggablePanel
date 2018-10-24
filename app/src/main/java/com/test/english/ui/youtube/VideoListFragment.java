@@ -19,6 +19,8 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.util.DisplayMetrics;
@@ -38,6 +40,7 @@ import com.exam.english.R;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.test.english.api.Datums;
 import com.test.english.record.CustomSTT;
+import com.test.english.ui.frag3.Fragment3;
 import com.test.english.ui.main.MainActivity;
 import com.test.english.util.HummingUtils;
 import com.test.english.video.TimeLineViewMini;
@@ -47,9 +50,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.regex.Pattern;
+
 import static android.app.Activity.RESULT_OK;
 
 @SuppressLint("ValidFragment")
@@ -69,7 +75,6 @@ public class VideoListFragment extends Fragment {
     private TextView playSpeed80;
     private TextView playSpeed100;
     private TextView playSpeed120;
-
 
     private ImageView repeatOne;
     private ImageView repeat;
@@ -94,7 +99,6 @@ public class VideoListFragment extends Fragment {
     private Button recordPlayButton3;*/
 
     LinearLayout linearLayout;
-
 
     VideoListFragmentPageAdapter mAdapterViewPager;
     MainActivity mainActivity;
@@ -234,7 +238,6 @@ public class VideoListFragment extends Fragment {
         totalDur = (TextView) view.findViewById(R.id.totalDur);
         currentDur = (TextView) view.findViewById(R.id.currentDur);
 
-
         textButton = (Button) view.findViewById(R.id.text);
         textButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -317,7 +320,6 @@ public class VideoListFragment extends Fragment {
 
             }
         });
-
 
         prev = (ImageView) view.findViewById(R.id.prev);
         prev.setOnClickListener(new View.OnClickListener() {
@@ -449,8 +451,6 @@ public class VideoListFragment extends Fragment {
         timeFrame = (FrameLayout) view.findViewById(R.id.timeFrame);
         timeFrame.setVisibility(View.GONE);
 
-
-
         mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
@@ -521,6 +521,90 @@ public class VideoListFragment extends Fragment {
         createPolly();
 
         return view;
+    }
+
+    public static class VideoListFragmentPageAdapter extends FragmentPagerAdapter {
+
+        private static final String TAG = VideoListFragmentPageAdapter.class.getSimpleName();
+
+        private static final int FRAGMENT_COUNT = 2;
+        private Map<Integer, String> mFragmentTags;
+        private FragmentManager mFragmentManager;
+        private Context context;
+
+        public VideoListFragmentPageAdapter(FragmentManager fm, Context context) {
+            super(fm);
+            mFragmentManager = fm;
+            mFragmentTags = new HashMap<Integer, String>();
+            this.context = context;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return Fragment3.newInstance();
+                case 1:
+                    return EpisodeFragment.newInstance();
+            }
+            return null;
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+
+            return POSITION_NONE;
+
+       /* Fragment fragment = (Fragment) object;
+        String tag = fragment.getTag();
+        String last = tag.charAt(tag.length() - 1)+"";
+        if (fullChange) {
+            return POSITION_NONE;
+        } else {
+            fullChange = true;
+            if(relationTag.equals(tag)){
+                return super.getItemPosition(object);
+            }else{
+                return POSITION_NONE;
+            }
+        }*/
+        }
+
+        @Override
+        public int getCount() {
+            return FRAGMENT_COUNT;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position){
+                case 0:
+                    return context.getString(R.string.player_relation);
+                case 1:
+                    return context.getString(R.string.player_episode);
+            }
+            return null;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            Object object = super.instantiateItem(container, position);
+            if (object instanceof Fragment) {
+                Fragment fragment = (Fragment) object;
+                String tag = fragment.getTag();
+                mFragmentTags.put(position, tag);
+            }
+            return object;
+        }
+
+        public Fragment getFragment(int position) {
+            Fragment fragment = null;
+            String tag = mFragmentTags.get(position);
+            if (tag != null) {
+                fragment = mFragmentManager.findFragmentByTag(tag);
+            }
+            return fragment;
+        }
     }
 
 
