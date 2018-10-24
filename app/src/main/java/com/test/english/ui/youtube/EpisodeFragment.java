@@ -131,6 +131,7 @@ public class EpisodeFragment extends Fragment implements MainActivity.onKeyBackP
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         //layoutManager.scrollToPosition(currPos);
         playlisRecyclerView.setLayoutManager(layoutManager);
+
         es = new EndlessRecyclerOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int current_page) {
@@ -184,16 +185,15 @@ public class EpisodeFragment extends Fragment implements MainActivity.onKeyBackP
 
                 if (gestureDetector.onTouchEvent(e)) {
                     View child = rv.findChildViewUnder(e.getX(), e.getY());
-                    if(child != null){
+                    if (child != null) {
                         int p = rv.findViewHolderForLayoutPosition(rv.getChildLayoutPosition(child)).getAdapterPosition();
                         if (p == 0) {
                             return false;
-                        }else{
+                        } else {
                             clickListener.onItemClick(child, p);
                         }
                     }
                 }
-
                 return false;
             }
 
