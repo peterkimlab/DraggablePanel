@@ -543,7 +543,7 @@ public class VideoListFragment extends Fragment {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return Fragment3.newInstance();
+                    return RelationFragment.newInstance();
                 case 1:
                     return EpisodeFragment.newInstance();
             }

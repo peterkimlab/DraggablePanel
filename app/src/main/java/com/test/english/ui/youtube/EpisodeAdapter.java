@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.exam.english.R;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.github.ybq.android.spinkit.SpriteFactory;
@@ -76,10 +75,10 @@ public class EpisodeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             });
 
             YoutubeChannel yc = listener.getChannelInfo();
-            if(yc == null){
+            if (yc == null) {
                 ((EpisodeHeaderViewHolder) holder).channelLayout.setVisibility(View.GONE);
-            }else{
-                try{
+            } else {
+                try {
                     ArrayList<HashMap<String, Object>> items = (ArrayList) yc.items;
                     HashMap<String, Object> item = items.get(0);
                     LinkedTreeMap<String, Object> snippet = (LinkedTreeMap) item.get("snippet");
@@ -101,7 +100,7 @@ public class EpisodeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     });
 
                     ((EpisodeHeaderViewHolder) holder).channelDesc.setText(snippet.get("title").toString());
-                    if(statistics != null){
+                    if (statistics != null) {
                         ((EpisodeHeaderViewHolder) holder).count.setText("subscriber\n"+statistics.get("subscriberCount").toString());
                     }
                     ((EpisodeHeaderViewHolder) holder).channelLayout.setOnClickListener(new View.OnClickListener() {
@@ -110,20 +109,13 @@ public class EpisodeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             listener.pageYoutubeChannel();
                         }
                     });
-                }catch (Exception e){
+                } catch (Exception e) {
                     ((EpisodeHeaderViewHolder) holder).channelLayout.setVisibility(View.GONE);
                 }
-
-
-
             }
-
-
-        } else if (holder instanceof EpisodeViewHolder) {
-
+        }else if (holder instanceof EpisodeViewHolder) {
             if (seletedPosition != null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
                     if (seletedPosition == position) {
                         int color = R.color.selected2;
                         ((EpisodeViewHolder) holder).clickLayout.setForeground(new ColorDrawable(ContextCompat.getColor(context, color)));
@@ -136,10 +128,8 @@ public class EpisodeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         ((EpisodeViewHolder) holder).clickLayout.setForeground(new ColorDrawable(ContextCompat.getColor(context, color)));
                         ((EpisodeViewHolder) holder).nowplay.setVisibility(View.GONE);
                     }
-
                 }
             }
-
 
             ((EpisodeViewHolder) holder).sentence.setText(playlistObject.source.get(HummingUtils.ElasticField.TEXT_EN).toString());
             ((EpisodeViewHolder) holder).vtitle.setText(playlistObject.source.get(HummingUtils.ElasticField.TITLE).toString());
@@ -159,16 +149,12 @@ public class EpisodeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 public void onSuccess() {
                     ((EpisodeViewHolder) holder).thumbnail.setVisibility(View.VISIBLE);
                 }
-
                 @Override
                 public void onError() {
                     ((EpisodeViewHolder) holder).thumbnail.setVisibility(View.VISIBLE);
                 }
             });
-
         }
-
-
     }
 
     @Override
@@ -220,7 +206,6 @@ public class EpisodeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public EpisodeViewHolder(View itemView) {
             super(itemView);
-
             sentence = (TextView)itemView.findViewById(R.id.sentence);
             vtitle = (TextView)itemView.findViewById(R.id.vtitle);
             orderNo = (TextView)itemView.findViewById(R.id.orderNo);
@@ -230,7 +215,6 @@ public class EpisodeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             clickLayout = (LinearLayout)itemView.findViewById(R.id.clickLayout);
         }
     }
-
 
     @Override
     public int getItemViewType(int position) {

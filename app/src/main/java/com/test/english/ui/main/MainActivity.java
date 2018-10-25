@@ -467,4 +467,12 @@ public class MainActivity extends AppCompatActivity {
     public void setOnKeyBackPressedListener(onKeyBackPressedListener listener) {
         mOnKeyBackPressedListener = listener;
     }
+
+    public VideoListFragment getVideoListFragment(){
+        return videoListFragment;
+    }
+
+    public Datums getBaseSentence() {
+        return videoFragment.getBaseSentence();
+    }
 }

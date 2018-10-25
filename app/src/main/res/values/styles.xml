@@ -248,4 +248,28 @@
         <item name="android:textSize">12dp</item>
     </style>
 
+    <style name="TextStyle_toddaylist2">
+        <item name="android:fontFamily">@font/cereal_bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!-- thumbnail -->
+    <style name="item_thumbnail_full">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">69dp</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="text_sentence_en_black2">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">left|center_vertical</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:fontFamily">@font/nanumbarunpenb</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
 </resources>

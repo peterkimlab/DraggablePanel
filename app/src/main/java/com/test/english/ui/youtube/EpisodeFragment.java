@@ -55,14 +55,11 @@ public class EpisodeFragment extends Fragment implements MainActivity.onKeyBackP
     private RecyclerView playlisRecyclerView;
     private APIInterface apiInterface;
     private APIInterfaceYoutube apiInterfaceYoutube;
-
     private List<Datums> datumList;
     private List<Datums> playList;
     private EpisodeAdapter mAdapter;
     private Handler mHandler;
-
     boolean autoPlay = false;
-
     private MainActivity mainActivity;
     EndlessRecyclerOnScrollListener es;
     RecyclerItemClickListener.OnItemClickListener clickListener;
@@ -117,7 +114,6 @@ public class EpisodeFragment extends Fragment implements MainActivity.onKeyBackP
 
         datumList = new ArrayList<>();
         playList = new ArrayList<>();
-
         playlisRecyclerView = (RecyclerView) view.findViewById(R.id.your_play_list);
 
         //SpacesItemDecoration decoration = new SpacesItemDecoration(5);
@@ -182,7 +178,6 @@ public class EpisodeFragment extends Fragment implements MainActivity.onKeyBackP
 
         playlisRecyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-
                 if (gestureDetector.onTouchEvent(e)) {
                     View child = rv.findChildViewUnder(e.getX(), e.getY());
                     if (child != null) {
@@ -294,8 +289,6 @@ public class EpisodeFragment extends Fragment implements MainActivity.onKeyBackP
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light
         );
-
-
         return view;
     }
 
@@ -309,7 +302,6 @@ public class EpisodeFragment extends Fragment implements MainActivity.onKeyBackP
             es.setCurrent_page(currentPage);
             getData(currentPage, MainActivity.SEARCH_IDS_VALUE, true);
         }
-
     }
 
     public void getData(int current_page, String searchIds, final boolean order) {
@@ -351,7 +343,6 @@ public class EpisodeFragment extends Fragment implements MainActivity.onKeyBackP
                     }
 
                 }
-
                 @Override
                 public void onFailure(Call<SearchResource> call, Throwable t) {
                     Log.d("test", "================================================2" + t.getMessage());
@@ -359,9 +350,7 @@ public class EpisodeFragment extends Fragment implements MainActivity.onKeyBackP
                 }
             });
         }
-
     }
-
 
     //https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=UCz4tgANd4yy8Oe0iXCdSWfA&key=
 
@@ -377,7 +366,6 @@ public class EpisodeFragment extends Fragment implements MainActivity.onKeyBackP
                     channelInfo = response.body();
                     mAdapter.notifyItemChanged(0);
                 }
-
                 @Override
                 public void onFailure(Call<YoutubeChannel> call, Throwable t) {
                     Log.d("test", "================================================2" + t.getMessage());
@@ -385,7 +373,6 @@ public class EpisodeFragment extends Fragment implements MainActivity.onKeyBackP
                 }
             });
         }
-
     }
 
     public List<Datums> getPlayList(int nowPosition) {
@@ -427,7 +414,6 @@ public class EpisodeFragment extends Fragment implements MainActivity.onKeyBackP
     }
 
     public YoutubeChannel getChannel() {
-
         return channelInfo;
     }
 
@@ -447,23 +433,18 @@ public class EpisodeFragment extends Fragment implements MainActivity.onKeyBackP
 
 
     static class CompareNcodeDesc implements Comparator<Datums> {
-
         @Override
         public int compare(Datums o1, Datums o2) {
             int a = Integer.valueOf(o2.source.get(HummingUtils.ElasticField.NCODE).toString());
             int b = Integer.valueOf(o1.source.get(HummingUtils.ElasticField.NCODE).toString());
-
             return a > b ? -1 : a < b ? 1 : 0;
         }
     }
 
     public interface EpisodeListener{
         YoutubeChannel getChannelInfo();
-
         void refresh();
-
         void pageYoutubeChannel();
-
     }
 
     public class HttpGetRequest extends AsyncTask<String, Void, String> {
