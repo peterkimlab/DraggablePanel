@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 import com.exam.english.R;
 import com.exam.english.databinding.Fragment1Binding;
 
-public class Fragment1 extends Fragment {
+public class ExploreFragment extends Fragment {
 
-    public static Fragment1 newInstance() {
-        return new Fragment1();
+    public static ExploreFragment newInstance() {
+        return new ExploreFragment();
     }
 
     private Fragment1Binding binding;

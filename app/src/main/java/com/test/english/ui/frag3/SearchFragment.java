@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 
 import com.exam.english.R;
 
-public class Fragment3 extends Fragment {
+public class SearchFragment extends Fragment {
 
-    public static Fragment3 newInstance() {
-        return new Fragment3();
+    public static SearchFragment newInstance() {
+        return new SearchFragment();
     }
 
     @Nullable

@@ -40,7 +40,6 @@ import com.exam.english.R;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.test.english.api.Datums;
 import com.test.english.record.CustomSTT;
-import com.test.english.ui.frag3.Fragment3;
 import com.test.english.ui.main.MainActivity;
 import com.test.english.util.HummingUtils;
 import com.test.english.video.TimeLineViewMini;

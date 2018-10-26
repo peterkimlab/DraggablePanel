@@ -30,8 +30,8 @@ import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.test.english.api.Datums;
 import com.test.english.application.MyCustomApplication;
 import com.test.english.ui.adapter.MainViewPagerAdapter;
-import com.test.english.ui.frag1.Fragment1;
-import com.test.english.ui.frag3.Fragment3;
+import com.test.english.ui.frag1.ExploreFragment;
+import com.test.english.ui.frag3.SearchFragment;
 import com.test.english.ui.frag4.Fragment4;
 import com.test.english.ui.fragmentmusic.MusicFragment;
 import com.test.english.ui.helper.BottomNavigationNotShiftHelper;
@@ -380,9 +380,9 @@ public class MainActivity extends AppCompatActivity {
     public void setupViewPager(ViewPager viewPager) {
         mainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
 
-        mainViewPagerAdapter.addFragment(Fragment1.newInstance());
+        mainViewPagerAdapter.addFragment(ExploreFragment.newInstance());
         mainViewPagerAdapter.addFragment(MusicFragment.newInstance());
-        mainViewPagerAdapter.addFragment(Fragment3.newInstance());
+        mainViewPagerAdapter.addFragment(SearchFragment.newInstance());
         mainViewPagerAdapter.addFragment(Fragment4.newInstance());
 
         binding.mainViewPager.setAdapter(mainViewPagerAdapter);
