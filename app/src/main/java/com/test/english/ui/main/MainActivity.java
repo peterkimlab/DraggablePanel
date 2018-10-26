@@ -146,12 +146,7 @@ public class MainActivity extends AppCompatActivity {
         videoFragment.setView(draggableView);
         videoListFragment = VideoListFragment.newInstance();
         draggableView.setTopFragment(videoFragment);
-        //draggableView.setBottomFragment(new MoviePosterFragment());
         draggableView.setBottomFragment(videoListFragment);
-        draggableView.initializeView();
-        draggableView.setVisibility(View.INVISIBLE);
-        draggableView.setClickToMinimizeEnabled(false);
-        draggableView.setClickToMaximizeEnabled(false);
 
         draggableView.setDraggableListener(new DraggableListener() {
             @Override public void onMaximized() {
@@ -161,13 +156,13 @@ public class MainActivity extends AppCompatActivity {
                 videoFragment.onMaximized();
 
                 // Relation Episode 리스트 새로고침
-                if(changeIds){
+                if (changeIds) {
                     changeIds = false;
-                    //videoListFragment.changeView();
+                    videoListFragment.changeView();
                 }
 
-                //videoListFragment.showPanel();
-                //videoListFragment.showTab();
+                videoListFragment.showPanel();
+                videoListFragment.showTab();
                 /*if(videoListFragment.getSpeakButtonTag().equals("on")){
                     if(!menuRed.isOpened() && isMenuButton()){
                         menuRed.showMenuButton(true);
@@ -201,8 +196,9 @@ public class MainActivity extends AppCompatActivity {
                 voiceBtn.hideMenuButton(true);
                 mFab.hide(true);
                 recordFab.hide(true);
-                videoListFragment.collapsePanel();
+
                 deleteFile();*/
+                videoListFragment.collapsePanel();
             }
 
             @Override public void onClosedToRight() {
@@ -211,8 +207,8 @@ public class MainActivity extends AppCompatActivity {
                 voiceBtn.hideMenuButton(true);
                 mFab.hide(true);
                 recordFab.hide(true);
-                videoListFragment.collapsePanel();
                 deleteFile();*/
+                videoListFragment.collapsePanel();
             }
 
             @Override
@@ -220,7 +216,10 @@ public class MainActivity extends AppCompatActivity {
                 videoFragment.onStartTouch();
             }
         });
-
+        draggableView.setClickToMinimizeEnabled(false);
+        draggableView.setClickToMaximizeEnabled(false);
+        draggableView.initializeView();
+        draggableView.setVisibility(View.INVISIBLE);
     }
 
     private void initializeYoutubeFragment() {
@@ -361,7 +360,7 @@ public class MainActivity extends AppCompatActivity {
     public void setupViewPager(ViewPager viewPager) {
         mainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
 
-        mainViewPagerAdapter.addFragment(Fragment4.newInstance());
+        mainViewPagerAdapter.addFragment(Fragment1.newInstance());
         mainViewPagerAdapter.addFragment(MusicFragment.newInstance());
         mainViewPagerAdapter.addFragment(Fragment3.newInstance());
         mainViewPagerAdapter.addFragment(Fragment4.newInstance());

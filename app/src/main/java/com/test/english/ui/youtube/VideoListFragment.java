@@ -964,14 +964,10 @@ public class VideoListFragment extends Fragment {
         } else return getContext().getResources().getColor(colorResId);
     }
 
-    public void setDataTime(final String videoUrl){
-
-
+    public void setDataTime(final String videoUrl) {
 
         totalDuration = mainActivity.getTotalDuration();
-
         otherVoices.setText(mainActivity.getString(R.string.player_other_voices) + " ( "+(voiceIdx+1)+" / "+mainActivity.voices.size()+")");
-
 
         finishOpeningSoundFile();
        /* Runnable runnable = new Runnable() {

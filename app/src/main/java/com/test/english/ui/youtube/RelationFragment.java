@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.exam.english.R;
 import com.test.english.api.APIClient;
 import com.test.english.api.APIInterface;
@@ -82,9 +81,9 @@ public class RelationFragment extends Fragment implements MainActivity.onKeyBack
         gridLayout.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                if(position == 0){
+                if (position == 0) {
                     return 2;
-                }else{
+                } else {
                     return 1;
                 }
             }
@@ -150,7 +149,7 @@ public class RelationFragment extends Fragment implements MainActivity.onKeyBack
         mainActivity = (MainActivity) getActivity();
 
         mHandler = new Handler(){
-            public void handleMessage(Message msg){
+            public void handleMessage(Message msg) {
                 Datums datums = datumList.get(msg.what);
                 mainActivity.setVideoEpisodeUrl(datums, msg.what, false);
             }
@@ -189,45 +188,42 @@ public class RelationFragment extends Fragment implements MainActivity.onKeyBack
             @Override
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
                 SearchResource resource = response.body();
-                if( autoPlay){
+                if (autoPlay) {
                     autoPlay = false;
-                    if(playList.size() == 0){
+                    if (playList.size() == 0) {
                         playList.addAll(datumList);
                     }
                     playList.addAll(resource.hits.hits);
                     /*Datums datums = playList.get(nowPosition);
                     mainActivity.setVideoEpisodeUrl(datums);*/
-                }else{
+                } else {
                     boolean check = false;
-                    if(datumList.size() == 0){
+                    if (datumList.size() == 0) {
                         check = true;
                     }
-                    if(resource != null && resource.hits != null){
+                    if (resource != null && resource.hits != null) {
                         Log.e("test","=====================aaaaa");
                         List aaa = new ArrayList();
                         for (int i = 0; i < resource.hits.hits.size(); i++) {
                             Log.e("test","============"+resource.hits.hits.get(i).source.get(HummingUtils.ElasticField.TEXT_EN).toString().trim()+"=========cccc");
-                            if(resource.hits.hits.get(i).source.get(HummingUtils.ElasticField.TEXT_EN).toString().trim().equals("I'm out of here.")){
+                            if (resource.hits.hits.get(i).source.get(HummingUtils.ElasticField.TEXT_EN).toString().trim().equals("I'm out of here.")) {
                                 Log.e("test","=====================bbbbb");
                                 datumList.add(resource.hits.hits.get(i));
                             }
-                            if(resource.hits.hits.get(i).source.get(HummingUtils.ElasticField.TEXT_EN).toString().trim().equals("I'm out of here!")){
+                            if (resource.hits.hits.get(i).source.get(HummingUtils.ElasticField.TEXT_EN).toString().trim().equals("I'm out of here!")) {
                                 Log.e("test","=====================bbbbb2");
                                 datumList.add(resource.hits.hits.get(i));
                             }
                         }
                         datumList.addAll(resource.hits.hits);
                     }
-                   if(check){
+                   if (check) {
                        playlisRecyclerView.scrollToPosition(0);
                        mAdapter.setSeletedPosition(1);
                    }
-
                     mAdapter.notifyDataSetChanged();
                 }
-
             }
-
             @Override
             public void onFailure(Call<SearchResource> call, Throwable t) {
                 Log.e(Tag,"Error : "+t.getMessage());
@@ -236,9 +232,9 @@ public class RelationFragment extends Fragment implements MainActivity.onKeyBack
         });
     }
 
-    public List<Datums> getPlayList(int nowPosition){
+    public List<Datums> getPlayList(int nowPosition) {
         nowPosition++;
-        if(datumList.size()-1 < nowPosition && datumList.size() < 20){
+        if (datumList.size()-1 < nowPosition && datumList.size() < 20) {
             autoPlay = true;
             es.actLoadMore();
         }
