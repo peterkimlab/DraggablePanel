@@ -1,6 +1,7 @@
 package com.test.english.ui.main;
 
 import android.databinding.DataBindingUtil;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -8,8 +9,15 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.polly.AmazonPollyPresigningClient;
+import com.amazonaws.services.polly.model.DescribeVoicesRequest;
+import com.amazonaws.services.polly.model.DescribeVoicesResult;
 import com.amazonaws.services.polly.model.Voice;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.exam.english.R;
@@ -32,6 +40,7 @@ import com.test.english.ui.youtube.VideoFragment;
 import com.test.english.ui.youtube.VideoListFragment;
 import com.test.english.util.HummingUtils;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -73,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
     private VideoListFragment videoListFragment;
 
     private onKeyBackPressedListener mOnKeyBackPressedListener;
+    private CognitoCachingCredentialsProvider credentialsProvider;
+    private static final String COGNITO_POOL_ID = "ap-northeast-2:171a8c75-0910-4ce3-a178-81c79f3cf0a7";
+    private static final Regions MY_REGION = Regions.AP_NORTHEAST_2;
+    public AmazonPollyPresigningClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +114,13 @@ public class MainActivity extends AppCompatActivity {
                 //}
             }
         }, 500);
+
+        Handler handler4 = new Handler();
+        handler4.postDelayed(new Runnable() {
+            @Override public void run() {
+                createPolly();
+            }
+        }, 0);
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -473,5 +493,57 @@ public class MainActivity extends AppCompatActivity {
 
     public Datums getBaseSentence() {
         return videoFragment.getBaseSentence();
+    }
+
+    public void createPolly() {
+        initPollyClient();
+        new GetPollyVoices().execute();
+    }
+
+    void initPollyClient() {
+        credentialsProvider = new CognitoCachingCredentialsProvider( this, COGNITO_POOL_ID,  MY_REGION );
+        client = new AmazonPollyPresigningClient(credentialsProvider);
+    }
+
+    private class GetPollyVoices extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            if (allvoices != null) {
+                return null;
+            }
+
+            // Create describe voices request.
+            DescribeVoicesRequest describeVoicesRequest = new DescribeVoicesRequest();
+
+            DescribeVoicesResult describeVoicesResult;
+            try {
+                // Synchronously ask the Polly Service to describe available TTS voices.
+                describeVoicesResult = client.describeVoices(describeVoicesRequest);
+            } catch (RuntimeException e) {
+                Log.e("", "Unable to get available voices. " + e.getMessage());
+                return null;
+            }
+
+            // Get list of voices from the result.
+            allvoices = describeVoicesResult.getVoices();
+
+            // Log a message with a list of available TTS voices.
+            Log.i("", "Available Polly voices: " + voices);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            voices = new ArrayList<>();
+            for (int i = 0; i < allvoices.size(); i++) {
+                if(allvoices.get(i).getLanguageCode().equals("en-US")
+                        || allvoices.get(i).getLanguageCode().equals("en-GB")
+                        || allvoices.get(i).getLanguageCode().equals("en-AU")
+                        ){
+                    voices.add(allvoices.get(i));
+                }
+            }
+        }
     }
 }
