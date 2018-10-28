@@ -6,26 +6,109 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.test.english.ui.main.MainActivity">
-        <FrameLayout
+        tools:context="com.test.english.ui.main.MainActivity"
+        android:orientation="vertical">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/mainViewPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <android.support.v4.view.ViewPager
-                android:id="@+id/mainViewPager"
+            android:layout_height="match_parent" />
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:elevation="0dp">
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                style="@style/Base_ToolbarStyle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-            <com.github.pedrovgs.DraggablePanel
-                android:id="@+id/draggable_panel"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                draggable_panel:x_scale_factor="@dimen/x_scale_factor"
-                draggable_panel:y_scale_factor="@dimen/y_scale_factor"
-                draggable_panel:top_fragment_height="200dp"
-                draggable_panel:top_fragment_margin_right="@dimen/top_fragment_margin"
-                draggable_panel:top_fragment_margin_bottom="@dimen/top_fragment_margin_bottom"
-                draggable_panel:enable_horizontal_alpha_effect="false"/>
-        </FrameLayout>
-
+                android:layout_height="wrap_content"
+                android:elevation="0dp"
+                app:contentInsetStartWithNavigation="0dp"
+                app:layout_scrollFlags="scroll|enterAlways|snap">
+                <LinearLayout
+                    android:id="@+id/toolbarlayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/searchText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="5dp"
+                            android:gravity="left"
+                            android:hint="Search"
+                            android:textSize="16dp"
+                            android:textColor="@color/purple4"/>
+                        <ImageView
+                            android:id="@+id/mainClearBtn"
+                            android:layout_width="25dp"
+                            android:layout_height="20dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_gravity="right|center_vertical"
+                            android:layout_weight="0"
+                            android:src="@drawable/ic_action_clear" />
+                    </FrameLayout>
+                    <ImageView
+                        android:id="@+id/mainSearchBtn"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="0"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_action_search_color" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/toolbarlayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:visibility="gone"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/searchText2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:text=""
+                            android:hint=""
+                            android:textColor="@color/purple4"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.Toolbar>
+            <!--<View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/black" />-->
+        </android.support.design.widget.AppBarLayout>
+        <!--<include
+            layout="@layout/app_bar_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />-->
+        <com.github.pedrovgs.DraggablePanel
+            android:id="@+id/draggable_panel"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            draggable_panel:x_scale_factor="@dimen/x_scale_factor"
+            draggable_panel:y_scale_factor="@dimen/y_scale_factor"
+            draggable_panel:top_fragment_height="200dp"
+            draggable_panel:top_fragment_margin_right="@dimen/top_fragment_margin"
+            draggable_panel:top_fragment_margin_bottom="@dimen/top_fragment_margin_bottom"
+            draggable_panel:enable_horizontal_alpha_effect="false"/>
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="0dp"
@@ -38,6 +121,5 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:menu="@menu/bottom_navigation_main" />
-
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -102,6 +102,10 @@ public class MainActivity extends AppCompatActivity {
         draggableView = binding.draggablePanel;
         fm = getSupportFragmentManager();
 
+        setSupportActionBar(binding.toolbar);
+
+        //binding.toolbarlayout.setVisibility(View.GONE);
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override public void run() {
@@ -477,6 +481,10 @@ public class MainActivity extends AppCompatActivity {
                 }, 100);
             }
         }, 10);
+    }
+
+    public void showToolbar() {
+        binding.appBarLayout.setExpanded(true, false);
     }
 
     public interface onKeyBackPressedListener {
