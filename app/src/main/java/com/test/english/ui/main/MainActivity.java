@@ -32,8 +32,7 @@ import com.test.english.application.MyCustomApplication;
 import com.test.english.ui.adapter.MainViewPagerAdapter;
 import com.test.english.ui.frag1.ExploreFragment;
 import com.test.english.ui.frag3.SearchFragment;
-import com.test.english.ui.frag4.Fragment4;
-import com.test.english.ui.fragmentmusic.MusicFragment;
+import com.test.english.ui.fragmentmypage.FragmentMyPage;
 import com.test.english.ui.helper.BottomNavigationNotShiftHelper;
 import com.test.english.ui.youtube.MoviePosterFragment;
 import com.test.english.ui.youtube.VideoFragment;
@@ -390,7 +389,7 @@ public class MainActivity extends AppCompatActivity {
         //mainViewPagerAdapter.addFragment(MusicFragment.newInstance());
 
         mainViewPagerAdapter.addFragment(SearchFragment.newInstance());
-        mainViewPagerAdapter.addFragment(Fragment4.newInstance());
+        mainViewPagerAdapter.addFragment(FragmentMyPage.newInstance());
 
         binding.mainViewPager.setAdapter(mainViewPagerAdapter);
     }
