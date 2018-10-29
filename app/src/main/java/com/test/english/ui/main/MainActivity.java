@@ -119,12 +119,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 500);
 
-        Handler handler4 = new Handler();
+        /*Handler handler4 = new Handler();
         handler4.postDelayed(new Runnable() {
             @Override public void run() {
                 createPolly();
             }
-        }, 0);
+        }, 0);*/
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -385,7 +385,10 @@ public class MainActivity extends AppCompatActivity {
         mainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
 
         mainViewPagerAdapter.addFragment(ExploreFragment.newInstance());
-        mainViewPagerAdapter.addFragment(MusicFragment.newInstance());
+
+        mainViewPagerAdapter.addFragment(ExploreFragment.newInstance());
+        //mainViewPagerAdapter.addFragment(MusicFragment.newInstance());
+
         mainViewPagerAdapter.addFragment(SearchFragment.newInstance());
         mainViewPagerAdapter.addFragment(Fragment4.newInstance());
 
