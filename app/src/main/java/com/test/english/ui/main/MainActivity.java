@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         draggableView = binding.draggablePanel;
         fm = getSupportFragmentManager();
 
-        setSupportActionBar(binding.toolbar);
+        //setSupportActionBar(binding.toolbar);
 
         //binding.toolbarlayout.setVisibility(View.GONE);
 
@@ -485,9 +485,9 @@ public class MainActivity extends AppCompatActivity {
         }, 10);
     }
 
-    public void showToolbar() {
+    /*public void showToolbar() {
         binding.appBarLayout.setExpanded(true, false);
-    }
+    }*/
 
     public interface onKeyBackPressedListener {
         public void onBack();

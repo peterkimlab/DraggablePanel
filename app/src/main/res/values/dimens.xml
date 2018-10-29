@@ -67,4 +67,7 @@
         <attr name="bottomDragVisibleHeight" format="dimension" />
         <attr name="bototmExtraIndicatorHeight" format="dimension" />
     </declare-styleable>
+
+    <dimen name="mypage_layout_margin">20dp</dimen>
+
 </resources>

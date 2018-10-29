@@ -3,6 +3,7 @@ package com.test.english.ui.fragmentmypage;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,19 +29,19 @@ public class FragmentMyPage extends Fragment {
         View view = inflater.inflate(R.layout.fragment_mypage, container, false);
 
         // https://dreamaz.tistory.com/345
-        // niceguy0825@edxdn.com
         // http://a-student.github.io/SvgToVectorDrawableConverter.Web/
 
         rvMultipleViewType = (RecyclerView) view.findViewById(R.id.rv_multipe_view_type);
         mData = new ArrayList<>();
+        rvMultipleViewType.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
 
-        mData.add(R.drawable.adele);
-        mData.add(new RowItems("test", R.drawable.icon_logout));
-        mData.add(new RowItems("test", R.drawable.icon_alarm));
-        mData.add(new RowItems("test", R.drawable.icon_cash));
-        mData.add(new RowItems("test", R.drawable.icon_playlist));
-        mData.add(new RowItems("test", R.drawable.icon_favorite));
-        mData.add(new RowItems("test", R.drawable.icon_opencon));
+        mData.add(R.drawable.icon_hummingsoon);
+        mData.add(new BasicRowItems("로그아웃", R.drawable.icon_logout));
+        mData.add(new BasicRowItems("알림", R.drawable.icon_alarm));
+        mData.add(new BasicRowItems("결제", R.drawable.icon_cash));
+        mData.add(new BasicRowItems("재생이력", R.drawable.icon_playlist));
+        mData.add(new BasicRowItems("즐겨찾기", R.drawable.icon_favorite));
+        mData.add(new BasicRowItems("About", R.drawable.icon_opencon));
         mData.add("Text 0");
 
         MyPageAdapter adapter = new MyPageAdapter(getActivity(), mData);

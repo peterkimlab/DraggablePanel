@@ -8,9 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.exam.english.R;
-
 import java.util.List;
 
 public class MyPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -19,7 +17,7 @@ public class MyPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
     public static final int TEXT = 0;
-    public static final int IMAGE = 1;
+    public static final int PAIDITEM = 1;
     public static final int BASICROW = 2;
 
 
@@ -33,8 +31,8 @@ public class MyPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (mObjects.get(position) instanceof String)
             return TEXT;
         else if (mObjects.get(position) instanceof Integer)
-            return IMAGE;
-        else if (mObjects.get(position) instanceof RowItems)
+            return PAIDITEM;
+        else if (mObjects.get(position) instanceof BasicRowItems)
             return BASICROW;
         return -1;
 
@@ -47,8 +45,8 @@ public class MyPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case TEXT:
                 View itemView0 = li.inflate(R.layout.row_text, parent, false);
                 return new TextViewHolder(itemView0);
-            case IMAGE:
-                View itemView1 = li.inflate(R.layout.row_image, parent, false);
+            case PAIDITEM:
+                View itemView1 = li.inflate(R.layout.item_mypage_paiditem, parent, false);
                 return new ImageViewHolder(itemView1);
             case BASICROW:
                 View itemView2 = li.inflate(R.layout.item_mypage_basicrow, parent, false);
@@ -66,12 +64,12 @@ public class MyPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 TextViewHolder textViewHolder = (TextViewHolder) holder;
                 textViewHolder.tvText.setText(mObjects.get(position).toString());
                 break;
-            case IMAGE:
+            case PAIDITEM:
                 ImageViewHolder imageViewHolder = (ImageViewHolder) holder;
                 imageViewHolder.imvImage.setImageResource((int) mObjects.get(position));
                 break;
             case BASICROW:
-                RowItems rowItems = (RowItems) mObjects.get(position);
+                BasicRowItems rowItems = (BasicRowItems) mObjects.get(position);
                 BasiRowViewHolder userViewHolder = (BasiRowViewHolder) holder;
                 userViewHolder.tvName.setText(rowItems.getName());
                 userViewHolder.ivIcon.setImageResource(rowItems.getImage());
@@ -97,7 +95,7 @@ public class MyPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    RowItems user = (RowItems) mObjects.get(getAdapterPosition());
+                    BasicRowItems user = (BasicRowItems) mObjects.get(getAdapterPosition());
                     Toast.makeText(mContext, user.getName() + ", " , Toast.LENGTH_SHORT).show();
                 }
             });

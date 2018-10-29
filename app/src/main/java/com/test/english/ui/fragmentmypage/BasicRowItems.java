@@ -1,11 +1,11 @@
 package com.test.english.ui.fragmentmypage;
 
-public class RowItems {
+public class BasicRowItems {
 
     private String name;
     private int image;
 
-    public RowItems(String name, int image) {
+    public BasicRowItems(String name, int image) {
         this.name = name;
         this.image = image;
     }

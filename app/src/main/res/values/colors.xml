@@ -187,4 +187,6 @@
     <color name="about_background_color">#303030</color>
     <color name="about_separator_color">#494949</color>
 
+    <color name="mypage_border">#cccccc</color>
+
 </resources>
