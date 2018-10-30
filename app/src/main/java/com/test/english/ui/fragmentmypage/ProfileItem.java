@@ -1,11 +1,11 @@
 package com.test.english.ui.fragmentmypage;
 
-public class ProfileItems {
+public class ProfileItem {
 
     private String name;
     private int image;
 
-    public ProfileItems(String name, int image) {
+    public ProfileItem(String name, int image) {
         this.name = name;
         this.image = image;
     }

@@ -46,7 +46,8 @@ public class FragmentMyPage extends Fragment {
 
     private void initViewData() {
 
-        mData.add(new ProfileItems("Choi", R.drawable.icon_user));
+        mData.add(new ProfileItem("Choi", R.drawable.icon_user));
+        mData.add(new StudiedLevelItems(1 + ""));
         mData.add(R.drawable.icon_hummingsoon);
         mData.add(new BasicRowItems("로그아웃", R.drawable.icon_logout));
         mData.add(new BasicRowItems("알림", R.drawable.icon_alarm));

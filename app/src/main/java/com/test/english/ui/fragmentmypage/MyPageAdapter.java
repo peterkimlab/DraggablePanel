@@ -17,8 +17,9 @@ public class MyPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private List<Object> mObjects;
 
     public static final int PROFILE = 0;
-    public static final int PAIDITEM = 1;
-    public static final int BASICROW = 2;
+    public static final int STUDIED = 1;
+    public static final int PAIDITEM = 2;
+    public static final int BASICROW = 3;
 
     public MyPageAdapter(Context context, List<Object> objects) {
         mContext = context;
@@ -27,8 +28,10 @@ public class MyPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemViewType(int position) {
-        if (mObjects.get(position) instanceof ProfileItems)
+        if (mObjects.get(position) instanceof ProfileItem)
             return PROFILE;
+        else if (mObjects.get(position) instanceof StudiedLevelItems)
+            return STUDIED;
         else if (mObjects.get(position) instanceof Integer)
             return PAIDITEM;
         else if (mObjects.get(position) instanceof BasicRowItems)
@@ -43,12 +46,15 @@ public class MyPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case PROFILE:
                 View itemView0 = li.inflate(R.layout.item_mypage_profile, parent, false);
                 return new ProfileViewHolder(itemView0);
+            case STUDIED:
+                View itemView1 = li.inflate(R.layout.item_mypage_studied_level, parent, false);
+                return new StudiedViewHolder(itemView1);
             case PAIDITEM:
-                View itemView1 = li.inflate(R.layout.item_mypage_paiditem, parent, false);
-                return new ImageViewHolder(itemView1);
+                View itemView2 = li.inflate(R.layout.item_mypage_paiditem, parent, false);
+                return new ImageViewHolder(itemView2);
             case BASICROW:
-                View itemView2 = li.inflate(R.layout.item_mypage_basicrow, parent, false);
-                return new BasicRowViewHolder(itemView2);
+                View itemView3 = li.inflate(R.layout.item_mypage_basicrow, parent, false);
+                return new BasicRowViewHolder(itemView3);
             default:
                 break;
         }
@@ -59,10 +65,15 @@ public class MyPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
             case PROFILE:
-                ProfileItems profileItem = (ProfileItems) mObjects.get(position);
+                ProfileItem profileItem = (ProfileItem) mObjects.get(position);
                 ProfileViewHolder profileViewHolder = (ProfileViewHolder) holder;
                 profileViewHolder.tvUserName.setText(profileItem.getName());
                 profileViewHolder.ivProfile.setImageResource(profileItem.getImage());
+                break;
+            case STUDIED:
+                StudiedLevelItems studiedItem = (StudiedLevelItems) mObjects.get(position);
+                StudiedViewHolder studiedViewHolder = (StudiedViewHolder) holder;
+                studiedViewHolder.ivRectangural1.setVisibility(View.VISIBLE);
                 break;
             case PAIDITEM:
                 ImageViewHolder imageViewHolder = (ImageViewHolder) holder;
@@ -101,6 +112,25 @@ public class MyPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
     }
+
+    public class StudiedViewHolder extends RecyclerView.ViewHolder {
+
+        private ImageView ivRectangural1;
+
+        public StudiedViewHolder(View itemView) {
+            super(itemView);
+
+            ivRectangural1 = (ImageView) itemView.findViewById(R.id.rectangural1);
+
+            /*itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(mContext, mObjects.get(getAdapterPosition()).toString(), Toast.LENGTH_SHORT).show();
+                }
+            });*/
+        }
+    }
+
     public class ImageViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView ivImage;
