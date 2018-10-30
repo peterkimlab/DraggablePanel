@@ -35,6 +35,18 @@ public class FragmentMyPage extends Fragment {
         mData = new ArrayList<>();
         rvMultipleViewType.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
 
+        initViewData();
+
+        MyPageAdapter adapter = new MyPageAdapter(getActivity(), mData);
+        rvMultipleViewType.setAdapter(adapter);
+        rvMultipleViewType.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        return view;
+    }
+
+    private void initViewData() {
+
+        mData.add(new ProfileItems("Choi", R.drawable.icon_user));
         mData.add(R.drawable.icon_hummingsoon);
         mData.add(new BasicRowItems("로그아웃", R.drawable.icon_logout));
         mData.add(new BasicRowItems("알림", R.drawable.icon_alarm));
@@ -42,12 +54,6 @@ public class FragmentMyPage extends Fragment {
         mData.add(new BasicRowItems("재생이력", R.drawable.icon_playlist));
         mData.add(new BasicRowItems("즐겨찾기", R.drawable.icon_favorite));
         mData.add(new BasicRowItems("About", R.drawable.icon_opencon));
-        mData.add("Text 0");
-
-        MyPageAdapter adapter = new MyPageAdapter(getActivity(), mData);
-        rvMultipleViewType.setAdapter(adapter);
-        rvMultipleViewType.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        return view;
+        //mData.add("Text 0");
     }
 }

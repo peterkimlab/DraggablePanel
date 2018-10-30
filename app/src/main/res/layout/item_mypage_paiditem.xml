@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border_mypage_paid_item"
-        android:padding="@dimen/mypage_layout_margin"
+        android:padding="30dp"
         android:gravity="center"
         android:orientation="vertical">
         <ImageView

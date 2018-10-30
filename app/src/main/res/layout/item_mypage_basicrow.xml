@@ -5,7 +5,7 @@
     android:layout_margin="@dimen/mypage_layout_margin"
     android:orientation="horizontal">
     <TextView
-        android:id="@+id/tv_name"
+        android:id="@+id/tv_user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
@@ -15,7 +15,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
     <ImageView
-        android:id="@+id/iv_icon"
+        android:id="@+id/iv_profile_image"
         android:layout_width="25dp"
         android:layout_height="25dp"/>
 </LinearLayout>
