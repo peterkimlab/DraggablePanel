@@ -58,7 +58,8 @@ public class ExploreFragment extends Fragment {
         binding.rv.setLayoutManager(layoutManager);
         binding.rv.setAdapter(mAdapter);
 
-        /*binding.rv.setOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
+        /*
+        binding.rv.setOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int current_page) {
                 getDataPattern(current_page + 1, "");

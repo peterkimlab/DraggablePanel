@@ -54,7 +54,6 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<ExploreFrag
                 ((MainActivity)mContext).setVideoUrl(mDataList.get(i));
             }
         });
-
     }
 
     @Override

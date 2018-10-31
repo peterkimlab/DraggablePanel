@@ -79,8 +79,6 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 }
                 break;
         }
-        /*final Datums playlistObject = playlists.get(position);
-        holder.sentence.setText(playlistObject.source.get(HummingUtils.ElasticField.PATTERN).toString());*/
     }
 
     @Override
