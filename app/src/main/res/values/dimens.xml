@@ -68,6 +68,6 @@
         <attr name="bototmExtraIndicatorHeight" format="dimension" />
     </declare-styleable>
 
-    <dimen name="mypage_layout_margin">20dp</dimen>
+    <dimen name="mypage_layout_margin">23dp</dimen>
 
 </resources>

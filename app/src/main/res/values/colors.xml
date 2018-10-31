@@ -189,5 +189,6 @@
 
     <color name="mypage_border">#cccccc</color>
     <color name="mypage_text">#333333</color>
+    <color name="mypage_studied_level_selected">#f49f16</color>
 
 </resources>
