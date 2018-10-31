@@ -1,6 +1,10 @@
 package com.test.english.application;
 
 import android.app.Application;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
+
 import com.test.english.entities.HummingSoonConfig;
 import com.test.english.ui.main.MainActivity;
 

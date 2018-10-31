@@ -7,7 +7,9 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -30,8 +32,8 @@ import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.test.english.api.Datums;
 import com.test.english.application.MyCustomApplication;
 import com.test.english.ui.adapter.MainViewPagerAdapter;
-import com.test.english.ui.frag1.ExploreFragment;
-import com.test.english.ui.frag3.SearchFragment;
+import com.test.english.ui.fragmentexplore.ExploreFragment;
+import com.test.english.ui.searchfragment.SearchFragment;
 import com.test.english.ui.fragmentmusic.MusicFragment;
 import com.test.english.ui.fragmentmypage.FragmentMyPage;
 import com.test.english.ui.helper.BottomNavigationNotShiftHelper;
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     public static FragmentManager fm;
     public static String SEARCH_VALUE = "";
     public static String SEARCH_POPUP_VALUE = "";
+    public static String SEARCH_PAGE_VALUE = "";
     public static String SEARCH_IDS_VALUE = "";
     public static String SEARCH_YOUTUBE_VALUE = "";
     public static String SEARCH_YOUTUBE_CHANNEL_VALUE = "";
@@ -86,6 +89,19 @@ public class MainActivity extends AppCompatActivity {
     private static final String COGNITO_POOL_ID = "ap-northeast-2:171a8c75-0910-4ce3-a178-81c79f3cf0a7";
     private static final Regions MY_REGION = Regions.AP_NORTHEAST_2;
     public AmazonPollyPresigningClient client;
+
+    private static final String TAG_HOME = "home";
+    private static final String TAG_MOVIES = "movies";
+
+    public static int CURRENT_DEPTH = 0;
+    public static String CURRENT_TAG = TAG_HOME;
+    public static String CURRENT_TITLE = "";
+    public static String CURRENT_ICODE = "";
+    public static String CURRENT_RCODE = "";
+    public static String CURRENT_TAG2 = "";
+    public static String CURRENT_TITLE2 = "";
+
+    public static int navItemIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -556,5 +572,103 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    public void onClickItems(String type, String sentence){
+        if (type.equals("type1") && sentence.equals("sentence")) {
+            openPage("type1", sentence);
+        } else if (type.equals("type1") && sentence.equals("pattern")) {
+            openPage("type1", sentence);
+        } else if (type.equals("latestReleases")) {
+            openPage("latestReleases", sentence);
+        } else if (type.equals("sentences")) {
+            openPage("sentences", sentence);
+        } else if (type.equals("patterns")) {
+            openPage("patterns", sentence);
+        } else if (type.equals("genres")) {
+            openPage("genres", sentence);
+        } else if (type.equals("words")) {
+            openPage("words", sentence);
+        } else if (type.equals("popular")) {
+            openPage("popular", sentence);
+        } else if (type.equals("favorite")) {
+            openPage("favorite", sentence);
+        } else if (type.equals("watched")) {
+            openPage("watched", sentence);
+        } else if (type.equals("mothergoose")) {
+            openPage("mothergoose", sentence);
+        }
+    }
+
+    public void openPage(String type, String sentence ) {
+        sentence = sentence.replaceAll("_", " ");
+        CURRENT_DEPTH = 1;
+        if (!CURRENT_TAG.equals(TAG_HOME)) {
+            CURRENT_TITLE2 = CURRENT_TITLE;
+            CURRENT_DEPTH = 2;
+        }
+        SEARCH_PAGE_VALUE = "";
+        if(type.equals("type1") && sentence.equals("sentence")){
+            navItemIndex = 11;
+            CURRENT_TAG = TAG_MOVIES;
+            CURRENT_TITLE = "문장";
+        }else if(type.equals("type1") && sentence.equals("pattern")){
+            navItemIndex = 2;
+            CURRENT_TAG = TAG_MOVIES;
+            CURRENT_TITLE = "패턴";
+        }else if(type.equals("latestReleases")){
+            navItemIndex = 2;
+            CURRENT_TAG = TAG_MOVIES;
+            CURRENT_TITLE = "Latest Releases";
+        }else if(type.equals("sentences")){
+            SEARCH_PAGE_VALUE = sentence;
+            navItemIndex = 2;
+            CURRENT_TAG = TAG_MOVIES;
+            CURRENT_TITLE = "Sentences";
+            if(!sentence.equals("")){
+                CURRENT_TITLE = sentence;
+            }
+
+        }else if(type.equals("patterns")){
+            navItemIndex = 12;
+            CURRENT_TAG = TAG_MOVIES;
+            CURRENT_TITLE = "Patterns";
+        }else if(type.equals("genres")){
+            navItemIndex = 14;
+            CURRENT_TAG = TAG_MOVIES;
+            CURRENT_TITLE = "Genres";
+            if(!sentence.equals("")){
+                CURRENT_TITLE = sentence;
+            }
+        }else if(type.equals("words")){
+            navItemIndex = 13;
+            CURRENT_TAG = TAG_MOVIES;
+            CURRENT_TITLE = "Words";
+        }else if(type.equals("popular")){
+            navItemIndex = 11;
+            CURRENT_TAG = TAG_MOVIES;
+            CURRENT_TITLE = "popular";
+        }else if(type.equals("favorite")){
+            navItemIndex = 17;
+            CURRENT_TAG = TAG_MOVIES;
+            CURRENT_TITLE = "favorite";
+        }else if(type.equals("watched")){
+            navItemIndex = 18;
+            CURRENT_TAG = TAG_MOVIES;
+            CURRENT_TITLE = "watched";
+        }else if(type.equals("music")){
+            navItemIndex = 19;
+            CURRENT_TAG = TAG_MOVIES;
+            CURRENT_TITLE = sentence;
+        }else if(type.equals("mothergoose")){
+            navItemIndex = 20;
+            CURRENT_TAG = TAG_MOVIES;
+            CURRENT_TITLE = getString(R.string.discover_mothergoose);
+        }
+
+        /*DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+
+        loadHomeFragment();*/
     }
 }

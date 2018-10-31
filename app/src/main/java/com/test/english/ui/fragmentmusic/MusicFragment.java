@@ -16,7 +16,7 @@ import com.test.english.api.APIInterface;
 import com.test.english.api.Datums;
 import com.test.english.api.SearchResource;
 import com.test.english.ui.data.DataTypeMusicFragment;
-import com.test.english.ui.adapter.MusicFragmentAdapter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -146,7 +146,7 @@ public class MusicFragment extends Fragment {
             @Override
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
                 SearchResource resource = response.body();
-                if(resource != null && resource.hits != null) {
+                if (resource != null && resource.hits != null) {
                     latestList.addAll(resource.hits.hits);
                 }
                 dataset.put(DataTypeMusicFragment.SENTENCE_TYPE, latestList);
@@ -159,32 +159,4 @@ public class MusicFragment extends Fragment {
         });
     }
 
-    public void getDataDiscover(int current_page) {
-        Call<List<SearchResource>> call = apiInterface.getDiscover(current_page+"", "");
-        call.enqueue(new Callback<List<SearchResource>>() {
-            @Override
-            public void onResponse(Call<List<SearchResource>> call, Response<List<SearchResource>> response) {
-                List<SearchResource> resource = response.body();
-                if (resource != null) {
-                    for (int i = 0; i < resource.size(); i++) {
-                        if (resource.get(i).typeName.equals("pattern") && resource.get(i).hits.hits != null) {
-                            patternList.addAll(resource.get(i).hits.hits);
-                            dataset.put(DataTypeMusicFragment.PATTERN_TYPE, patternList);
-                        } else if (resource.get(i).typeName.equals("word") && resource.get(i).hits.hits != null) {
-                            //datumsList.addAll(resource.get(i).hits.hits);
-                            //dataset.add(datumsList);
-                        } else if (resource.get(i).typeName.equals("genre") && resource.get(i).hits.hits != null) {
-                            //datumsList.addAll(resource.get(i).hits.hits);
-                            //dataset.add(datumsList);
-                        }
-                    }
-                }
-                mAdapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onFailure(Call<List<SearchResource>> call, Throwable t) {
-                call.cancel();
-            }
-        });
-    }
 }

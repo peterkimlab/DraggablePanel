@@ -9,10 +9,12 @@ public class DataTypeMusicFragment {
 
     public static final int IMAGE_TYPE = 1;
     public static final int TEXT_TYPE = 2;
+
     public static final String POPULAR_TYPE = "popular";
     public static final String MOTHERGOOSE_TYPE = "mothergoose";
     public static final String SENTENCE_TYPE = "sentence";
     public static final String PATTERN_TYPE = "pattern";
+
     public static final String WORDS_TYPE = "words";
     public static final String GENRES_TYPE = "genres";
 

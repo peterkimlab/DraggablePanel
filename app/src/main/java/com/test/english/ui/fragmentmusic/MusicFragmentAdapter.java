@@ -1,4 +1,4 @@
-package com.test.english.ui.adapter;
+package com.test.english.ui.fragmentmusic;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +12,6 @@ import com.exam.english.R;
 import com.test.english.api.Datums;
 import com.test.english.ui.data.DataTypeMusicFragment;
 import com.test.english.ui.data.MusicFragmentItemModel;
-import com.test.english.ui.main.MainActivity;
 import com.test.english.util.HummingUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +27,19 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
     public MusicFragmentAdapter(Context context, HashMap<String, List<Datums>> dataset) {
         this.context = context;
         this.dataset = dataset;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        switch (position) {
+            case 0:
+                return DataTypeMusicFragment.IMAGE_TYPE;
+            case 1:
+                return DataTypeMusicFragment.IMAGE_TYPE;
+            case 2:
+                return DataTypeMusicFragment.IMAGE_TYPE;
+        }
+        return -1;
     }
 
     @Override
@@ -51,7 +63,6 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
         switch (position) {
             case 0:
                 dataList = dataset.get(DataTypeMusicFragment.POPULAR_TYPE);
-
                 if (dataList != null) {
                     for (Datums datas : dataList) {
                         singleItem.add(new MusicFragmentItemModel(HummingUtils.getTitle(datas, context), HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
@@ -105,19 +116,6 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public int getItemCount() {
         return dataset.size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        switch (position) {
-            case 0:
-                return DataTypeMusicFragment.IMAGE_TYPE;
-            case 1:
-                return DataTypeMusicFragment.IMAGE_TYPE;
-            case 2:
-                return DataTypeMusicFragment.IMAGE_TYPE;
-        }
-        return -1;
     }
 
     public static class ImageTypeViewHolder extends RecyclerView.ViewHolder {
