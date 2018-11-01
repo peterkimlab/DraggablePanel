@@ -17,8 +17,6 @@ import com.test.english.api.APIInterface;
 import com.test.english.api.Datums;
 import com.test.english.api.SearchResource;
 import com.test.english.application.MyCustomApplication;
-import com.test.english.ui.adapter.EndlessRecyclerOnScrollListener;
-import com.test.english.ui.adapter.RecyclerItemClickListener;
 import com.test.english.ui.data.DataTypeMusicFragment;
 import com.test.english.util.HummingUtils;
 import java.util.ArrayList;
@@ -32,7 +30,7 @@ public class ExploreFragment extends Fragment {
 
     private FragmentExploreBinding binding;
     private ExploreFragmentAdapter mAdapter;
-    private List<Datums> datumList;
+    private List<Datums> sentenceList, patternList;
     private HashMap<String, List<Datums>> dataset;
     private APIInterface apiInterface;
     private Handler mHandler;
@@ -49,7 +47,9 @@ public class ExploreFragment extends Fragment {
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
         dataset = new HashMap<String, List<Datums>>();
-        datumList = new ArrayList<>();
+
+        sentenceList = new ArrayList<>();
+        patternList = new ArrayList<>();
 
         // 아덥터
         mAdapter = new ExploreFragmentAdapter(getActivity(), dataset);
@@ -88,31 +88,43 @@ public class ExploreFragment extends Fragment {
 
         mHandler = new Handler() {
             public void handleMessage(Message msg) {
-                Datums datums = datumList.get(msg.what);
+                Datums datums = patternList.get(msg.what);
                 MyCustomApplication.getMainInstance().onClickItems("sentences", datums.source.get(HummingUtils.ElasticField.PATTERN).toString());
             }
         };
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override public void run() {
-                getDataPattern(1, "");
-            }
-        }, 100);
+        getDataRetrofit();
 
         return binding.getRoot();
     }
 
-    public void getDataPattern(int current_page, String pattern) {
+    private void getDataRetrofit() {
+        Handler getDataSentenceHandler = new Handler();
+        getDataSentenceHandler.postDelayed(new Runnable() {
+            @Override public void run() {
+                getDataSentence(1, "");
+            }
+        }, 0);
+
+        Handler getDataPatternHandler = new Handler();
+        getDataPatternHandler.postDelayed(new Runnable() {
+            @Override public void run() {
+                getDataPattern(1, "");
+            }
+        }, 100);
+    }
+
+    // 추천문장
+    public void getDataSentence(int current_page, String pattern) {
         Call<SearchResource> call = apiInterface.getPatterns(current_page+"", pattern);
         call.enqueue(new Callback<SearchResource>() {
             @Override
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
                 SearchResource resource = response.body();
                 if (resource != null && resource.hits != null) {
-                    datumList.addAll(resource.hits.hits);
+                    sentenceList.addAll(resource.hits.hits);
                 }
-                dataset.put(DataTypeMusicFragment.PATTERN_TYPE, datumList);
+                dataset.put(DataTypeMusicFragment.EXPLORE_SENTENCE_TYPE, sentenceList);
                 mAdapter.notifyDataSetChanged();
             }
 
@@ -122,4 +134,26 @@ public class ExploreFragment extends Fragment {
             }
         });
     }
+
+    // 추천패턴
+    public void getDataPattern(int current_page, String pattern) {
+        Call<SearchResource> call = apiInterface.getPatterns(current_page+"", pattern);
+        call.enqueue(new Callback<SearchResource>() {
+            @Override
+            public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
+                SearchResource resource = response.body();
+                if (resource != null && resource.hits != null) {
+                    patternList.addAll(resource.hits.hits);
+                }
+                dataset.put(DataTypeMusicFragment.EXPLORE_PATTERN_TYPE, patternList);
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<SearchResource> call, Throwable t) {
+                call.cancel();
+            }
+        });
+    }
+
 }
