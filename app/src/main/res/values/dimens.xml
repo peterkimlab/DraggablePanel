@@ -68,6 +68,10 @@
         <attr name="bototmExtraIndicatorHeight" format="dimension" />
     </declare-styleable>
 
+    //Explore
+    <dimen name="explore_recycler_layout_margin_left">10dp</dimen>
+
+    //MyPage
     <dimen name="mypage_layout_margin">23dp</dimen>
 
 </resources>

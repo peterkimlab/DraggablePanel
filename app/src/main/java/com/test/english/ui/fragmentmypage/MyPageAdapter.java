@@ -73,7 +73,7 @@ public class MyPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case STUDIED:
                 StudiedLevelItems studiedItem = (StudiedLevelItems) mObjects.get(position);
                 StudiedViewHolder studiedViewHolder = (StudiedViewHolder) holder;
-                studiedViewHolder.ivRectangural1.setBackgroundResource(R.color.mypage_studied_level_selected);
+                studiedViewHolder.ivRectangural1.setBackgroundResource(R.color.app_identity_color);
                 break;
             case PAIDITEM:
                 ImageViewHolder imageViewHolder = (ImageViewHolder) holder;

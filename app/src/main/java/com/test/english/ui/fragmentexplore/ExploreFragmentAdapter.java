@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.exam.english.R;
 import com.test.english.api.Datums;
 import com.test.english.ui.adapter.SpacesItemDecoration;
@@ -46,7 +48,7 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         View view;
         switch (viewType) {
             case PATTERN_TYPE:
-                view = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
+                view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_subtitle, parent, false);
                 return new PatternViewHolder(view);
         }
         return null;
@@ -64,6 +66,7 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         switch (position) {
             case 0:
                 dataList = dataset.get(DataTypeMusicFragment.PATTERN_TYPE);
+                ((PatternViewHolder) holder).itemTitle.setText("추천패턴");
                 if (dataList != null) {
                     for (Datums datas : dataList) {
                         singleItem.add(new ExploreFragmentItemModel("","","", datas.source.get(HummingUtils.ElasticField.PATTERN).toString()));
@@ -76,6 +79,13 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     ((PatternViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
                     ((PatternViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
                     ((PatternViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
+
+                    ((PatternViewHolder) holder).recycler_view_list.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                        }
+                    });
                 }
                 break;
         }
