@@ -49,10 +49,10 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         View view;
         switch (viewType) {
             case SENTENCE_TYPE:
-                view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_subtitle, parent, false);
+                view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_main_title, parent, false);
                 return new SentenceViewHolder(view);
             case PATTERN_TYPE:
-                view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_subtitle, parent, false);
+                view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_sub_title, parent, false);
                 return new PatternViewHolder(view);
         }
         return null;

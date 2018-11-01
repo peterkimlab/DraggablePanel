@@ -5,10 +5,14 @@
     android:background="?android:selectableItemBackground"
     android:layout_marginTop="10dp"
     android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:text="MAIN"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_marginLeft="@dimen/explore_recycler_layout_margin_left">
         <TextView
             android:id="@+id/itemTitle"
