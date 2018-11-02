@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -46,8 +47,16 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<ExploreFrag
                 .apply(RequestOptions.centerCropTransform())
                 .into(holder.itemImage);
         holder.tvTime.setText(singleItem.getTime());*/
-        holder.tvSentence.setText(singleItem.getSentence());
 
+        //holder.item_layout.setBackground();
+
+        if (i % 2 == 0) {
+            holder.item_layout.setBackgroundResource(R.drawable.today_pic);
+        } else {
+            holder.item_layout.setBackgroundResource(R.drawable.today_pic_2);
+        }
+
+        holder.tvSentence.setText(singleItem.getSentence());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,6 +72,7 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<ExploreFrag
 
     public static class SingleItemRowHolder extends RecyclerView.ViewHolder {
 
+        LinearLayout item_layout;
         TextView tvTitle;
         ImageView itemImage;
         TextView tvTime;
@@ -71,6 +81,7 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<ExploreFrag
         public SingleItemRowHolder(View view) {
             super(view);
 
+            this.item_layout = (LinearLayout) view.findViewById(R.id.item_layout);
             this.tvTime = (TextView) view.findViewById(R.id.time);
             this.itemImage = (ImageView) view.findViewById(R.id.thumbnail);
             this.tvTitle = (TextView) view.findViewById(R.id.vtitle);

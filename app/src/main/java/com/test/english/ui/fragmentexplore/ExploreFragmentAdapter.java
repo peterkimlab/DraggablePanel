@@ -70,6 +70,7 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         switch (position) {
             case 0:
                 dataList = dataset.get(DataTypeMusicFragment.EXPLORE_SENTENCE_TYPE);
+                ((SentenceViewHolder) holder).itemMainTitle.setText("Today");
                 ((SentenceViewHolder) holder).itemTitle.setText("추천문장");
                 if (dataList != null) {
                     for (Datums datas : dataList) {
@@ -113,12 +114,14 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public static class SentenceViewHolder extends RecyclerView.ViewHolder{
 
+        protected TextView itemMainTitle;
         protected TextView itemTitle;
         protected RecyclerView recycler_view_list;
         protected Button btnMore;
 
         public SentenceViewHolder(View itemView) {
             super(itemView);
+            this.itemMainTitle = (TextView) itemView.findViewById(R.id.itemMainTitle);
             this.itemTitle = (TextView) itemView.findViewById(R.id.itemTitle);
             this.recycler_view_list = (RecyclerView) itemView.findViewById(R.id.recycler_view_list);
             this.btnMore= (Button) itemView.findViewById(R.id.btnMore);
