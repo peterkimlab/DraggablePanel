@@ -110,7 +110,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            app:itemBackground="@color/white"
+            app:itemBackground="@color/bottom_navigation_view"
             app:itemIconTint="@color/black"
             app:itemTextColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
