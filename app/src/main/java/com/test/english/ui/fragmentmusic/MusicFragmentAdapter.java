@@ -1,6 +1,7 @@
 package com.test.english.ui.fragmentmusic;
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -71,7 +72,8 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
                     itemListDataAdapter = new MusicFragmentDataAdapter(context, singleItem, dataList);
 
                     ((ImageTypeViewHolder) holder).recycler_view_list.setHasFixedSize(true);
-                    ((ImageTypeViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+                    ((ImageTypeViewHolder) holder).recycler_view_list.setLayoutManager(new GridLayoutManager(context, 2));
+                    //((PopularViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
                     ((ImageTypeViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
                     ((ImageTypeViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
                 }
@@ -97,8 +99,8 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                 if (dataList != null) {
                     for (Datums datas : dataList) {
-                        //(((ImageTypeViewHolder) holder).sentence.setText(HummingUtils.getSentenceByMode(datas, context));
-                        //(((ImageTypeViewHolder) holder).vtitle.setText(HummingUtils.getTitleByMode(datas, context));
+                        //(((PopularViewHolder) holder).sentence.setText(HummingUtils.getSentenceByMode(datas, context));
+                        //(((PopularViewHolder) holder).vtitle.setText(HummingUtils.getTitleByMode(datas, context));
                         singleItem.add(new MusicFragmentItemModel("", HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
                     }
 

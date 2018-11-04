@@ -1,6 +1,7 @@
 package com.test.english.ui.fragmentexplore;
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,8 +26,9 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private Context context;
     private HashMap<String, List<Datums>> dataset;
 
-    public static final int SENTENCE_TYPE = 1;
-    public static final int PATTERN_TYPE = 2;
+    public static final int SENTENCE_TYPE = 0;
+    public static final int PATTERN_TYPE = 1;
+    public static final int POPULAR_TYPE = 2;
 
     public ExploreFragmentAdapter(Context context, HashMap<String, List<Datums>> dataset) {
         this.context = context;
@@ -40,6 +42,8 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 return SENTENCE_TYPE;
             case 1:
                 return PATTERN_TYPE;
+            case 2:
+                return POPULAR_TYPE;
         }
         return -1;
     }
@@ -54,6 +58,9 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             case PATTERN_TYPE:
                 view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_sub_title, parent, false);
                 return new PatternViewHolder(view);
+            case POPULAR_TYPE:
+                view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_standard, parent, false);
+                return new PopularViewHolder(view);
         }
         return null;
     }
@@ -68,7 +75,7 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         SpacesItemDecoration decoration = new SpacesItemDecoration(10);
 
         switch (position) {
-            case 0:
+            case SENTENCE_TYPE:
                 dataList = dataset.get(DataTypeMusicFragment.EXPLORE_SENTENCE_TYPE);
                 ((SentenceViewHolder) holder).itemMainTitle.setText("Today");
                 ((SentenceViewHolder) holder).itemTitle.setText("추천문장");
@@ -86,7 +93,7 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     ((SentenceViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
                 }
                 break;
-            case 1:
+            case PATTERN_TYPE:
                 dataList = dataset.get(DataTypeMusicFragment.EXPLORE_PATTERN_TYPE);
                 ((PatternViewHolder) holder).itemTitle.setText("추천패턴");
                 if (dataList != null) {
@@ -103,7 +110,22 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     ((PatternViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
                 }
                 break;
+            case POPULAR_TYPE:
+                dataList = dataset.get(DataTypeMusicFragment.POPULAR_TYPE);
+                ((PopularViewHolder) holder).itemMainTitle.setText("인기영상");
+                if (dataList != null) {
+                    for (Datums datas : dataList) {
+                        singleItem.add(new ExploreFragmentItemModel(HummingUtils.getTitle(datas, context), HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
+                    }
 
+                    itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
+
+                    ((PopularViewHolder) holder).recycler_view_list.setHasFixedSize(true);
+                    ((PopularViewHolder) holder).recycler_view_list.setLayoutManager(new GridLayoutManager(context, 2));
+                    ((PopularViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
+                    ((PopularViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
+                }
+                break;
         }
     }
 
@@ -128,7 +150,7 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    public static class PatternViewHolder extends RecyclerView.ViewHolder{
+    public static class PatternViewHolder extends RecyclerView.ViewHolder {
 
         protected TextView itemTitle;
         protected RecyclerView recycler_view_list;
@@ -136,6 +158,22 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         public PatternViewHolder(View itemView) {
             super(itemView);
+            this.itemTitle = (TextView) itemView.findViewById(R.id.itemTitle);
+            this.recycler_view_list = (RecyclerView) itemView.findViewById(R.id.recycler_view_list);
+            this.btnMore= (Button) itemView.findViewById(R.id.btnMore);
+        }
+    }
+
+    public static class PopularViewHolder extends RecyclerView.ViewHolder {
+
+        protected TextView itemMainTitle;
+        protected TextView itemTitle;
+        protected RecyclerView recycler_view_list;
+        protected Button btnMore;
+
+        public PopularViewHolder(View itemView) {
+            super(itemView);
+            this.itemMainTitle = (TextView) itemView.findViewById(R.id.itemMainTitle);
             this.itemTitle = (TextView) itemView.findViewById(R.id.itemTitle);
             this.recycler_view_list = (RecyclerView) itemView.findViewById(R.id.recycler_view_list);
             this.btnMore= (Button) itemView.findViewById(R.id.btnMore);

@@ -20,13 +20,13 @@ import java.util.List;
 
 public class MusicFragmentDataAdapter extends RecyclerView.Adapter<MusicFragmentDataAdapter.SingleItemRowHolder> {
 
-    private ArrayList<MusicFragmentItemModel> itemsList;
     private Context mContext;
+    private ArrayList<MusicFragmentItemModel> itemsList;
     List<Datums> mDataList;
 
     public MusicFragmentDataAdapter(Context context, ArrayList<MusicFragmentItemModel> itemsList, List<Datums> dataList) {
-        this.itemsList = itemsList;
         this.mContext = context;
+        this.itemsList = itemsList;
         this.mDataList = dataList;
     }
 

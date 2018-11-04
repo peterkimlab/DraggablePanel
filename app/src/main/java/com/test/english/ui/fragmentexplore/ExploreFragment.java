@@ -30,7 +30,7 @@ public class ExploreFragment extends Fragment {
 
     private FragmentExploreBinding binding;
     private ExploreFragmentAdapter mAdapter;
-    private List<Datums> sentenceList, patternList;
+    private List<Datums> sentenceList, patternList, popularList;
     private HashMap<String, List<Datums>> dataset;
     private APIInterface apiInterface;
     private Handler mHandler;
@@ -50,6 +50,7 @@ public class ExploreFragment extends Fragment {
 
         sentenceList = new ArrayList<>();
         patternList = new ArrayList<>();
+        popularList = new ArrayList<>();
 
         // 아덥터
         mAdapter = new ExploreFragmentAdapter(getActivity(), dataset);
@@ -112,6 +113,13 @@ public class ExploreFragment extends Fragment {
                 getDataPattern(1, "");
             }
         }, 100);
+
+        getDataPatternHandler.postDelayed(new Runnable() {
+            @Override public void run() {
+                getDataPopularSentences(1, "");
+            }
+        }, 500);
+
     }
 
     // 추천문장
@@ -149,6 +157,26 @@ public class ExploreFragment extends Fragment {
                 mAdapter.notifyDataSetChanged();
             }
 
+            @Override
+            public void onFailure(Call<SearchResource> call, Throwable t) {
+                call.cancel();
+            }
+        });
+    }
+
+    //인기영상
+    public void getDataPopularSentences(int current_page, String sort) {
+        Call<SearchResource> call = apiInterface.getPopular(current_page+"", "", sort);
+        call.enqueue(new Callback<SearchResource>() {
+            @Override
+            public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
+                SearchResource resource = response.body();
+                if (resource != null && resource.hits != null) {
+                    popularList.addAll(resource.hits.hits);
+                }
+                dataset.put(DataTypeMusicFragment.POPULAR_TYPE, popularList);
+                mAdapter.notifyDataSetChanged();
+            }
             @Override
             public void onFailure(Call<SearchResource> call, Throwable t) {
                 call.cancel();
