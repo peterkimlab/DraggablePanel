@@ -72,8 +72,8 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
                     itemListDataAdapter = new MusicFragmentDataAdapter(context, singleItem, dataList);
 
                     ((ImageTypeViewHolder) holder).recycler_view_list.setHasFixedSize(true);
-                    ((ImageTypeViewHolder) holder).recycler_view_list.setLayoutManager(new GridLayoutManager(context, 2));
-                    //((PopularViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+                    //((ImageTypeViewHolder) holder).recycler_view_list.setLayoutManager(new GridLayoutManager(context, 2));
+                    ((ImageTypeViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
                     ((ImageTypeViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
                     ((ImageTypeViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
                 }

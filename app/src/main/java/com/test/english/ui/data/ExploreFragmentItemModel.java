@@ -2,16 +2,26 @@ package com.test.english.ui.data;
 
 public class ExploreFragmentItemModel {
 
+    private int vType;
+
     private String vtitle;
     private String item_thumbnail;
     private String time;
     private String sentence;
-
-    public ExploreFragmentItemModel(String vtitle, String item_thumbnail, String time, String sentence) {
+    public ExploreFragmentItemModel(int vType, String vtitle, String item_thumbnail, String time, String sentence) {
+        this.vType = vType;
         this.vtitle = vtitle;
         this.item_thumbnail = item_thumbnail;
         this.time = time;
         this.sentence = sentence;
+    }
+
+    public int getvType() {
+        return vType;
+    }
+
+    public void setvType(int vType) {
+        this.vType = vType;
     }
 
     public String getSentence() {

@@ -10,11 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.exam.english.R;
 import com.test.english.api.Datums;
 import com.test.english.ui.data.ExploreFragmentItemModel;
-import com.test.english.ui.main.MainActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +30,21 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
     @Override
+    public int getItemViewType(int position) {
+
+        switch (itemsList.get(position).getvType()) {
+            case 0:
+                return ExploreFragmentAdapter.SENTENCE_TYPE;
+            case 1:
+                return ExploreFragmentAdapter.PATTERN_TYPE;
+            case 2:
+                return ExploreFragmentAdapter.POPULAR_TYPE;
+            default:
+                return -1;
+        }
+    }
+
+    @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view;
         switch (i) {
@@ -41,9 +55,8 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_explore_pattern, null);
                 return new PatternItemRowHolder(view);
             case ExploreFragmentAdapter.POPULAR_TYPE:
-                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_explore_video_startd_type, null);
-                return new PatternItemRowHolder(view);
-
+                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_explore_video_started_type, null);
+                return new PopularItemRowHolder(view);
         }
         return null;
     }
@@ -53,52 +66,30 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
 
         ExploreFragmentItemModel singleItem = itemsList.get(i);
 
-        if (holder instanceof SentenceItemRowHolder) {
-            if (i % 2 == 0) {
-                ((SentenceItemRowHolder) holder).item_layout.setBackgroundResource(R.drawable.today_pic);
-            } else {
-                ((SentenceItemRowHolder) holder).item_layout.setBackgroundResource(R.drawable.today_pic_2);
-            }
-            ((SentenceItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
-            ((SentenceItemRowHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ((MainActivity)mContext).setVideoUrl(mDataList.get(i));
-                }
-            });
-        } else if (holder instanceof PatternItemRowHolder) {
-            if (i % 2 == 0) {
-                ((SentenceItemRowHolder) holder).item_layout.setBackgroundResource(R.drawable.today_pic);
-            } else {
-                ((SentenceItemRowHolder) holder).item_layout.setBackgroundResource(R.drawable.today_pic_2);
-            }
-            ((SentenceItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
-            ((SentenceItemRowHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ((MainActivity)mContext).setVideoUrl(mDataList.get(i));
-                }
-            });
-        } else if (holder instanceof PopularItemRowHolder) {
-            Glide.with(mContext)
-                    .load(singleItem.getItem_thumbnail())
-                    .apply(RequestOptions.centerCropTransform())
-                    .into(((PopularItemRowHolder) holder).itemImage);
-            ((PopularItemRowHolder) holder).tvTime.setText(singleItem.getTime());
-            ((PopularItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
-        }
-
-        /*switch (i) {
+        switch (singleItem.getvType()) {
             case ExploreFragmentAdapter.SENTENCE_TYPE:
-
+                if (i % 2 == 0) {
+                    ((SentenceItemRowHolder) holder).item_layout.setBackgroundResource(R.drawable.today_pic);
+                } else {
+                    ((SentenceItemRowHolder) holder).item_layout.setBackgroundResource(R.drawable.today_pic_2);
+                }
+                ((SentenceItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
                 break;
             case ExploreFragmentAdapter.PATTERN_TYPE:
-
+                if (i % 2 == 0) {
+                    ((PatternItemRowHolder) holder).item_layout.setBackgroundResource(R.drawable.today_pic);
+                } else {
+                    ((PatternItemRowHolder) holder).item_layout.setBackgroundResource(R.drawable.today_pic_2);
+                }
+                ((PatternItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
                 break;
             case ExploreFragmentAdapter.POPULAR_TYPE:
-
+                Glide.with(mContext)
+                        .load(singleItem.getItem_thumbnail())
+                        .into(((PopularItemRowHolder) holder).itemImage);
+                ((PopularItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
                 break;
-        }*/
+        }
     }
 
     @Override
@@ -109,18 +100,12 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
     public static class SentenceItemRowHolder extends RecyclerView.ViewHolder {
 
         LinearLayout item_layout;
-        TextView tvTitle;
-        ImageView itemImage;
-        TextView tvTime;
         TextView tvSentence;
 
         public SentenceItemRowHolder(View view) {
             super(view);
 
             this.item_layout = (LinearLayout) view.findViewById(R.id.item_layout);
-            this.tvTime = (TextView) view.findViewById(R.id.time);
-            this.itemImage = (ImageView) view.findViewById(R.id.thumbnail);
-            this.tvTitle = (TextView) view.findViewById(R.id.vtitle);
             this.tvSentence = (TextView) view.findViewById(R.id.sentence);
         }
     }
@@ -128,25 +113,18 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
     public static class PatternItemRowHolder extends RecyclerView.ViewHolder {
 
         LinearLayout item_layout;
-        TextView tvTitle;
-        ImageView itemImage;
-        TextView tvTime;
         TextView tvSentence;
 
         public PatternItemRowHolder(View view) {
             super(view);
 
             this.item_layout = (LinearLayout) view.findViewById(R.id.item_layout);
-            this.tvTime = (TextView) view.findViewById(R.id.time);
-            this.itemImage = (ImageView) view.findViewById(R.id.thumbnail);
-            this.tvTitle = (TextView) view.findViewById(R.id.vtitle);
             this.tvSentence = (TextView) view.findViewById(R.id.sentence);
         }
     }
 
     public static class PopularItemRowHolder extends RecyclerView.ViewHolder {
 
-        LinearLayout item_layout;
         TextView tvTitle;
         ImageView itemImage;
         TextView tvTime;
@@ -155,8 +133,6 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
         public PopularItemRowHolder(View view) {
             super(view);
 
-            this.item_layout = (LinearLayout) view.findViewById(R.id.item_layout);
-            this.tvTime = (TextView) view.findViewById(R.id.time);
             this.itemImage = (ImageView) view.findViewById(R.id.thumbnail);
             this.tvTitle = (TextView) view.findViewById(R.id.vtitle);
             this.tvSentence = (TextView) view.findViewById(R.id.sentence);

@@ -12,8 +12,8 @@ public class DataTypeMusicFragment {
 
     public static final String EXPLORE_SENTENCE_TYPE = "sentence";
     public static final String EXPLORE_PATTERN_TYPE = "pattern";
-
     public static final String POPULAR_TYPE = "popular";
+
     public static final String MOTHERGOOSE_TYPE = "mothergoose";
     public static final String SENTENCE_TYPE = "sentence";
 

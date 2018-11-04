@@ -183,5 +183,4 @@ public class ExploreFragment extends Fragment {
             }
         });
     }
-
 }

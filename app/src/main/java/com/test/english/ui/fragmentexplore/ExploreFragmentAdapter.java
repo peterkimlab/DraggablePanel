@@ -1,9 +1,12 @@
 package com.test.english.ui.fragmentexplore;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Rect;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +84,7 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 ((SentenceViewHolder) holder).itemTitle.setText("추천문장");
                 if (dataList != null) {
                     for (Datums datas : dataList) {
-                        singleItem.add(new ExploreFragmentItemModel("","","", datas.source.get(HummingUtils.ElasticField.PATTERN).toString()));
+                        singleItem.add(new ExploreFragmentItemModel(SENTENCE_TYPE, "","","", datas.source.get(HummingUtils.ElasticField.PATTERN).toString()));
                     }
 
                     itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
@@ -98,7 +101,7 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 ((PatternViewHolder) holder).itemTitle.setText("추천패턴");
                 if (dataList != null) {
                     for (Datums datas : dataList) {
-                        singleItem.add(new ExploreFragmentItemModel("","","", datas.source.get(HummingUtils.ElasticField.PATTERN).toString()));
+                        singleItem.add(new ExploreFragmentItemModel(PATTERN_TYPE,"",HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL),"", datas.source.get(HummingUtils.ElasticField.PATTERN).toString()));
                     }
 
                     itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
@@ -115,13 +118,14 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 ((PopularViewHolder) holder).itemMainTitle.setText("인기영상");
                 if (dataList != null) {
                     for (Datums datas : dataList) {
-                        singleItem.add(new ExploreFragmentItemModel(HummingUtils.getTitle(datas, context), HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
+                        singleItem.add(new ExploreFragmentItemModel(POPULAR_TYPE, HummingUtils.getTitle(datas, context), HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
                     }
 
                     itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
 
                     ((PopularViewHolder) holder).recycler_view_list.setHasFixedSize(true);
                     ((PopularViewHolder) holder).recycler_view_list.setLayoutManager(new GridLayoutManager(context, 2));
+                    ((PopularViewHolder) holder).recycler_view_list.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(5), true));
                     ((PopularViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
                     ((PopularViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
                 }
@@ -178,5 +182,48 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             this.recycler_view_list = (RecyclerView) itemView.findViewById(R.id.recycler_view_list);
             this.btnMore= (Button) itemView.findViewById(R.id.btnMore);
         }
+    }
+
+    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
+
+        private int spanCount;
+        private int spacing;
+        private boolean includeEdge;
+
+        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
+            this.spanCount = spanCount;
+            this.spacing = spacing;
+            this.includeEdge = includeEdge;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            int position = parent.getChildAdapterPosition(view); // item position
+            int column = position % spanCount; // item column
+
+            if (includeEdge) {
+                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
+                outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
+
+                if (position < spanCount) { // top edge
+                    outRect.top = spacing;
+                }
+                outRect.bottom = spacing; // item bottom
+            } else {
+                outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
+                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
+                if (position >= spanCount) {
+                    outRect.top = spacing; // item top
+                }
+            }
+        }
+    }
+
+    /**
+     * Converting dp to pixel
+     */
+    private int dpToPx(int dp) {
+        Resources r = context.getResources();
+        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 }

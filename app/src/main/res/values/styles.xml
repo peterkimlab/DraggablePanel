@@ -42,8 +42,8 @@
 
     <!-- thumbnail -->
     <style name="item_thumbnail">
-        <item name="android:layout_width">153dp</item>
-        <item name="android:layout_height">86dp</item>
+        <item name="android:layout_width">160dp</item>
+        <item name="android:layout_height">113dp</item>
         <item name="android:adjustViewBounds">true</item>
         <item name="android:scaleType">centerCrop</item>
     </style>
@@ -64,6 +64,21 @@
         <item name="android:gravity">center</item>
         <item name="android:layout_marginRight">2dp</item>
         <item name="android:layout_marginBottom">2dp</item>
+    </style>
+
+    <!-- image_play -->
+    <style name="image_play">
+        <item name="android:layout_width">15dp</item>
+        <item name="android:layout_height">21dp</item>
+        <item name="android:background">@drawable/btn_play</item>
+        <item name="android:paddingRight">4dp</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingBottom">1dp</item>
+        <item name="android:layout_gravity">bottom|right</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
     </style>
 
     <style name="text_sentence_en_black">
