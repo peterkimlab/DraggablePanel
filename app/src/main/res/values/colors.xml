@@ -185,14 +185,17 @@
     <color name="colorTextInfo">#9b9b9b</color>
 
 
-    <color name="app_identity_color">#f49f16</color>
+    //Common
+    <color name="orange_app_identity_color">#f49f16</color>
+    <color name="black_standard_text">#333333</color>
+
+    //Main
     <color name="bottom_navigation_view">#fafafa</color>
 
+
     //Explore
-
-
     <color name="mypage_border">#cccccc</color>
-    <color name="mypage_text">#333333</color>
+
 
     <color name="about_background_color">#303030</color>
     <color name="about_separator_color">#494949</color>

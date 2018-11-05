@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ public class ExploreFragment extends Fragment {
 
     private FragmentExploreBinding binding;
     private ExploreFragmentAdapter mAdapter;
-    private List<Datums> sentenceList, patternList, popularList;
+    private List<Datums> sentenceList, patternList, popularList, chatList;
     private HashMap<String, List<Datums>> dataset;
     private APIInterface apiInterface;
     private Handler mHandler;
@@ -51,6 +52,7 @@ public class ExploreFragment extends Fragment {
         sentenceList = new ArrayList<>();
         patternList = new ArrayList<>();
         popularList = new ArrayList<>();
+        chatList = new ArrayList<>();
 
         // 아덥터
         mAdapter = new ExploreFragmentAdapter(getActivity(), dataset);
@@ -58,34 +60,6 @@ public class ExploreFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         binding.rv.setLayoutManager(layoutManager);
         binding.rv.setAdapter(mAdapter);
-
-        /*
-        binding.rv.setOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore(int current_page) {
-                getDataPattern(current_page + 1, "");
-            }
-
-            @Override
-            public void onScrolledToTop(int current_page) {
-            }
-
-            @Override
-            public void onScrolledUpDown(int dy) {
-            }
-        });
-        binding.rv.setHasFixedSize(true);
-        binding.rv.addOnItemTouchListener(
-                new RecyclerItemClickListener(getActivity(), binding.rv ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
-                        Message message= Message.obtain();
-                        message.what = position;
-                        mHandler.sendMessage(message);
-                    }
-                    @Override public void onLongItemClick(View view, int position) {
-                    }
-                })
-        );*/
 
         mHandler = new Handler() {
             public void handleMessage(Message msg) {
@@ -114,11 +88,19 @@ public class ExploreFragment extends Fragment {
             }
         }, 100);
 
-        getDataPatternHandler.postDelayed(new Runnable() {
+        Handler getDataPopularSentencesHandler = new Handler();
+        getDataPopularSentencesHandler.postDelayed(new Runnable() {
             @Override public void run() {
                 getDataPopularSentences(1, "");
             }
         }, 500);
+
+        Handler getDataChatHandler = new Handler();
+        getDataChatHandler.postDelayed(new Runnable() {
+            @Override public void run() {
+                getDataChat(1, "");
+            }
+        }, 1000);
 
     }
 
@@ -166,7 +148,8 @@ public class ExploreFragment extends Fragment {
 
     //인기영상
     public void getDataPopularSentences(int current_page, String sort) {
-        Call<SearchResource> call = apiInterface.getPopular(current_page+"", "", sort);
+        //Call<SearchResource> call = apiInterface.getPopular(current_page+"", "", sort);
+        Call<SearchResource> call = apiInterface.getSentences(current_page+"", "", sort, "");
         call.enqueue(new Callback<SearchResource>() {
             @Override
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
@@ -179,6 +162,28 @@ public class ExploreFragment extends Fragment {
             }
             @Override
             public void onFailure(Call<SearchResource> call, Throwable t) {
+                call.cancel();
+            }
+        });
+    }
+
+    //채팅
+    public void getDataChat(int current_page, String interest) {
+        Call<SearchResource> call = apiInterface.getInterests(current_page+"", "");
+        call.enqueue(new Callback<SearchResource>() {
+            @Override
+            public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
+                SearchResource resource = response.body();
+                if(resource != null && resource.hits != null){
+                    chatList.addAll(resource.hits.hits);
+                }
+                dataset.put(DataTypeMusicFragment.CHAT_TYPE, chatList);
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<SearchResource> call, Throwable t) {
+                Log.d("test","================================================2"+t.getMessage());
                 call.cancel();
             }
         });

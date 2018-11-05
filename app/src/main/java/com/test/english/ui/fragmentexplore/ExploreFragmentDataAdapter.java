@@ -8,12 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.exam.english.R;
 import com.test.english.api.Datums;
 import com.test.english.ui.data.ExploreFragmentItemModel;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +37,8 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
                 return ExploreFragmentAdapter.PATTERN_TYPE;
             case 2:
                 return ExploreFragmentAdapter.POPULAR_TYPE;
+            case 3:
+                return ExploreFragmentAdapter.CHAT_TYPE;
             default:
                 return -1;
         }
@@ -57,6 +57,9 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
             case ExploreFragmentAdapter.POPULAR_TYPE:
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_explore_video_started_type, null);
                 return new PopularItemRowHolder(view);
+            case ExploreFragmentAdapter.CHAT_TYPE:
+                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_explore_chat, null);
+                return new ChatItemRowHolder(view);
         }
         return null;
     }
@@ -89,6 +92,9 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
                         .into(((PopularItemRowHolder) holder).itemImage);
                 ((PopularItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
                 break;
+            case ExploreFragmentAdapter.CHAT_TYPE:
+                ((ChatItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
+                break;
         }
     }
 
@@ -98,43 +104,41 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
     public static class SentenceItemRowHolder extends RecyclerView.ViewHolder {
-
         LinearLayout item_layout;
         TextView tvSentence;
-
         public SentenceItemRowHolder(View view) {
             super(view);
-
             this.item_layout = (LinearLayout) view.findViewById(R.id.item_layout);
             this.tvSentence = (TextView) view.findViewById(R.id.sentence);
         }
     }
-
     public static class PatternItemRowHolder extends RecyclerView.ViewHolder {
-
         LinearLayout item_layout;
         TextView tvSentence;
-
         public PatternItemRowHolder(View view) {
             super(view);
-
             this.item_layout = (LinearLayout) view.findViewById(R.id.item_layout);
             this.tvSentence = (TextView) view.findViewById(R.id.sentence);
         }
     }
-
     public static class PopularItemRowHolder extends RecyclerView.ViewHolder {
-
         TextView tvTitle;
         ImageView itemImage;
         TextView tvTime;
         TextView tvSentence;
-
         public PopularItemRowHolder(View view) {
             super(view);
-
             this.itemImage = (ImageView) view.findViewById(R.id.thumbnail);
             this.tvTitle = (TextView) view.findViewById(R.id.vtitle);
+            this.tvSentence = (TextView) view.findViewById(R.id.sentence);
+        }
+    }
+    public static class ChatItemRowHolder extends RecyclerView.ViewHolder {
+        LinearLayout item_layout;
+        TextView tvSentence;
+        public ChatItemRowHolder(View view) {
+            super(view);
+            this.item_layout = (LinearLayout) view.findViewById(R.id.item_layout);
             this.tvSentence = (TextView) view.findViewById(R.id.sentence);
         }
     }

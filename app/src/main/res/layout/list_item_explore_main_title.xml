@@ -39,7 +39,7 @@
             android:background="@android:color/transparent"
             android:text="더보기"
             android:textSize="18sp"
-            android:textColor="@color/app_identity_color"/>
+            android:textColor="@color/orange_app_identity_color"/>
     </RelativeLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_list"

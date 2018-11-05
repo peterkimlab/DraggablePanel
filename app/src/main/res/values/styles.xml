@@ -324,4 +324,15 @@
         <item name="android:textStyle">italic</item>
     </style>
 
+    <style name="CardViewA" parent="CardView">
+        <item name="cardCornerRadius">5dp</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="cardElevation">5dp</item>
+    </style>
+
+    <style name="TextStyle_toddaylist1">
+        <item name="android:fontFamily">@font/cereal_black</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
 </resources>

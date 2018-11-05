@@ -68,6 +68,9 @@
         <attr name="bototmExtraIndicatorHeight" format="dimension" />
     </declare-styleable>
 
+    //Common
+    <dimen name="standard_layout_margin">23dp</dimen>
+
     //Explore
     <dimen name="explore_main_title_layout_margin_top">10dp</dimen>
     <dimen name="explore_main_title_text_view_margin_left">7dp</dimen>
@@ -76,6 +79,6 @@
     <dimen name="explore_recycler_layout_margin_left">10dp</dimen>
 
     //MyPage
-    <dimen name="mypage_layout_margin">23dp</dimen>
+
 
 </resources>

@@ -32,6 +32,8 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public static final int SENTENCE_TYPE = 0;
     public static final int PATTERN_TYPE = 1;
     public static final int POPULAR_TYPE = 2;
+    //public static final int STUDIED_SENTENCE_TYPE = 3;
+    public static final int CHAT_TYPE = 3;
 
     public ExploreFragmentAdapter(Context context, HashMap<String, List<Datums>> dataset) {
         this.context = context;
@@ -47,6 +49,8 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 return PATTERN_TYPE;
             case 2:
                 return POPULAR_TYPE;
+            case 3:
+                return CHAT_TYPE;
         }
         return -1;
     }
@@ -64,6 +68,9 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             case POPULAR_TYPE:
                 view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_standard, parent, false);
                 return new PopularViewHolder(view);
+            case CHAT_TYPE:
+                view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_standard, parent, false);
+                return new ChatViewHolder(view);
         }
         return null;
     }
@@ -73,7 +80,7 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         ArrayList<ExploreFragmentItemModel> singleItem = new ArrayList<ExploreFragmentItemModel>();
         List<Datums> dataList;
-        ExploreFragmentDataAdapter itemListDataAdapter;
+        ExploreFragmentDataAdapter itemListDataAdapter = null;
 
         SpacesItemDecoration decoration = new SpacesItemDecoration(10);
 
@@ -90,8 +97,8 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
 
                     ((SentenceViewHolder) holder).recycler_view_list.addItemDecoration(decoration);
-                    ((SentenceViewHolder) holder).recycler_view_list.setHasFixedSize(true);
                     ((SentenceViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+                    ((SentenceViewHolder) holder).recycler_view_list.setHasFixedSize(true);
                     ((SentenceViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
                     ((SentenceViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
                 }
@@ -107,8 +114,8 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
 
                     ((PatternViewHolder) holder).recycler_view_list.addItemDecoration(decoration);
-                    ((PatternViewHolder) holder).recycler_view_list.setHasFixedSize(true);
                     ((PatternViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+                    ((PatternViewHolder) holder).recycler_view_list.setHasFixedSize(true);
                     ((PatternViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
                     ((PatternViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
                 }
@@ -123,13 +130,34 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
                     itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
 
-                    ((PopularViewHolder) holder).recycler_view_list.setHasFixedSize(true);
                     ((PopularViewHolder) holder).recycler_view_list.setLayoutManager(new GridLayoutManager(context, 2));
                     ((PopularViewHolder) holder).recycler_view_list.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(5), true));
+                    ((PopularViewHolder) holder).recycler_view_list.setHasFixedSize(true);
                     ((PopularViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
                     ((PopularViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
                 }
                 break;
+            case CHAT_TYPE:
+                dataList = dataset.get(DataTypeMusicFragment.CHAT_TYPE);
+                ((ChatViewHolder) holder).itemMainTitle.setText("채팅회화");
+                if (dataList != null) {
+                    for (Datums datas : dataList) {
+                        singleItem.add(new ExploreFragmentItemModel(CHAT_TYPE, datas.source.get(HummingUtils.ElasticField.STYPE).toString(),"","", datas.source.get(HummingUtils.ElasticField.TITLE).toString()));
+                    }
+
+                    itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
+
+                    ((ChatViewHolder) holder).recycler_view_list.addItemDecoration(decoration);
+                    ((ChatViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+                    ((ChatViewHolder) holder).recycler_view_list.setHasFixedSize(true);
+                    ((ChatViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
+                    ((ChatViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
+                }
+                break;
+
+        }
+        if (itemListDataAdapter != null) {
+            itemListDataAdapter.notifyDataSetChanged();
         }
     }
 
@@ -176,6 +204,22 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         protected Button btnMore;
 
         public PopularViewHolder(View itemView) {
+            super(itemView);
+            this.itemMainTitle = (TextView) itemView.findViewById(R.id.itemMainTitle);
+            this.itemTitle = (TextView) itemView.findViewById(R.id.itemTitle);
+            this.recycler_view_list = (RecyclerView) itemView.findViewById(R.id.recycler_view_list);
+            this.btnMore= (Button) itemView.findViewById(R.id.btnMore);
+        }
+    }
+
+    public static class ChatViewHolder extends RecyclerView.ViewHolder{
+
+        protected TextView itemMainTitle;
+        protected TextView itemTitle;
+        protected RecyclerView recycler_view_list;
+        protected Button btnMore;
+
+        public ChatViewHolder(View itemView) {
             super(itemView);
             this.itemMainTitle = (TextView) itemView.findViewById(R.id.itemMainTitle);
             this.itemTitle = (TextView) itemView.findViewById(R.id.itemTitle);
