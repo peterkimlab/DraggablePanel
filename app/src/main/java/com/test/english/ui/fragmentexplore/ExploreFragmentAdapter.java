@@ -29,6 +29,8 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private Context context;
     private HashMap<String, List<Datums>> dataset;
 
+    private final int DECORATE_PADDING = 5;
+
     public static final int SENTENCE_TYPE = 0;
     public static final int PATTERN_TYPE = 1;
     public static final int POPULAR_TYPE = 2;
@@ -82,60 +84,52 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         List<Datums> dataList;
         ExploreFragmentDataAdapter itemListDataAdapter = null;
 
-        SpacesItemDecoration decoration = new SpacesItemDecoration(10);
-
         switch (position) {
             case SENTENCE_TYPE:
                 dataList = dataset.get(DataTypeMusicFragment.EXPLORE_SENTENCE_TYPE);
-                ((SentenceViewHolder) holder).itemMainTitle.setText("Today");
-                ((SentenceViewHolder) holder).itemTitle.setText("추천문장");
                 if (dataList != null) {
                     for (Datums datas : dataList) {
                         singleItem.add(new ExploreFragmentItemModel(SENTENCE_TYPE, "","","", datas.source.get(HummingUtils.ElasticField.PATTERN).toString()));
                     }
-
-                    itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
-
-                    ((SentenceViewHolder) holder).recycler_view_list.addItemDecoration(decoration);
+                    ((SentenceViewHolder) holder).recycler_view_list.addItemDecoration(new SpacesItemDecoration(DECORATE_PADDING));
                     ((SentenceViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
                     ((SentenceViewHolder) holder).recycler_view_list.setHasFixedSize(true);
+                    itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
                     ((SentenceViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
                     ((SentenceViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
                 }
+                ((SentenceViewHolder) holder).itemMainTitle.setText("Today");
+                ((SentenceViewHolder) holder).itemTitle.setText("추천문장");
                 break;
             case PATTERN_TYPE:
                 dataList = dataset.get(DataTypeMusicFragment.EXPLORE_PATTERN_TYPE);
-                ((PatternViewHolder) holder).itemTitle.setText("추천패턴");
                 if (dataList != null) {
                     for (Datums datas : dataList) {
                         singleItem.add(new ExploreFragmentItemModel(PATTERN_TYPE,"",HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL),"", datas.source.get(HummingUtils.ElasticField.PATTERN).toString()));
                     }
-
-                    itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
-
-                    ((PatternViewHolder) holder).recycler_view_list.addItemDecoration(decoration);
+                    ((PatternViewHolder) holder).recycler_view_list.addItemDecoration(new SpacesItemDecoration(DECORATE_PADDING));
                     ((PatternViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
                     ((PatternViewHolder) holder).recycler_view_list.setHasFixedSize(true);
+                    itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
                     ((PatternViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
                     ((PatternViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
                 }
+                ((PatternViewHolder) holder).itemTitle.setText("추천패턴");
                 break;
             case POPULAR_TYPE:
                 dataList = dataset.get(DataTypeMusicFragment.POPULAR_TYPE);
-                ((PopularViewHolder) holder).itemMainTitle.setText("인기영상");
                 if (dataList != null) {
                     for (Datums datas : dataList) {
                         singleItem.add(new ExploreFragmentItemModel(POPULAR_TYPE, HummingUtils.getTitle(datas, context), HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
                     }
-
-                    itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
-
-                    ((PopularViewHolder) holder).recycler_view_list.setLayoutManager(new GridLayoutManager(context, 2));
                     ((PopularViewHolder) holder).recycler_view_list.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(5), true));
+                    ((PopularViewHolder) holder).recycler_view_list.setLayoutManager(new GridLayoutManager(context, 2));
                     ((PopularViewHolder) holder).recycler_view_list.setHasFixedSize(true);
+                    itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
                     ((PopularViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
                     ((PopularViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
                 }
+                ((PopularViewHolder) holder).itemMainTitle.setText("인기영상");
                 break;
             case CHAT_TYPE:
                 dataList = dataset.get(DataTypeMusicFragment.CHAT_TYPE);
@@ -144,20 +138,14 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     for (Datums datas : dataList) {
                         singleItem.add(new ExploreFragmentItemModel(CHAT_TYPE, datas.source.get(HummingUtils.ElasticField.STYPE).toString(),"","", datas.source.get(HummingUtils.ElasticField.TITLE).toString()));
                     }
-
-                    itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
-
-                    ((ChatViewHolder) holder).recycler_view_list.addItemDecoration(decoration);
                     ((ChatViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
                     ((ChatViewHolder) holder).recycler_view_list.setHasFixedSize(true);
+                    itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
                     ((ChatViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
                     ((ChatViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
                 }
                 break;
 
-        }
-        if (itemListDataAdapter != null) {
-            itemListDataAdapter.notifyDataSetChanged();
         }
     }
 

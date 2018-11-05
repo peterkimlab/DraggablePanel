@@ -127,7 +127,7 @@ public class ExploreFragment extends Fragment {
 
     // 추천패턴
     public void getDataPattern(int current_page, String pattern) {
-        Call<SearchResource> call = apiInterface.getPatterns(current_page+"", pattern);
+        Call<SearchResource> call = apiInterface.getPatterns(current_page + "", pattern);
         call.enqueue(new Callback<SearchResource>() {
             @Override
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
@@ -149,7 +149,7 @@ public class ExploreFragment extends Fragment {
     //인기영상
     public void getDataPopularSentences(int current_page, String sort) {
         //Call<SearchResource> call = apiInterface.getPopular(current_page+"", "", sort);
-        Call<SearchResource> call = apiInterface.getSentences(current_page+"", "", sort, "");
+        Call<SearchResource> call = apiInterface.getSentences(current_page + "", "", sort, "");
         call.enqueue(new Callback<SearchResource>() {
             @Override
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
@@ -169,7 +169,7 @@ public class ExploreFragment extends Fragment {
 
     //채팅
     public void getDataChat(int current_page, String interest) {
-        Call<SearchResource> call = apiInterface.getInterests(current_page+"", "");
+        Call<SearchResource> call = apiInterface.getInterests(current_page + "", "");
         call.enqueue(new Callback<SearchResource>() {
             @Override
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
@@ -183,7 +183,6 @@ public class ExploreFragment extends Fragment {
 
             @Override
             public void onFailure(Call<SearchResource> call, Throwable t) {
-                Log.d("test","================================================2"+t.getMessage());
                 call.cancel();
             }
         });
