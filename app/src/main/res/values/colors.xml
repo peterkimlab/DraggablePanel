@@ -188,6 +188,8 @@
     //Common
     <color name="orange_app_identity_color">#f49f16</color>
     <color name="black_standard_text">#333333</color>
+    <color name="bottom_navigation_text">#666666</color>
+    <color name="bottom_navigation_text_selected">#e62b00</color>
 
     //Main
     <color name="bottom_navigation_view">#fafafa</color>
