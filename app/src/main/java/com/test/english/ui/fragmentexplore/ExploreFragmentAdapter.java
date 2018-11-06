@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.exam.english.R;
 import com.test.english.api.Datums;
 import com.test.english.ui.adapter.SpacesItemDecoration;
@@ -133,19 +135,19 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 break;
             case CHAT_TYPE:
                 dataList = dataset.get(DataTypeMusicFragment.CHAT_TYPE);
-                ((ChatViewHolder) holder).itemMainTitle.setText("채팅회화");
                 if (dataList != null) {
                     for (Datums datas : dataList) {
                         singleItem.add(new ExploreFragmentItemModel(CHAT_TYPE, datas.source.get(HummingUtils.ElasticField.STYPE).toString(),"","", datas.source.get(HummingUtils.ElasticField.TITLE).toString()));
                     }
+                    //((ChatViewHolder) holder).recycler_view_list.addItemDecoration(new SpacesItemDecoration(DECORATE_PADDING));
                     ((ChatViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
                     ((ChatViewHolder) holder).recycler_view_list.setHasFixedSize(true);
                     itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
                     ((ChatViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
                     ((ChatViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
                 }
+                ((ChatViewHolder) holder).itemMainTitle.setText("채팅회화");
                 break;
-
         }
     }
 
@@ -184,7 +186,7 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    public static class PopularViewHolder extends RecyclerView.ViewHolder {
+    public class PopularViewHolder extends RecyclerView.ViewHolder {
 
         protected TextView itemMainTitle;
         protected TextView itemTitle;
@@ -197,6 +199,13 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             this.itemTitle = (TextView) itemView.findViewById(R.id.itemTitle);
             this.recycler_view_list = (RecyclerView) itemView.findViewById(R.id.recycler_view_list);
             this.btnMore= (Button) itemView.findViewById(R.id.btnMore);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context, dataset.get(getAdapterPosition()).toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 

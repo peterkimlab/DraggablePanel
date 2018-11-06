@@ -73,10 +73,10 @@
 
     //Explore
     <dimen name="explore_main_title_layout_margin_top">10dp</dimen>
-    <dimen name="explore_main_title_text_view_margin_left">7dp</dimen>
+    <dimen name="explore_main_title_text_view_margin_left">12dp</dimen>
     <dimen name="explore_main_title_text_view_margin_bottom">7dp</dimen>
     <dimen name="explore_main_title_layout_margin_bottom">3dp</dimen>
-    <dimen name="explore_recycler_layout_margin_left">10dp</dimen>
+    <dimen name="explore_recycler_layout_margin_left">15dp</dimen>
 
     //MyPage
 

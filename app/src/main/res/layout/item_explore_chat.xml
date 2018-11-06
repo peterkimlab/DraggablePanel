@@ -7,9 +7,9 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@drawable/chat_round"
-        android:layout_marginLeft="@dimen/explore_recycler_layout_margin_left"
-        android:layout_marginRight="@dimen/explore_recycler_layout_margin_left"/>
+        android:layout_marginBottom="7dp"
+        android:layout_marginRight="@dimen/explore_recycler_layout_margin_left"
+        android:background="@drawable/chat_round"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
