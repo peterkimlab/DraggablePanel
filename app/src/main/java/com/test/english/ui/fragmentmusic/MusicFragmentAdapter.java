@@ -9,8 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.exam.english.R;
 import com.test.english.api.Datums;
+import com.test.english.application.MyCustomApplication;
 import com.test.english.ui.data.DataTypeMusicFragment;
 import com.test.english.ui.data.MusicFragmentItemModel;
 import com.test.english.util.HummingUtils;
@@ -76,6 +79,14 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
                     ((ImageTypeViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
                     ((ImageTypeViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
                     ((ImageTypeViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
+
+                    ((ImageTypeViewHolder) holder).btnMore.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            MyCustomApplication.getMainInstance().onClickItems("sentences", "");
+                            Toast.makeText(context, "more", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
                 break;
             case 1:
@@ -130,7 +141,7 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
             super(itemView);
             this.itemTitle = (TextView) itemView.findViewById(R.id.itemTitle);
             this.recycler_view_list = (RecyclerView) itemView.findViewById(R.id.recycler_view_list);
-            this.btnMore= (Button) itemView.findViewById(R.id.btnMore);
+            this.btnMore = (Button) itemView.findViewById(R.id.btnMore);
         }
     }
 }

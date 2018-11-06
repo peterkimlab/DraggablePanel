@@ -1,5 +1,6 @@
 package com.test.english.ui.main;
 
+import android.app.FragmentTransaction;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -7,14 +8,11 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.polly.AmazonPollyPresigningClient;
@@ -32,7 +30,6 @@ import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.test.english.api.Datums;
 import com.test.english.application.MyCustomApplication;
 import com.test.english.ui.adapter.MainViewPagerAdapter;
-import com.test.english.ui.fragmentexplore.ExploreFragment;
 import com.test.english.ui.searchfragment.SearchFragment;
 import com.test.english.ui.fragmentmusic.MusicFragment;
 import com.test.english.ui.fragmentmypage.FragmentMyPage;
@@ -400,11 +397,8 @@ public class MainActivity extends AppCompatActivity {
     public void setupViewPager(ViewPager viewPager) {
         mainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
 
-        mainViewPagerAdapter.addFragment(ExploreFragment.newInstance());
-
+        mainViewPagerAdapter.addFragment(HomeFragment.newInstance());
         mainViewPagerAdapter.addFragment(MusicFragment.newInstance());
-        //mainViewPagerAdapter.addFragment(MusicFragment.newInstance());
-
         mainViewPagerAdapter.addFragment(SearchFragment.newInstance());
         mainViewPagerAdapter.addFragment(FragmentMyPage.newInstance());
 
@@ -628,7 +622,6 @@ public class MainActivity extends AppCompatActivity {
             if(!sentence.equals("")){
                 CURRENT_TITLE = sentence;
             }
-
         }else if(type.equals("patterns")){
             navItemIndex = 12;
             CURRENT_TAG = TAG_MOVIES;
@@ -668,7 +661,15 @@ public class MainActivity extends AppCompatActivity {
 
         /*DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-
-        loadHomeFragment();*/
+        */
+        loadMoreFragment();
+    }
+    private void loadMoreFragment() {
+        /*FragmentTransaction trans = getFragmentManager()
+                .beginTransaction();
+        trans.replace(R.id.root_frame, SearchFragment);
+        trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        trans.addToBackStack(null);
+        trans.commit();*/
     }
 }
