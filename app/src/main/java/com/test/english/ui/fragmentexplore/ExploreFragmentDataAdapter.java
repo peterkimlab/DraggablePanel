@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.exam.english.R;
 import com.test.english.api.Datums;
+import com.test.english.application.MyCustomApplication;
 import com.test.english.ui.data.ExploreFragmentItemModel;
 import java.util.ArrayList;
 import java.util.List;

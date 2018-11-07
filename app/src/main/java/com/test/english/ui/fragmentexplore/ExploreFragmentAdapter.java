@@ -16,9 +16,11 @@ import android.widget.Toast;
 
 import com.exam.english.R;
 import com.test.english.api.Datums;
+import com.test.english.application.MyCustomApplication;
 import com.test.english.ui.adapter.SpacesItemDecoration;
 import com.test.english.ui.data.DataTypeMusicFragment;
 import com.test.english.ui.data.ExploreFragmentItemModel;
+import com.test.english.ui.fragmentmusic.MusicFragmentAdapter;
 import com.test.english.util.HummingUtils;
 
 import java.util.ArrayList;
@@ -99,6 +101,13 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
                     ((SentenceViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
                     ((SentenceViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
+
+                    ((SentenceViewHolder) holder).btnMore.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            MyCustomApplication.getMainInstance().onClickItems("sentences", "");
+                        }
+                    });
                 }
                 ((SentenceViewHolder) holder).itemMainTitle.setText("Today");
                 ((SentenceViewHolder) holder).itemTitle.setText("추천문장");
@@ -115,6 +124,14 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
                     ((PatternViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
                     ((PatternViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
+
+                    ((PatternViewHolder) holder).btnMore.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            MyCustomApplication.getMainInstance().onClickItems("patterns", "");
+                        }
+                    });
+
                 }
                 ((PatternViewHolder) holder).itemTitle.setText("추천패턴");
                 break;

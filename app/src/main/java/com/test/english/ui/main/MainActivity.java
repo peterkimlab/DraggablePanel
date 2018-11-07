@@ -30,6 +30,7 @@ import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.test.english.api.Datums;
 import com.test.english.application.MyCustomApplication;
 import com.test.english.ui.adapter.MainViewPagerAdapter;
+import com.test.english.ui.fragmentcommon.MoreFragment;
 import com.test.english.ui.fragmentexplore.ExploreFragment;
 import com.test.english.ui.fragmentmypage.MyPageFragment;
 import com.test.english.ui.searchfragment.SearchFragment;
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                     + "-wolverine-poster.jpg";
 
     private VideoFragment videoFragment;
-    public static FragmentManager fm;
+    public static FragmentManager fragmentManager;
     public static String SEARCH_VALUE = "";
     public static String SEARCH_POPUP_VALUE = "";
     public static String SEARCH_PAGE_VALUE = "";
@@ -105,13 +106,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-
         final Fragment mExplorefragment = new ExploreFragment().newInstance();
         final Fragment mMusicfragment = new MusicFragment().newInstance();
         final Fragment mSearchfragment = new SearchFragment().newInstance();
         final Fragment mMypagefragment = new MyPageFragment().newInstance();
-
 
         MyCustomApplication application = (MyCustomApplication)getApplication();
         application.setMainInstance(this);
@@ -119,10 +117,9 @@ public class MainActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         BottomNavigationNotShiftHelper.disableShiftMode(binding.bottomNavigation);
-        //setupViewPager(binding.mainViewPager);
 
         draggableView = binding.draggablePanel;
-        fm = getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
 
         //setSupportActionBar(binding.toolbar);
 
@@ -153,45 +150,26 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.frag1:
-                        FragmentTransaction fragmentTransaction1 = fragmentManager.beginTransaction();
-                        fragmentTransaction1.replace(R.id.flContainer, mExplorefragment).commit();
+                        replaceFragment(mExplorefragment);
                         return true;
                     case R.id.musicFragment:
-                        FragmentTransaction fragmentTransaction2 = fragmentManager.beginTransaction();
-                        fragmentTransaction2.replace(R.id.flContainer, mMusicfragment).commit();
+                        replaceFragment(mMusicfragment);
                         return true;
                     case R.id.frag3:
-                        FragmentTransaction fragmentTransaction3 = fragmentManager.beginTransaction();
-                        fragmentTransaction3.replace(R.id.flContainer, mSearchfragment).commit();
+                        replaceFragment(mSearchfragment);
                         return true;
                     case R.id.frag4:
-                        FragmentTransaction fragmentTransaction4 = fragmentManager.beginTransaction();
-                        fragmentTransaction4.replace(R.id.flContainer, mMypagefragment).commit();
+                        replaceFragment(mMypagefragment);
                         return true;
                 }
                 return false;
             }
         });
-
-        /*binding.mainViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-            @Override
-            public void onPageSelected(int position) {
-                binding.bottomNavigation.getMenu().getItem(position).setChecked(true);
-            }
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });*/
     }
 
     public void draggbleView() {
 
-        draggableView.setFragmentManager(MainActivity.fm);
+        draggableView.setFragmentManager(MainActivity.fragmentManager);
         videoFragment = new VideoFragment();
         videoFragment.setView(draggableView);
         videoListFragment = VideoListFragment.newInstance();
@@ -666,11 +644,126 @@ public class MainActivity extends AppCompatActivity {
             navItemIndex = 19;
             CURRENT_TAG = TAG_MOVIES;
             CURRENT_TITLE = sentence;
-        }else if(type.equals("mothergoose")){
+        } else if(type.equals("mothergoose")) {
             navItemIndex = 20;
             CURRENT_TAG = TAG_MOVIES;
             CURRENT_TITLE = getString(R.string.discover_mothergoose);
         }
+        replaceFragment(null);
+    }
 
+    private void replaceFragment(Fragment fragment) {
+
+        if (fragment == null) {
+            fragment =  getReplaceFragment();
+        }
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.flContainer, fragment)
+                .commit();
+    }
+
+    private Fragment getReplaceFragment() {
+
+        switch (navItemIndex) {
+            case 0:
+                /*libFragment = new LibraryFragment();
+                return libFragment;*/
+                return null;
+            case 1:
+                // photos
+                /*NotificationsFragment photosFragment = new NotificationsFragment();
+                return photosFragment;*/
+                return null;
+            case 2:
+                MoreFragment moreFragment = new MoreFragment();
+                return moreFragment;
+            /*case 3:
+                // notifications fragment
+                NotificationsFragment notificationsFragment = new NotificationsFragment();
+                return notificationsFragment;
+
+            case 4:
+                // settings fragment
+                NotificationsFragment notificatio2nsFragment = new NotificationsFragment();
+                return notificatio2nsFragment;
+            case 5:
+                // settings fragment
+                homeFragment = new HomeFragment();
+                Bundle args = new Bundle();
+                args.putString("param1", currentQuery);
+                args.putString("param2", "param1");
+                homeFragment.setArguments(args);
+                return homeFragment;
+            case 6:
+
+                //MainFragment mainFragment = new MainFragment();
+                //return mainFragment;
+                libFragment = new LibraryFragment();
+                return libFragment;
+            case 7:
+
+                //MainFragment mainFragment = new MainFragment();
+                //return mainFragment;
+                libFragment = new LibraryFragment();
+                return libFragment;
+            case 8:
+
+                VerticalFragment verticalFragment = new VerticalFragment();
+                return verticalFragment;
+            case 9:
+
+                ConversationFragment conversationFragment = new ConversationFragment();
+                return conversationFragment;
+            case 10:
+
+                PagerFragment pagerFragment = new PagerFragment();
+                return pagerFragment;
+
+            case 11:
+
+                PopularFragment popularFragment = new PopularFragment();
+                return popularFragment;
+            case 12:
+
+                PatternFragment patternFragment = new PatternFragment();
+                return patternFragment;
+            case 13:
+
+                WordFragment wordFragment = new WordFragment();
+                return wordFragment;
+            case 14:
+
+                GenreFragment genreFragment = new GenreFragment();
+                return genreFragment;
+            case 15:
+
+                RankFragment rankFragment = new RankFragment();
+                return rankFragment;
+            case 16:
+
+                SearchFragment searchFragment = new SearchFragment();
+                return searchFragment;
+            case 17:
+
+                FavoriteFragment favoriteFragment = new FavoriteFragment();
+                return favoriteFragment;
+            case 18:
+
+                WatchedFragment watchedFragment = new WatchedFragment();
+                return watchedFragment;
+            case 19:
+
+                musicFragment = new PlayMusicFragment();
+                return musicFragment;
+            case 20:
+
+                ContentsFragment contentsFragment = new ContentsFragment();
+                return contentsFragment;
+            default:
+                libFragment = new LibraryFragment();
+                return libFragment;*/
+        }
+        return null;
     }
 }
