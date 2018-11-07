@@ -1,14 +1,14 @@
 package com.test.english.ui.main;
 
-import android.app.FragmentTransaction;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -30,9 +30,10 @@ import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.test.english.api.Datums;
 import com.test.english.application.MyCustomApplication;
 import com.test.english.ui.adapter.MainViewPagerAdapter;
+import com.test.english.ui.fragmentexplore.ExploreFragment;
+import com.test.english.ui.fragmentmypage.MyPageFragment;
 import com.test.english.ui.searchfragment.SearchFragment;
 import com.test.english.ui.fragmentmusic.MusicFragment;
-import com.test.english.ui.fragmentmypage.FragmentMyPage;
 import com.test.english.ui.helper.BottomNavigationNotShiftHelper;
 import com.test.english.ui.youtube.MoviePosterFragment;
 import com.test.english.ui.youtube.VideoFragment;
@@ -104,13 +105,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+
+        final Fragment mExplorefragment = new ExploreFragment().newInstance();
+        final Fragment mMusicfragment = new MusicFragment().newInstance();
+        final Fragment mSearchfragment = new SearchFragment().newInstance();
+        final Fragment mMypagefragment = new MyPageFragment().newInstance();
+
+
         MyCustomApplication application = (MyCustomApplication)getApplication();
         application.setMainInstance(this);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         BottomNavigationNotShiftHelper.disableShiftMode(binding.bottomNavigation);
-        setupViewPager(binding.mainViewPager);
+        //setupViewPager(binding.mainViewPager);
 
         draggableView = binding.draggablePanel;
         fm = getSupportFragmentManager();
@@ -144,23 +153,27 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.frag1:
-                        binding.mainViewPager.setCurrentItem(0);
+                        FragmentTransaction fragmentTransaction1 = fragmentManager.beginTransaction();
+                        fragmentTransaction1.replace(R.id.flContainer, mExplorefragment).commit();
                         return true;
                     case R.id.musicFragment:
-                        binding.mainViewPager.setCurrentItem(1);
+                        FragmentTransaction fragmentTransaction2 = fragmentManager.beginTransaction();
+                        fragmentTransaction2.replace(R.id.flContainer, mMusicfragment).commit();
                         return true;
                     case R.id.frag3:
-                        binding.mainViewPager.setCurrentItem(2);
+                        FragmentTransaction fragmentTransaction3 = fragmentManager.beginTransaction();
+                        fragmentTransaction3.replace(R.id.flContainer, mSearchfragment).commit();
                         return true;
                     case R.id.frag4:
-                        binding.mainViewPager.setCurrentItem(3);
+                        FragmentTransaction fragmentTransaction4 = fragmentManager.beginTransaction();
+                        fragmentTransaction4.replace(R.id.flContainer, mMypagefragment).commit();
                         return true;
                 }
                 return false;
             }
         });
 
-        binding.mainViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        /*binding.mainViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -173,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
             public void onPageScrollStateChanged(int state) {
 
             }
-        });
+        });*/
     }
 
     public void draggbleView() {
@@ -394,16 +407,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void setupViewPager(ViewPager viewPager) {
+    /*public void setupViewPager(ViewPager viewPager) {
         mainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
 
         mainViewPagerAdapter.addFragment(HomeFragment.newInstance());
         mainViewPagerAdapter.addFragment(MusicFragment.newInstance());
         mainViewPagerAdapter.addFragment(SearchFragment.newInstance());
-        mainViewPagerAdapter.addFragment(FragmentMyPage.newInstance());
+        mainViewPagerAdapter.addFragment(MyPageFragment.newInstance());
 
         binding.mainViewPager.setAdapter(mainViewPagerAdapter);
-    }
+    }*/
 
     @Override
     public void onBackPressed() {
@@ -659,17 +672,5 @@ public class MainActivity extends AppCompatActivity {
             CURRENT_TITLE = getString(R.string.discover_mothergoose);
         }
 
-        /*DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        */
-        loadMoreFragment();
-    }
-    private void loadMoreFragment() {
-        /*FragmentTransaction trans = getFragmentManager()
-                .beginTransaction();
-        trans.replace(R.id.root_frame, SearchFragment);
-        trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        trans.addToBackStack(null);
-        trans.commit();*/
     }
 }

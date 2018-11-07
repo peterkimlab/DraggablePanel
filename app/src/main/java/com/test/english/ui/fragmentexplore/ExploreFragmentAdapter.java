@@ -199,13 +199,6 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             this.itemTitle = (TextView) itemView.findViewById(R.id.itemTitle);
             this.recycler_view_list = (RecyclerView) itemView.findViewById(R.id.recycler_view_list);
             this.btnMore= (Button) itemView.findViewById(R.id.btnMore);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(context, dataset.get(getAdapterPosition()).toString(), Toast.LENGTH_SHORT).show();
-                }
-            });
         }
     }
 

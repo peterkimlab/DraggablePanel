@@ -9,12 +9,13 @@
         tools:context="com.test.english.ui.main.MainActivity"
         android:orientation="vertical">
         <FrameLayout
+            android:id="@+id/flContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <android.support.v4.view.ViewPager
+            <!--<android.support.v4.view.ViewPager
                 android:id="@+id/mainViewPager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>-->
             <!--<android.support.design.widget.AppBarLayout
                 android:id="@+id/appBarLayout"
                 android:layout_width="match_parent"

@@ -13,13 +13,13 @@ import com.exam.english.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentMyPage extends Fragment {
+public class MyPageFragment extends Fragment {
 
     private RecyclerView rvMultipleViewType;
     private List<Object> mData;
 
-    public static FragmentMyPage newInstance() {
-        return new FragmentMyPage();
+    public static MyPageFragment newInstance() {
+        return new MyPageFragment();
     }
 
     @Nullable
