@@ -31,6 +31,7 @@ import com.test.english.api.Datums;
 import com.test.english.application.MyCustomApplication;
 import com.test.english.ui.adapter.MainViewPagerAdapter;
 import com.test.english.ui.fragmentcommon.MoreFragment;
+import com.test.english.ui.fragmentcommon.PatternFragment;
 import com.test.english.ui.fragmentexplore.ExploreFragment;
 import com.test.english.ui.fragmentmypage.MyPageFragment;
 import com.test.english.ui.searchfragment.SearchFragment;
@@ -588,59 +589,61 @@ public class MainActivity extends AppCompatActivity {
     public void openPage(String type, String sentence ) {
         sentence = sentence.replaceAll("_", " ");
         CURRENT_DEPTH = 1;
+
         if (!CURRENT_TAG.equals(TAG_HOME)) {
             CURRENT_TITLE2 = CURRENT_TITLE;
             CURRENT_DEPTH = 2;
         }
+
         SEARCH_PAGE_VALUE = "";
-        if(type.equals("type1") && sentence.equals("sentence")){
+        if (type.equals("type1") && sentence.equals("sentence")) {
             navItemIndex = 11;
             CURRENT_TAG = TAG_MOVIES;
             CURRENT_TITLE = "문장";
-        }else if(type.equals("type1") && sentence.equals("pattern")){
+        } else if(type.equals("type1") && sentence.equals("pattern")){
             navItemIndex = 2;
             CURRENT_TAG = TAG_MOVIES;
             CURRENT_TITLE = "패턴";
-        }else if(type.equals("latestReleases")){
+        } else if (type.equals("latestReleases")) {
             navItemIndex = 2;
             CURRENT_TAG = TAG_MOVIES;
             CURRENT_TITLE = "Latest Releases";
-        }else if(type.equals("sentences")){
+        } else if (type.equals("sentences")) {
             SEARCH_PAGE_VALUE = sentence;
             navItemIndex = 2;
             CURRENT_TAG = TAG_MOVIES;
             CURRENT_TITLE = "Sentences";
-            if(!sentence.equals("")){
+            if (!sentence.equals("")) {
                 CURRENT_TITLE = sentence;
             }
-        }else if(type.equals("patterns")){
+        } else if (type.equals("patterns")) {
             navItemIndex = 12;
             CURRENT_TAG = TAG_MOVIES;
             CURRENT_TITLE = "Patterns";
-        }else if(type.equals("genres")){
+        } else if(type.equals("genres")) {
             navItemIndex = 14;
             CURRENT_TAG = TAG_MOVIES;
             CURRENT_TITLE = "Genres";
-            if(!sentence.equals("")){
+            if (!sentence.equals("")) {
                 CURRENT_TITLE = sentence;
             }
-        }else if(type.equals("words")){
+        } else if(type.equals("words")) {
             navItemIndex = 13;
             CURRENT_TAG = TAG_MOVIES;
             CURRENT_TITLE = "Words";
-        }else if(type.equals("popular")){
+        } else if(type.equals("popular")) {
             navItemIndex = 11;
             CURRENT_TAG = TAG_MOVIES;
             CURRENT_TITLE = "popular";
-        }else if(type.equals("favorite")){
+        } else if(type.equals("favorite")) {
             navItemIndex = 17;
             CURRENT_TAG = TAG_MOVIES;
             CURRENT_TITLE = "favorite";
-        }else if(type.equals("watched")){
+        } else if(type.equals("watched")) {
             navItemIndex = 18;
             CURRENT_TAG = TAG_MOVIES;
             CURRENT_TITLE = "watched";
-        }else if(type.equals("music")){
+        } else if(type.equals("music")) {
             navItemIndex = 19;
             CURRENT_TAG = TAG_MOVIES;
             CURRENT_TITLE = sentence;
@@ -660,6 +663,7 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentManager.beginTransaction()
                 .replace(R.id.flContainer, fragment)
+                .addToBackStack(null)
                 .commit();
     }
 
@@ -723,12 +727,11 @@ public class MainActivity extends AppCompatActivity {
             case 11:
 
                 PopularFragment popularFragment = new PopularFragment();
-                return popularFragment;
+                return popularFragment; */
             case 12:
-
                 PatternFragment patternFragment = new PatternFragment();
                 return patternFragment;
-            case 13:
+            /*case 13:
 
                 WordFragment wordFragment = new WordFragment();
                 return wordFragment;
