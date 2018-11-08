@@ -32,6 +32,7 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.test.english.api.Datums;
 import com.test.english.application.MyCustomApplication;
+import com.test.english.ui.adapter.BackPressCloseHandler;
 import com.test.english.ui.adapter.MainViewPagerAdapter;
 import com.test.english.ui.fragmentcommon.MoreFragment;
 import com.test.english.ui.fragmentcommon.PatternFragment;
@@ -88,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
     private VideoListFragment videoListFragment;
 
     private onKeyBackPressedListener mOnKeyBackPressedListener;
+    private BackPressCloseHandler backPressCloseHandler;
+
     private CognitoCachingCredentialsProvider credentialsProvider;
     private static final String COGNITO_POOL_ID = "ap-northeast-2:171a8c75-0910-4ce3-a178-81c79f3cf0a7";
     private static final Regions MY_REGION = Regions.AP_NORTHEAST_2;
@@ -148,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
         searchText2 = (TextView) findViewById(R.id.searchText2);
 
         BottomNavigationNotShiftHelper.disableShiftMode(bottomNavigation);
+        backPressCloseHandler = new BackPressCloseHandler(this);
 
         draggableView = draggable_panel;
         fragmentManager = getSupportFragmentManager();
@@ -176,7 +180,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 0);
 
-
         getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
             public void onBackStackChanged() {
@@ -195,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                     getSupportActionBar().setDisplayShowHomeEnabled(false);
-                    toolbarlayout.setVisibility(View.VISIBLE);
+                    //toolbarlayout.setVisibility(View.VISIBLE);
                     toolbarlayout2.setVisibility(View.GONE);
                     searchText2.setText("");
                 }
@@ -450,20 +453,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*public void setupViewPager(ViewPager viewPager) {
-        mainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
-
-        mainViewPagerAdapter.addFragment(HomeFragment.newInstance());
-        mainViewPagerAdapter.addFragment(MusicFragment.newInstance());
-        mainViewPagerAdapter.addFragment(SearchFragment.newInstance());
-        mainViewPagerAdapter.addFragment(MyPageFragment.newInstance());
-
-        binding.mainViewPager.setAdapter(mainViewPagerAdapter);
-    }*/
-
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+
+        if (mOnKeyBackPressedListener != null) {
+            mOnKeyBackPressedListener.onBack();
+        } else if (CURRENT_DEPTH == 2) {
+            CURRENT_TAG = CURRENT_TAG2;
+            CURRENT_TITLE = CURRENT_TITLE2;
+            CURRENT_DEPTH = 1;
+            super.onBackPressed();
+        } else if (CURRENT_TAG != TAG_HOME) {
+            CURRENT_TAG = TAG_HOME;
+            CURRENT_TAG2 = "";
+            CURRENT_TITLE2 = "";
+            CURRENT_DEPTH = 0;
+            super.onBackPressed();
+        } else {
+            backPressCloseHandler.onBackPressed();
+        }
+        appBarLayout.setVisibility(View.GONE);
     }
 
     public void setSpeakLo(int isSpeakLo){
@@ -552,10 +561,6 @@ public class MainActivity extends AppCompatActivity {
         }, 10);
     }
 
-    /*public void showToolbar() {
-        binding.appBarLayout.setExpanded(true, false);
-    }*/
-
     public interface onKeyBackPressedListener {
         public void onBack();
     }
@@ -625,6 +630,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showToolbar(){
+        appBarLayout.setVisibility(View.VISIBLE);
         appBarLayout.setExpanded(true, false);
     }
 
