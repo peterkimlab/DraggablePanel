@@ -102,15 +102,24 @@ public class MainActivity extends AppCompatActivity {
     public static String CURRENT_TITLE2 = "";
 
     public static int navItemIndex = 0;
+    private Fragment mExplorefragment;
+    private Fragment mMusicfragment;
+    private Fragment mSearchfragment;
+    private Fragment mMypagefragment;
+
+    public static int EXPLORE_FRAGMENT = 0;
+    public static int MUSIC_FRAGMENT = 1;
+    public static int SEARCH_FRAGMENT = 3;
+    public static int MYPAGE_FRAGMENT = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final Fragment mExplorefragment = new ExploreFragment().newInstance();
-        final Fragment mMusicfragment = new MusicFragment().newInstance();
-        final Fragment mSearchfragment = new SearchFragment().newInstance();
-        final Fragment mMypagefragment = new MyPageFragment().newInstance();
+        mExplorefragment = new ExploreFragment().newInstance();
+        mMusicfragment = new MusicFragment().newInstance();
+        mSearchfragment = new SearchFragment().newInstance();
+        mMypagefragment = new MyPageFragment().newInstance();
 
         MyCustomApplication application = (MyCustomApplication)getApplication();
         application.setMainInstance(this);
@@ -146,22 +155,30 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 0);
 
+        replaceFragment();
+
         binding.bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.frag1:
-                        replaceFragment(mExplorefragment);
+                    case R.id.explore:
+                        navItemIndex = EXPLORE_FRAGMENT;
+                        replaceFragment();
                         return true;
                     case R.id.musicFragment:
-                        replaceFragment(mMusicfragment);
+                        navItemIndex = MUSIC_FRAGMENT;
+                        replaceFragment();
                         return true;
-                    case R.id.frag3:
-                        replaceFragment(mSearchfragment);
+                    case R.id.search:
+                        navItemIndex = SEARCH_FRAGMENT;
+                        replaceFragment();
                         return true;
-                    case R.id.frag4:
-                        replaceFragment(mMypagefragment);
+                    case R.id.mypage:
+                        navItemIndex = MYPAGE_FRAGMENT;
+                        replaceFragment();
                         return true;
+                    default:
+                        replaceFragment();
                 }
                 return false;
             }
@@ -652,18 +669,23 @@ public class MainActivity extends AppCompatActivity {
             CURRENT_TAG = TAG_MOVIES;
             CURRENT_TITLE = getString(R.string.discover_mothergoose);
         }
-        replaceFragment(null);
+        replaceFragment();
     }
 
-    private void replaceFragment(Fragment fragment) {
+    private void replaceFragment() {
 
-        if (fragment == null) {
-            fragment =  getReplaceFragment();
+        Fragment fragment = getReplaceFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
+        if (CURRENT_TAG.equals(TAG_HOME)) {
+            fragmentTransaction
+                    .replace(R.id.flContainer, fragment);
+        } else {
+            fragmentTransaction
+                    .replace(R.id.flContainer, fragment)
+                    .addToBackStack(null);
         }
-
-        fragmentManager.beginTransaction()
-                .replace(R.id.flContainer, fragment)
-                .addToBackStack(null)
+        fragmentTransaction
                 .commit();
     }
 
@@ -671,26 +693,18 @@ public class MainActivity extends AppCompatActivity {
 
         switch (navItemIndex) {
             case 0:
-                /*libFragment = new LibraryFragment();
-                return libFragment;*/
-                return null;
+                return mExplorefragment;
             case 1:
-                // photos
-                /*NotificationsFragment photosFragment = new NotificationsFragment();
-                return photosFragment;*/
-                return null;
+                return mMusicfragment;
             case 2:
                 MoreFragment moreFragment = new MoreFragment();
                 return moreFragment;
-            /*case 3:
-                // notifications fragment
-                NotificationsFragment notificationsFragment = new NotificationsFragment();
-                return notificationsFragment;
+            case 3:
+                return mSearchfragment;
 
             case 4:
-                // settings fragment
-                NotificationsFragment notificatio2nsFragment = new NotificationsFragment();
-                return notificatio2nsFragment;
+                return mMypagefragment;
+            /*
             case 5:
                 // settings fragment
                 homeFragment = new HomeFragment();

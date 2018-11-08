@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/frag1"
+        android:id="@+id/explore"
         android:enabled="true"
         android:icon="@drawable/icon_exploer_active"
         android:title="Explore"
@@ -14,13 +14,13 @@
         android:title="Music"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/frag3"
+        android:id="@+id/search"
         android:enabled="true"
         android:icon="@drawable/icon_search"
         android:title="Search"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/frag4"
+        android:id="@+id/mypage"
         android:enabled="true"
         android:icon="@drawable/icon_my"
         android:title="My"
