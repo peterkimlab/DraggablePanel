@@ -13,6 +13,8 @@ import com.exam.english.R;
 import com.test.english.api.Datums;
 import com.test.english.application.MyCustomApplication;
 import com.test.english.ui.data.ExploreFragmentItemModel;
+import com.test.english.ui.main.MainActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +70,7 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int i) {
 
-        ExploreFragmentItemModel singleItem = itemsList.get(i);
+        final ExploreFragmentItemModel singleItem = itemsList.get(i);
 
         switch (singleItem.getvType()) {
             case ExploreFragmentAdapter.SENTENCE_TYPE:
@@ -78,6 +80,14 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
                     ((SentenceItemRowHolder) holder).item_layout.setBackgroundResource(R.drawable.today_pic_2);
                 }
                 ((SentenceItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        MyCustomApplication.getMainInstance().onClickItems("sentences", singleItem.getSentence());
+                    }
+                });
+
                 break;
             case ExploreFragmentAdapter.PATTERN_TYPE:
                 if (i % 2 == 0) {
@@ -86,12 +96,28 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
                     ((PatternItemRowHolder) holder).item_layout.setBackgroundResource(R.drawable.today_pic_2);
                 }
                 ((PatternItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        MyCustomApplication.getMainInstance().onClickItems("sentences", singleItem.getSentence());
+                    }
+                });
+
                 break;
             case ExploreFragmentAdapter.POPULAR_TYPE:
                 Glide.with(mContext)
                         .load(singleItem.getItem_thumbnail())
                         .into(((PopularItemRowHolder) holder).itemImage);
                 ((PopularItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ((MainActivity)mContext).setVideoUrl(mDataList.get(i));
+                    }
+                });
+
                 break;
             case ExploreFragmentAdapter.CHAT_TYPE:
                 ((ChatItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());

@@ -88,6 +88,8 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         List<Datums> dataList;
         ExploreFragmentDataAdapter itemListDataAdapter = null;
 
+        SpacesItemDecoration decoration = new SpacesItemDecoration(DECORATE_PADDING);
+
         switch (position) {
             case SENTENCE_TYPE:
                 dataList = dataset.get(DataTypeMusicFragment.EXPLORE_SENTENCE_TYPE);
@@ -95,7 +97,7 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     for (Datums datas : dataList) {
                         singleItem.add(new ExploreFragmentItemModel(SENTENCE_TYPE, "","","", datas.source.get(HummingUtils.ElasticField.PATTERN).toString()));
                     }
-                    ((SentenceViewHolder) holder).recycler_view_list.addItemDecoration(new SpacesItemDecoration(DECORATE_PADDING));
+                    ((SentenceViewHolder) holder).recycler_view_list.addItemDecoration(decoration);
                     ((SentenceViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
                     ((SentenceViewHolder) holder).recycler_view_list.setHasFixedSize(true);
                     itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
@@ -118,7 +120,7 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     for (Datums datas : dataList) {
                         singleItem.add(new ExploreFragmentItemModel(PATTERN_TYPE,"",HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL),"", datas.source.get(HummingUtils.ElasticField.PATTERN).toString()));
                     }
-                    ((PatternViewHolder) holder).recycler_view_list.addItemDecoration(new SpacesItemDecoration(DECORATE_PADDING));
+                    ((PatternViewHolder) holder).recycler_view_list.addItemDecoration(decoration);
                     ((PatternViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
                     ((PatternViewHolder) holder).recycler_view_list.setHasFixedSize(true);
                     itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
@@ -156,7 +158,6 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     for (Datums datas : dataList) {
                         singleItem.add(new ExploreFragmentItemModel(CHAT_TYPE, datas.source.get(HummingUtils.ElasticField.STYPE).toString(),"","", datas.source.get(HummingUtils.ElasticField.TITLE).toString()));
                     }
-                    //((ChatViewHolder) holder).recycler_view_list.addItemDecoration(new SpacesItemDecoration(DECORATE_PADDING));
                     ((ChatViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
                     ((ChatViewHolder) holder).recycler_view_list.setHasFixedSize(true);
                     itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
