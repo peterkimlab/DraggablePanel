@@ -122,12 +122,12 @@ public class MoreFragment extends Fragment implements MainActivity.onKeyBackPres
             }
         }, 100);
 
-/*        Handler handler2 = new Handler();
+        Handler handler2 = new Handler();
         handler2.postDelayed(new Runnable() {
             @Override public void run() {
                 mainActivity.showToolbar();
             }
-        }, 200);*/
+        }, 200);
 
         return view;
     }

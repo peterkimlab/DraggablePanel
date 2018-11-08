@@ -1,18 +1,21 @@
 package com.test.english.ui.main;
 
-import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.polly.AmazonPollyPresigningClient;
@@ -112,6 +115,15 @@ public class MainActivity extends AppCompatActivity {
     public static int SEARCH_FRAGMENT = 3;
     public static int MYPAGE_FRAGMENT = 4;
 
+    private BottomNavigationView bottomNavigation;
+    private DraggablePanel draggable_panel;
+    private Toolbar toolbar;
+    private AppBarLayout appBarLayout;
+    private LinearLayout toolbarlayout;
+    private LinearLayout toolbarlayout2;
+    private TextView searchText;
+    private TextView searchText2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,14 +136,23 @@ public class MainActivity extends AppCompatActivity {
         MyCustomApplication application = (MyCustomApplication)getApplication();
         application.setMainInstance(this);
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
-        BottomNavigationNotShiftHelper.disableShiftMode(binding.bottomNavigation);
+        bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        draggable_panel = (DraggablePanel) findViewById(R.id.draggable_panel);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        appBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
+        toolbarlayout = (LinearLayout) findViewById(R.id.toolbarlayout);
+        toolbarlayout2 = (LinearLayout) findViewById(R.id.toolbarlayout2);
+        searchText = (TextView) findViewById(R.id.searchText);
+        searchText2 = (TextView) findViewById(R.id.searchText2);
 
-        draggableView = binding.draggablePanel;
+        BottomNavigationNotShiftHelper.disableShiftMode(bottomNavigation);
+
+        draggableView = draggable_panel;
         fragmentManager = getSupportFragmentManager();
 
-        //setSupportActionBar(binding.toolbar);
+        setSupportActionBar(toolbar);
 
         //binding.toolbarlayout.setVisibility(View.GONE);
 
@@ -155,9 +176,35 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 0);
 
+
+        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                if (!CURRENT_TAG.equals(TAG_HOME)) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                    getSupportActionBar().setDisplayShowHomeEnabled(true);
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onBackPressed();
+                        }
+                    });
+                    toolbarlayout.setVisibility(View.GONE);
+                    toolbarlayout2.setVisibility(View.VISIBLE);
+                    searchText2.setText(CURRENT_TITLE);
+                } else {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    getSupportActionBar().setDisplayShowHomeEnabled(false);
+                    toolbarlayout.setVisibility(View.VISIBLE);
+                    toolbarlayout2.setVisibility(View.GONE);
+                    searchText2.setText("");
+                }
+            }
+        });
+
         replaceFragment();
 
-        binding.bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
@@ -575,6 +622,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    public void showToolbar(){
+        appBarLayout.setExpanded(true, false);
     }
 
     public void onClickItems(String type, String sentence){
