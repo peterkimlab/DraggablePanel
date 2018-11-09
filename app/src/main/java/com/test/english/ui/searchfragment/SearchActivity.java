@@ -7,8 +7,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
@@ -18,9 +16,9 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -42,10 +40,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SearchFragment extends Fragment {
+public class SearchActivity extends AppCompatActivity {
 
     private int color;
-    private String sentence;
+    String sentence;
     private Button mainSearchBtn;
     private ImageView mainClearBtn;
     private AppCompatEditText mSearchBox;
@@ -60,43 +58,47 @@ public class SearchFragment extends Fragment {
     private List<Datums> datumHistoryList;
     private SearchHelperAdapter mAdapterHistory;
 
-
-    public static SearchFragment newInstance() {
-        return new SearchFragment();
-    }
-
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_searchs, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_searchs);
+        this.overridePendingTransition(R.anim.push_left_in, R.anim.nomove);
 
-        if (((AppCompatActivity)getActivity()).getSupportActionBar() != null) {
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setElevation(0);
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Util.getDarkerColor(color)));
+        /*if(savedInstanceState != null) {
+            color = savedInstanceState.getInt(AsearchRecorder.EXTRA_COLOR);
+            sentence = savedInstanceState.getString(AsearchRecorder.SENTENCE);
+        } else {
+            color = getIntent().getIntExtra(AsearchRecorder.EXTRA_COLOR, Color.BLACK);
+            sentence = getIntent().getStringExtra(AsearchRecorder.SENTENCE);
+        }*/
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setElevation(0);
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Util.getDarkerColor(color)));
             //getSupportActionBar().setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.aar_ic_clear));
         }
         datumList = new ArrayList<>();
         datumHistoryList = new ArrayList<>();
         apiInterface = APIClient.getClient().create(APIInterface.class);
-        contentLayout = (RelativeLayout) view.findViewById(R.id.content);
+        contentLayout = (RelativeLayout) findViewById(R.id.content);
         contentLayout.setBackgroundColor(Util.getDarkerColor(color));
 
         if (Util.isBrightColor(color)) {
-            ContextCompat.getDrawable(getContext(), R.drawable.aar_ic_clear)
+            ContextCompat.getDrawable(this, R.drawable.aar_ic_clear)
                     .setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
-            ContextCompat.getDrawable(getContext(), R.drawable.aar_ic_check)
+            ContextCompat.getDrawable(this, R.drawable.aar_ic_check)
                     .setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
         }
 
-        searchHelperHistoryText = (TextView) view.findViewById(R.id.searchHelperHistoryText);
-        searchHelperText = (TextView) view.findViewById(R.id.searchHelperText);
+        searchHelperHistoryText = (TextView) findViewById(R.id.searchHelperHistoryText);
+        searchHelperText = (TextView) findViewById(R.id.searchHelperText);
         searchHelperHistoryText.setVisibility(View.INVISIBLE);
         searchHelperText.setVisibility(View.INVISIBLE);
 
-        mainSearchBtn = (Button) view.findViewById(R.id.mainSearchBtn);
+        mainSearchBtn = (Button) findViewById(R.id.mainSearchBtn);
         mainSearchBtn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -107,7 +109,7 @@ public class SearchFragment extends Fragment {
                 });
 //        mainSearchBtn.setVisibility(View.GONE);
 
-        mainClearBtn = (ImageView) view.findViewById(R.id.mainClearBtn);
+        mainClearBtn = (ImageView) findViewById(R.id.mainClearBtn);
         mainClearBtn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -117,7 +119,7 @@ public class SearchFragment extends Fragment {
                 });
         mainClearBtn.setVisibility(View.INVISIBLE);
 
-        mSearchBox = (AppCompatEditText) view.findViewById(R.id.editText1);
+        mSearchBox = (AppCompatEditText) findViewById(R.id.editText1);
         mSearchBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -157,9 +159,9 @@ public class SearchFragment extends Fragment {
 
         SpacesItemDecoration decoration = new SpacesItemDecoration(20);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.searchHelper);
+        recyclerView = (RecyclerView) findViewById(R.id.searchHelper);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         recyclerView.setLayoutManager(layoutManager);
@@ -171,7 +173,7 @@ public class SearchFragment extends Fragment {
         recyclerView.addItemDecoration(decoration);
         recyclerView.setHasFixedSize(true);
         recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getContext(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                new RecyclerItemClickListener(this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
 
                         Datums datums = datumList.get(position);
@@ -183,12 +185,12 @@ public class SearchFragment extends Fragment {
                 })
         );
 
-        mAdapter = new SearchHelperAdapter(getContext(), datumList);
+        mAdapter = new SearchHelperAdapter(this, datumList);
         recyclerView.setAdapter(mAdapter);
 
-        recyclerViewHistoryw = (RecyclerView) view.findViewById(R.id.searchHelperHistory);
+        recyclerViewHistoryw = (RecyclerView) findViewById(R.id.searchHelperHistory);
 
-        LinearLayoutManager layoutManager2 = new LinearLayoutManager(getContext());
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this);
         layoutManager2.setOrientation(LinearLayoutManager.VERTICAL);
 
         recyclerViewHistoryw.setLayoutManager(layoutManager2);
@@ -200,7 +202,7 @@ public class SearchFragment extends Fragment {
         recyclerViewHistoryw.addItemDecoration(decoration);
         recyclerViewHistoryw.setHasFixedSize(true);
         recyclerViewHistoryw.addOnItemTouchListener(
-                new RecyclerItemClickListener(getContext(), recyclerViewHistoryw ,new RecyclerItemClickListener.OnItemClickListener() {
+                new RecyclerItemClickListener(this, recyclerViewHistoryw ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         Datums datums = datumHistoryList.get(position);
                         mSearchBox.setText(datums.source.get(HummingUtils.ElasticField.TEXT_EN).toString());
@@ -211,7 +213,7 @@ public class SearchFragment extends Fragment {
                 })
         );
 
-        mAdapterHistory = new SearchHelperAdapter(getContext(), datumHistoryList);
+        mAdapterHistory = new SearchHelperAdapter(this, datumHistoryList);
         recyclerViewHistoryw.setAdapter(mAdapterHistory);
         setText(sentence);
         Handler handlers = new Handler();
@@ -227,42 +229,40 @@ public class SearchFragment extends Fragment {
                 getDataHistory(sentence);
             }
         }, 500);
-
-        return view;
     }
 
     public void getData(String sentence) {
-        Call<SearchResource> call = apiInterface.doGetSearchHelper(2+"", sentence);
-        call.enqueue(new Callback<SearchResource>() {
-            @Override
-            public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
-                SearchResource resource = response.body();
+            Call<SearchResource> call = apiInterface.doGetSearchHelper(2+"", sentence);
+            call.enqueue(new Callback<SearchResource>() {
+                @Override
+                public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
+                    SearchResource resource = response.body();
 
-                datumList.clear();
-                for(int i=0;i< resource.hits.hits.size() ;i++){
-                    boolean check = true;
-                    for(int j=0;j< datumList.size() ;j++){
-                        if(datumList.get(j).source.get(HummingUtils.ElasticField.TEXT_EN).toString().equals(resource.hits.hits.get(i).source.get(HummingUtils.ElasticField.TEXT_EN).toString())){
-                            check = false;
-                            break;
+                    datumList.clear();
+                    for(int i=0;i< resource.hits.hits.size() ;i++){
+                        boolean check = true;
+                        for(int j=0;j< datumList.size() ;j++){
+                            if(datumList.get(j).source.get(HummingUtils.ElasticField.TEXT_EN).toString().equals(resource.hits.hits.get(i).source.get(HummingUtils.ElasticField.TEXT_EN).toString())){
+                                check = false;
+                                break;
+                            }
+                        }
+                        if (check) {
+                            datumList.add(resource.hits.hits.get(i));
                         }
                     }
-                    if (check) {
-                        datumList.add(resource.hits.hits.get(i));
+                    if (datumList.size() == 0) {
+                        searchHelperText.setVisibility(View.INVISIBLE);
+                    } else {
+                        searchHelperText.setVisibility(View.VISIBLE);
                     }
+                    mAdapter.notifyDataSetChanged();
                 }
-                if (datumList.size() == 0) {
-                    searchHelperText.setVisibility(View.INVISIBLE);
-                } else {
-                    searchHelperText.setVisibility(View.VISIBLE);
+                @Override
+                public void onFailure(Call<SearchResource> call, Throwable t) {
+                    call.cancel();
                 }
-                mAdapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onFailure(Call<SearchResource> call, Throwable t) {
-                call.cancel();
-            }
-        });
+            });
     }
 
     public void getDataHistory(String sentence) {
@@ -305,15 +305,15 @@ public class SearchFragment extends Fragment {
         Handler handler2 = new Handler();
         handler2.postDelayed(new Runnable() {
             @Override public void run() {
-                InputMethodManager immhide = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                InputMethodManager immhide = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                 immhide.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
             }
         }, 0);
 
         Intent intent2 = new Intent();
         intent2.putExtra("result", mSearchBox.getText().toString());
-        //setResult(RESULT_OK, intent2);
-        //finish();
+        setResult(RESULT_OK, intent2);
+        finish();
     }
 
     public void setText(String sentence) {
@@ -338,17 +338,17 @@ public class SearchFragment extends Fragment {
 
     }
 
-    /*@Override
+    @Override
     public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-    }*/
+    }
 
     @Override
     public void onResume() {
         super.onResume();
     }
 
-    /*@Override
+    @Override
     protected void onPause() {
         super.onPause();
     }
@@ -367,8 +367,8 @@ public class SearchFragment extends Fragment {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.aar_audio_recorder, menu);
-        saveMenuItem = menu.findItem(R.id.action_save);
-        saveMenuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.aar_ic_check));
+        /*saveMenuItem = menu.findItem(R.id.action_save);
+        saveMenuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.aar_ic_check));*/
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -379,19 +379,20 @@ public class SearchFragment extends Fragment {
             Handler handler2 = new Handler();
             handler2.postDelayed(new Runnable() {
                 @Override public void run() {
-                    InputMethodManager immhide = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    InputMethodManager immhide = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                     immhide.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
                 }
             }, 100);
-            //finish();
+            finish();
         } else if (i == R.id.action_save) {
         }
         return super.onOptionsItemSelected(item);
     }
 
-    /*@Override
+    @Override
     public void finish() {
         super.finish();
         this.overridePendingTransition(R.anim.nomove, R.anim.push_right_out);
-    }*/
+    }
+
 }

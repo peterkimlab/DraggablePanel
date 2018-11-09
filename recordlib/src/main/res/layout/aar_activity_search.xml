@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:hint="찾고 싶은 문장은 무엇인가요?"
+            android:layout_marginLeft="20dp"
+            android:textColorHint="#FFFFFF"
+            android:textSize="20dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:hint=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="50dp"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:textSize="20dp"
+                android:maxLines="4"
+                android:layout_weight="1"
+                android:id="@+id/editText1" >
+                <requestFocus />
+            </android.support.v7.widget.AppCompatEditText>
+
+            <Button
+                android:id="@+id/mainSearchBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:layout_gravity="top"
+                android:minHeight="35dip"
+                android:minWidth="60dp"
+                android:layout_marginRight="10dp"
+                android:text="검색"/>
+
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/clear_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="0"
+            android:layout_gravity="right"
+            android:minHeight="35dip"
+            android:minWidth="60dp"
+            android:layout_marginRight="10dp"
+            android:text="지우기"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

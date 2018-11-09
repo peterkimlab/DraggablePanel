@@ -1,0 +1,4 @@
+<resources>
+    <string name="record_play_sentence">문장 다시 듣기</string>
+    <string name="record_info">문장을 외워서 녹음해 보세요.</string>
+</resources>

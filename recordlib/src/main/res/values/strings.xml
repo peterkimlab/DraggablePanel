@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name" translatable="false">AndroidAudioRecorder</string>
+    <string name="aar_save">Save</string>
+    <string name="aar_paused">Stop</string>
+    <!-- <string name="aar_paused">Paused</string> -->
+    <string name="aar_recording">Recording</string>
+    <string name="aar_playing">Playing</string>
+    <string name="record_play_sentence">Listen to the original again.</string>
+    <string name="record_info">Please memorize English sentence and record.</string>
+</resources>

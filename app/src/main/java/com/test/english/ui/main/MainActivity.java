@@ -9,6 +9,8 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -24,7 +26,6 @@ import com.amazonaws.services.polly.model.DescribeVoicesResult;
 import com.amazonaws.services.polly.model.Voice;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.exam.english.R;
-import com.exam.english.databinding.ActivityMainBinding;
 import com.github.pedrovgs.DraggableListener;
 import com.github.pedrovgs.DraggablePanel;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -51,7 +52,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
     private MainViewPagerAdapter mainViewPagerAdapter;
 
     private int isSpeakLo = 0;
@@ -126,6 +126,9 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout toolbarlayout2;
     private TextView searchText;
     private TextView searchText2;
+
+    public static final int REQUEST_RECORD_AUDIO = 110;
+    private static final int REQUEST_SEARCH = 400;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -839,5 +842,28 @@ public class MainActivity extends AppCompatActivity {
                 return libFragment;*/
         }
         return null;
+    }
+
+    public void searchSentencePopup(final String sentences) {
+
+        Handler handler2 = new Handler();
+        handler2.postDelayed(new Runnable() {
+            @Override public void run() {
+                //postSearchHistory(sentences);
+            }
+        }, 500);
+
+        searchText.setText(sentences);
+
+        if (!sentences.equals("")) {
+
+            MainActivity.SEARCH_CHECK = false;
+            SEARCH_VALUE = sentences;
+            navItemIndex = 16;
+            CURRENT_TAG = TAG_MOVIES;
+            CURRENT_TITLE = sentences;
+
+            replaceFragment();
+        }
     }
 }
