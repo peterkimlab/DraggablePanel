@@ -1,7 +1,6 @@
 package com.test.english.ui.searchfragment;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
@@ -32,6 +31,7 @@ import com.test.english.api.APIClient;
 import com.test.english.api.APIInterface;
 import com.test.english.api.Datums;
 import com.test.english.api.SearchResource;
+import com.test.english.application.MyCustomApplication;
 import com.test.english.ui.adapter.RecyclerItemClickListener;
 import com.test.english.ui.adapter.SpacesItemDecoration;
 import com.test.english.util.HummingUtils;
@@ -60,7 +60,6 @@ public class SearchFragment extends Fragment {
     private List<Datums> datumHistoryList;
     private SearchHelperAdapter mAdapterHistory;
 
-
     public static SearchFragment newInstance() {
         return new SearchFragment();
     }
@@ -68,7 +67,7 @@ public class SearchFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_searchs, container, false);
+        View view = inflater.inflate(R.layout.fragment_searchs, container, false);
 
         if (((AppCompatActivity)getActivity()).getSupportActionBar() != null) {
             ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
@@ -136,9 +135,9 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(mSearchBox.getText().toString().equals("")){
+                if (mSearchBox.getText().toString().equals("")) {
                     mainClearBtn.setVisibility(View.INVISIBLE);
-                }else{
+                } else {
                     mainClearBtn.setVisibility(View.VISIBLE);
                 }
                 getData(mSearchBox.getText().toString());
@@ -147,7 +146,6 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable arg0) {
-
             }
 
             @Override
@@ -173,7 +171,6 @@ public class SearchFragment extends Fragment {
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-
                         Datums datums = datumList.get(position);
                         mSearchBox.setText(datums.source.get(HummingUtils.ElasticField.TEXT_EN).toString());
                         selectAudio();
@@ -310,8 +307,11 @@ public class SearchFragment extends Fragment {
             }
         }, 0);
 
-        Intent intent2 = new Intent();
-        intent2.putExtra("result", mSearchBox.getText().toString());
+        //Intent intent2 = new Intent();
+        //intent2.putExtra("result", mSearchBox.getText().toString());
+
+        MyCustomApplication.getMainInstance().searchSentencePopup(mSearchBox.getText().toString());
+
         //setResult(RESULT_OK, intent2);
         //finish();
     }

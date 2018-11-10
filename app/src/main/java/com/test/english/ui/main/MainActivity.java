@@ -42,6 +42,7 @@ import com.test.english.ui.fragmentmypage.MyPageFragment;
 import com.test.english.ui.searchfragment.SearchFragment;
 import com.test.english.ui.fragmentmusic.MusicFragment;
 import com.test.english.ui.helper.BottomNavigationNotShiftHelper;
+import com.test.english.ui.searchfragment.SearchResultFragment;
 import com.test.english.ui.youtube.MoviePosterFragment;
 import com.test.english.ui.youtube.VideoFragment;
 import com.test.english.ui.youtube.VideoListFragment;
@@ -816,13 +817,11 @@ public class MainActivity extends AppCompatActivity {
             case 15:
 
                 RankFragment rankFragment = new RankFragment();
-                return rankFragment;
+                return rankFragment;*/
             case 16:
-
-                SearchFragment searchFragment = new SearchFragment();
-                return searchFragment;
-            case 17:
-
+                SearchResultFragment searchresultFragment = new SearchResultFragment();
+                return searchresultFragment;
+            /*case 17:
                 FavoriteFragment favoriteFragment = new FavoriteFragment();
                 return favoriteFragment;
             case 18:
