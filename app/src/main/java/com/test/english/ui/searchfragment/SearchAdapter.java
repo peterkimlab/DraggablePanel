@@ -11,14 +11,14 @@ import com.test.english.api.Datums;
 import com.test.english.util.HummingUtils;
 import java.util.List;
 
-public class SearchHelperAdapter extends RecyclerView.Adapter<SearchHelperAdapter.SearchHelperViewHolder>{
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHelperViewHolder>{
 
-    private static final String TAG = SearchHelperAdapter.class.getSimpleName();
+    private static final String TAG = SearchAdapter.class.getSimpleName();
 
     private Context context;
     private List<Datums> playlists;
 
-    public SearchHelperAdapter(Context context, List<Datums> playlists) {
+    public SearchAdapter(Context context, List<Datums> playlists) {
         this.context = context;
         this.playlists = playlists;
     }

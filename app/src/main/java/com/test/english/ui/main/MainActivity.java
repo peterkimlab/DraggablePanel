@@ -476,7 +476,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             backPressCloseHandler.onBackPressed();
         }
-        appBarLayout.setVisibility(View.GONE);
+        //appBarLayout.setVisibility(View.GONE);
     }
 
     public void setSpeakLo(int isSpeakLo){
@@ -633,9 +633,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void showToolbar(){
+    public void showToolbar() {
         appBarLayout.setVisibility(View.VISIBLE);
-        appBarLayout.setExpanded(true, false);
+        //appBarLayout.setExpanded(true, false);
     }
 
     public void onClickItems(String type, String sentence){

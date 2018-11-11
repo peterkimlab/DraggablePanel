@@ -51,14 +51,14 @@ public class SearchFragment extends Fragment {
     private AppCompatEditText mSearchBox;
     private RelativeLayout contentLayout;
     private APIInterface apiInterface;
-    private RecyclerView recyclerView;
+    //private RecyclerView recyclerView;
     private List<Datums> datumList;
-    private SearchHelperAdapter mAdapter;
+    private SearchAdapter mAdapter;
     private RecyclerView recyclerViewHistoryw;
     private TextView searchHelperHistoryText;
-    private TextView searchHelperText;
+    //private TextView searchHelperText;
     private List<Datums> datumHistoryList;
-    private SearchHelperAdapter mAdapterHistory;
+    private SearchAdapter mAdapterHistory;
 
     public static SearchFragment newInstance() {
         return new SearchFragment();
@@ -91,9 +91,9 @@ public class SearchFragment extends Fragment {
         }
 
         searchHelperHistoryText = (TextView) view.findViewById(R.id.searchHelperHistoryText);
-        searchHelperText = (TextView) view.findViewById(R.id.searchHelperText);
+        //searchHelperText = (TextView) view.findViewById(R.id.searchHelperText);
         searchHelperHistoryText.setVisibility(View.INVISIBLE);
-        searchHelperText.setVisibility(View.INVISIBLE);
+        //searchHelperText.setVisibility(View.INVISIBLE);
 
         mainSearchBtn = (Button) view.findViewById(R.id.mainSearchBtn);
         mainSearchBtn.setOnClickListener(
@@ -155,7 +155,7 @@ public class SearchFragment extends Fragment {
 
         SpacesItemDecoration decoration = new SpacesItemDecoration(20);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.searchHelper);
+        /*recyclerView = (RecyclerView) view.findViewById(R.id.searchHelper);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -180,8 +180,8 @@ public class SearchFragment extends Fragment {
                 })
         );
 
-        mAdapter = new SearchHelperAdapter(getContext(), datumList);
-        recyclerView.setAdapter(mAdapter);
+        mAdapter = new SearchAdapter(getContext(), datumList);
+        recyclerView.setAdapter(mAdapter);*/
 
         recyclerViewHistoryw = (RecyclerView) view.findViewById(R.id.searchHelperHistory);
 
@@ -190,10 +190,10 @@ public class SearchFragment extends Fragment {
 
         recyclerViewHistoryw.setLayoutManager(layoutManager2);
 
-        DividerItemDecoration mDividerItemDecoration2 = new DividerItemDecoration(
+        /*DividerItemDecoration mDividerItemDecoration2 = new DividerItemDecoration(
                 recyclerView.getContext(),  LinearLayoutManager.VERTICAL
         );
-        recyclerViewHistoryw.addItemDecoration(mDividerItemDecoration2);
+        recyclerViewHistoryw.addItemDecoration(mDividerItemDecoration2);*/
         recyclerViewHistoryw.addItemDecoration(decoration);
         recyclerViewHistoryw.setHasFixedSize(true);
         recyclerViewHistoryw.addOnItemTouchListener(
@@ -208,7 +208,7 @@ public class SearchFragment extends Fragment {
                 })
         );
 
-        mAdapterHistory = new SearchHelperAdapter(getContext(), datumHistoryList);
+        mAdapterHistory = new SearchAdapter(getContext(), datumHistoryList);
         recyclerViewHistoryw.setAdapter(mAdapterHistory);
         setText(sentence);
         Handler handlers = new Handler();
@@ -236,10 +236,10 @@ public class SearchFragment extends Fragment {
                 SearchResource resource = response.body();
 
                 datumList.clear();
-                for(int i=0;i< resource.hits.hits.size() ;i++){
+                for (int i = 0; i< resource.hits.hits.size(); i++) {
                     boolean check = true;
-                    for(int j=0;j< datumList.size() ;j++){
-                        if(datumList.get(j).source.get(HummingUtils.ElasticField.TEXT_EN).toString().equals(resource.hits.hits.get(i).source.get(HummingUtils.ElasticField.TEXT_EN).toString())){
+                    for (int j = 0; j< datumList.size(); j++) {
+                        if (datumList.get(j).source.get(HummingUtils.ElasticField.TEXT_EN).toString().equals(resource.hits.hits.get(i).source.get(HummingUtils.ElasticField.TEXT_EN).toString())) {
                             check = false;
                             break;
                         }
@@ -248,12 +248,12 @@ public class SearchFragment extends Fragment {
                         datumList.add(resource.hits.hits.get(i));
                     }
                 }
-                if (datumList.size() == 0) {
+                /*if (datumList.size() == 0) {
                     searchHelperText.setVisibility(View.INVISIBLE);
                 } else {
                     searchHelperText.setVisibility(View.VISIBLE);
                 }
-                mAdapter.notifyDataSetChanged();
+                mAdapter.notifyDataSetChanged(); */
             }
             @Override
             public void onFailure(Call<SearchResource> call, Throwable t) {
@@ -269,15 +269,15 @@ public class SearchFragment extends Fragment {
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
                 SearchResource resource = response.body();
                 datumHistoryList.clear();
-                for (int i=0;i< resource.hits.hits.size() ;i++) {
+                for (int i=0; i< resource.hits.hits.size(); i++) {
                     boolean check = true;
-                    for (int j=0;j< datumHistoryList.size() ;j++) {
+                    for (int j=0; j< datumHistoryList.size(); j++) {
                         if (datumHistoryList.get(j).source.get(HummingUtils.ElasticField.TEXT_EN).toString().equals(resource.hits.hits.get(i).source.get(HummingUtils.ElasticField.TEXT_EN).toString())) {
                             check = false;
                             break;
                         }
                     }
-                    if(check) {
+                    if (check) {
                         datumHistoryList.add(resource.hits.hits.get(i));
                     }
                     if(datumHistoryList.size() > 1){

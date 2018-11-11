@@ -4,14 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay"
-        app:elevation="0dp"
         android:visibility="gone"
         tools:showIn="@layout/activity_main">
         <android.support.v7.widget.Toolbar
@@ -23,7 +21,6 @@
             android:elevation="0dp"
             app:contentInsetStartWithNavigation="0dp"
             app:layout_scrollFlags="scroll|enterAlways|snap">
-
             <LinearLayout
                 android:id="@+id/toolbarlayout"
                 android:layout_width="match_parent"
@@ -31,12 +28,10 @@
                 android:background="@color/red"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
-
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
-
                     <TextView
                         android:id="@+id/searchText"
                         android:layout_width="match_parent"
@@ -47,7 +42,6 @@
                         android:hint="Search"
                         android:textColor="@color/purple4"
                         android:textSize="16dp" />
-
                     <ImageView
                         android:id="@+id/mainClearBtn"
                         android:layout_width="25dp"
@@ -57,7 +51,6 @@
                         android:layout_weight="0"
                         android:src="@drawable/ic_action_clear" />
                 </FrameLayout>
-
                 <ImageView
                     android:id="@+id/mainSearchBtn"
                     android:layout_width="30dp"
