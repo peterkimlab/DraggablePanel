@@ -1,16 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    <TextView
-        android:id="@+id/sentence"
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0">
+        <ImageView
+            android:id="@+id/thumbnail"
+            style="@style/item_thumbnail" />
+        <ImageView
+            style="@style/image_play" />
+    </FrameLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|left"
-        android:ellipsize="end"
-        android:text=""
-        android:singleLine="true"
-        android:textColor="@color/white"
-        android:textSize="18dp" />
+        android:layout_marginLeft="5dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/sentence"
+            style="@style/text_sentence_en_black"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_weight="0" />
+        <TextView
+            android:id="@+id/vtitle"
+            style="@style/text_title_en_black"
+            android:layout_weight="0"
+            android:visibility="gone" />
+    </LinearLayout>
 </LinearLayout>

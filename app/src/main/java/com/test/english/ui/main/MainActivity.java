@@ -199,13 +199,13 @@ public class MainActivity extends AppCompatActivity {
                     toolbarlayout.setVisibility(View.GONE);
                     toolbarlayout2.setVisibility(View.VISIBLE);
                     searchText2.setText(CURRENT_TITLE);
-                } else {
+                } /*else {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                     getSupportActionBar().setDisplayShowHomeEnabled(false);
-                    //toolbarlayout.setVisibility(View.VISIBLE);
+                    toolbarlayout.setVisibility(View.VISIBLE);
                     toolbarlayout2.setVisibility(View.GONE);
                     searchText2.setText("");
-                }
+                }*/
             }
         });
 
@@ -462,6 +462,10 @@ public class MainActivity extends AppCompatActivity {
 
         if (mOnKeyBackPressedListener != null) {
             mOnKeyBackPressedListener.onBack();
+        } else if (draggableView.getVisibility() == View.VISIBLE && draggableView.isMaximized()) {
+            draggableView.minimize();
+        } else if (draggableView.getVisibility() == View.VISIBLE && draggableView.isMinimized()) {
+            draggableView.closeToRight();
         } else if (CURRENT_DEPTH == 2) {
             CURRENT_TAG = CURRENT_TAG2;
             CURRENT_TITLE = CURRENT_TITLE2;
@@ -476,7 +480,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             backPressCloseHandler.onBackPressed();
         }
-        //appBarLayout.setVisibility(View.GONE);
+        appBarLayout.setVisibility(View.GONE);
     }
 
     public void setSpeakLo(int isSpeakLo){
@@ -553,8 +557,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }, 100);
                 }
-
-
                 Handler handlers2 = new Handler();
                 handlers2.postDelayed(new Runnable() {
                     @Override public void run() {
@@ -623,10 +625,10 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             voices = new ArrayList<>();
             for (int i = 0; i < allvoices.size(); i++) {
-                if(allvoices.get(i).getLanguageCode().equals("en-US")
+                if (allvoices.get(i).getLanguageCode().equals("en-US")
                         || allvoices.get(i).getLanguageCode().equals("en-GB")
                         || allvoices.get(i).getLanguageCode().equals("en-AU")
-                        ){
+                        ) {
                     voices.add(allvoices.get(i));
                 }
             }
@@ -635,7 +637,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void showToolbar() {
         appBarLayout.setVisibility(View.VISIBLE);
-        //appBarLayout.setExpanded(true, false);
     }
 
     public void onClickItems(String type, String sentence){
@@ -678,7 +679,7 @@ public class MainActivity extends AppCompatActivity {
             navItemIndex = 11;
             CURRENT_TAG = TAG_MOVIES;
             CURRENT_TITLE = "문장";
-        } else if(type.equals("type1") && sentence.equals("pattern")){
+        } else if (type.equals("type1") && sentence.equals("pattern")) {
             navItemIndex = 2;
             CURRENT_TAG = TAG_MOVIES;
             CURRENT_TITLE = "패턴";
@@ -762,7 +763,6 @@ public class MainActivity extends AppCompatActivity {
                 return moreFragment;
             case 3:
                 return mSearchfragment;
-
             case 4:
                 return mMypagefragment;
             /*
@@ -775,47 +775,37 @@ public class MainActivity extends AppCompatActivity {
                 homeFragment.setArguments(args);
                 return homeFragment;
             case 6:
-
                 //MainFragment mainFragment = new MainFragment();
                 //return mainFragment;
                 libFragment = new LibraryFragment();
                 return libFragment;
             case 7:
-
                 //MainFragment mainFragment = new MainFragment();
                 //return mainFragment;
                 libFragment = new LibraryFragment();
                 return libFragment;
             case 8:
-
                 VerticalFragment verticalFragment = new VerticalFragment();
                 return verticalFragment;
             case 9:
-
                 ConversationFragment conversationFragment = new ConversationFragment();
                 return conversationFragment;
             case 10:
-
                 PagerFragment pagerFragment = new PagerFragment();
                 return pagerFragment;
-
             case 11:
-
                 PopularFragment popularFragment = new PopularFragment();
                 return popularFragment; */
             case 12:
                 PatternFragment patternFragment = new PatternFragment();
                 return patternFragment;
             /*case 13:
-
                 WordFragment wordFragment = new WordFragment();
                 return wordFragment;
             case 14:
-
                 GenreFragment genreFragment = new GenreFragment();
                 return genreFragment;
             case 15:
-
                 RankFragment rankFragment = new RankFragment();
                 return rankFragment;*/
             case 16:
@@ -825,15 +815,12 @@ public class MainActivity extends AppCompatActivity {
                 FavoriteFragment favoriteFragment = new FavoriteFragment();
                 return favoriteFragment;
             case 18:
-
                 WatchedFragment watchedFragment = new WatchedFragment();
                 return watchedFragment;
             case 19:
-
                 musicFragment = new PlayMusicFragment();
                 return musicFragment;
             case 20:
-
                 ContentsFragment contentsFragment = new ContentsFragment();
                 return contentsFragment;
             default:
