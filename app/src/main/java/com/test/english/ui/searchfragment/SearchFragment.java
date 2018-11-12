@@ -1,14 +1,15 @@
 package com.test.english.ui.searchfragment;
 
-import android.content.res.Resources;
-import android.graphics.Rect;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,71 +18,154 @@ import com.test.english.api.APIClient;
 import com.test.english.api.APIInterface;
 import com.test.english.api.Datums;
 import com.test.english.api.SearchResource;
-import com.test.english.util.HummingUtils;
+import com.test.english.ui.adapter.EndlessRecyclerOnScrollListener;
+import com.test.english.ui.adapter.RecyclerItemClickListener;
+import com.test.english.ui.adapter.SpacesItemDecoration;
+import com.test.english.ui.main.MainActivity;
 import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SearchFragment extends Fragment {
+@SuppressLint("ValidFragment")
+public class SearchFragment extends Fragment implements MainActivity.onKeyBackPressedListener {
+    private String Tag = "AnalyticsFragment";
 
-    private APIInterface apiInterface;
-    private List<Datums> datumList;
     private RecyclerView recyclerView;
-    private SearchAdapter mSearchAdapter;
+    private APIInterface apiInterface;
 
-    public static SearchFragment newInstance() {
-        return new SearchFragment();
+    private List<Datums> datumList;
+    private SearchAdapter mAdapter;
+    private Handler mHandler;
+
+    private MainActivity mainActivity;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+
+    public SearchFragment() {
     }
 
-    @Nullable
+    public static SearchBeforeHandFragment newInstance() {
+        return new SearchBeforeHandFragment();
+    }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        if (((AppCompatActivity)getActivity()).getSupportActionBar() != null) {
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setElevation(0);
-        }
         datumList = new ArrayList<>();
-        apiInterface = APIClient.getClient().create(APIInterface.class);
-        getData("hey");
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        recyclerView = (RecyclerView)view.findViewById(R.id.your_play_list);
 
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        SpacesItemDecoration decoration = new SpacesItemDecoration(20);
+        recyclerView.addItemDecoration(decoration);
+        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
+                recyclerView.getContext(),  LinearLayoutManager.VERTICAL
+        );
+        recyclerView.addItemDecoration(mDividerItemDecoration);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                getData(current_page+1, MainActivity.SEARCH_VALUE);
+            }
+
+            @Override
+            public void onScrolledToTop(int current_page) {
+            }
+
+            @Override
+            public void onScrolledUpDown(int dy) {
+            }
+        });
         recyclerView.setHasFixedSize(true);
-        mSearchAdapter = new SearchAdapter(getContext(), datumList);
-        recyclerView.setAdapter(mSearchAdapter);
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getActivity(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Message message= Message.obtain();
+                        message.what = position;
+                        mHandler.sendMessage(message);
+                    }
+                    @Override public void onLongItemClick(View view, int position) {
+                    }
+                })
+        );
+
+        mainActivity = (MainActivity) getActivity();
+
+        mHandler = new Handler(){
+            public void handleMessage(Message msg){
+                Datums datums = datumList.get(msg.what);
+                mainActivity.setVideoUrl(datums);
+            }
+        };
+
+        /*mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                MainActivity.SEARCH_CHECK = false;
+                datumList.clear();
+                mAdapter.notifyDataSetChanged();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getData(1, MainActivity.SEARCH_VALUE);
+                    }
+                }, 500);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 800);
+            }
+        });
+        mSwipeRefreshLayout.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light
+        );*/
+
+        mAdapter = new SearchAdapter(getActivity(), datumList);
+        recyclerView.setAdapter(mAdapter);
+
+        getData(1, MainActivity.SEARCH_VALUE);
 
         return view;
     }
 
-    public void getData(String sentence) {
-        Call<SearchResource> call = apiInterface.doSearchDataList(1 + "", sentence);
+    @Override
+    public void onResume() {
+        super.onResume();
+        //datumList.clear();
+        //getData(1, MainActivity.SEARCH_VALUE);
+    }
+
+    public void getData(int current_page, String sentence) {
+        Call<SearchResource> call = apiInterface.doSearchDataList(current_page + "", sentence);
         call.enqueue(new Callback<SearchResource>() {
             @Override
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
                 SearchResource resource = response.body();
-
-                datumList.clear();
-                for (int i = 0; i< resource.hits.hits.size(); i++) {
-                    boolean check = true;
-                    for (int j = 0; j< datumList.size(); j++) {
-                        if (datumList.get(j).source.get(HummingUtils.ElasticField.TEXT_EN).toString().equals(resource.hits.hits.get(i).source.get(HummingUtils.ElasticField.TEXT_EN).toString())) {
-                            check = false;
-                            break;
-                        }
-                    }
-                    if (check) {
-                        datumList.add(resource.hits.hits.get(i));
-                    }
+                if (resource != null && resource.hits != null) {
+                    datumList.addAll(resource.hits.hits);
                 }
-                mSearchAdapter.notifyDataSetChanged();
+                mAdapter.notifyDataSetChanged();
             }
+
             @Override
             public void onFailure(Call<SearchResource> call, Throwable t) {
                 call.cancel();
@@ -90,46 +174,18 @@ public class SearchFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onBack() {
+        mainActivity.setOnKeyBackPressedListener(null);
+        mainActivity.onBackPressed();
     }
 
-    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
-
-        private int spanCount;
-        private int spacing;
-        private boolean includeEdge;
-
-        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
-            this.spanCount = spanCount;
-            this.spacing = spacing;
-            this.includeEdge = includeEdge;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            int position = parent.getChildAdapterPosition(view); // item position
-            int column = position % spanCount; // item column
-
-            if (includeEdge) {
-                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
-                outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
-                if (position < spanCount) { // top edge
-                    outRect.top = spacing;
-                }
-                outRect.bottom = spacing; // item bottom
-            } else {
-                outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
-                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
-                if (position >= spanCount) {
-                    outRect.top = spacing; // item top
-                }
-            }
-        }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
-    private int dpToPx(int dp) {
-        Resources r = getContext().getResources();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
+    @Override
+    public void onDetach() {
+        super.onDetach();
     }
 }

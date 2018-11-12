@@ -9,8 +9,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -39,10 +37,10 @@ import com.test.english.ui.fragmentcommon.MoreFragment;
 import com.test.english.ui.fragmentcommon.PatternFragment;
 import com.test.english.ui.fragmentexplore.ExploreFragment;
 import com.test.english.ui.fragmentmypage.MyPageFragment;
-import com.test.english.ui.searchfragment.SearchFragment;
+import com.test.english.ui.searchfragment.SearchBeforeHandFragment;
 import com.test.english.ui.fragmentmusic.MusicFragment;
 import com.test.english.ui.helper.BottomNavigationNotShiftHelper;
-import com.test.english.ui.searchfragment.SearchResultFragment;
+import com.test.english.ui.searchfragment.SearchFragment;
 import com.test.english.ui.youtube.MoviePosterFragment;
 import com.test.english.ui.youtube.VideoFragment;
 import com.test.english.ui.youtube.VideoListFragment;
@@ -137,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
         mExplorefragment = new ExploreFragment().newInstance();
         mMusicfragment = new MusicFragment().newInstance();
-        mSearchfragment = new SearchFragment().newInstance();
+        mSearchfragment = new SearchBeforeHandFragment().newInstance();
         mMypagefragment = new MyPageFragment().newInstance();
 
         MyCustomApplication application = (MyCustomApplication)getApplication();
@@ -548,7 +546,7 @@ public class MainActivity extends AppCompatActivity {
                 List<String> thumbnails = (List<String>) datums.source.get(HummingUtils.ElasticField.THUMBNAILS);
                 videoListFragment.setThumbnails(thumbnails);
 
-                if(true){//if(refresh){
+                if (true) {//if(refresh){
                     videoFragment.setBaseSentence(datums);
                     Handler handlers3 = new Handler();
                     handlers3.postDelayed(new Runnable() {
@@ -809,7 +807,7 @@ public class MainActivity extends AppCompatActivity {
                 RankFragment rankFragment = new RankFragment();
                 return rankFragment;*/
             case 16:
-                SearchResultFragment searchresultFragment = new SearchResultFragment();
+                SearchFragment searchresultFragment = new SearchFragment();
                 return searchresultFragment;
             /*case 17:
                 FavoriteFragment favoriteFragment = new FavoriteFragment();
@@ -839,7 +837,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 500);
 
-        searchText.setText(sentences);
+        //appBarLayout.setVisibility(View.VISIBLE);
+        //searchText.setText(sentences);
 
         if (!sentences.equals("")) {
 
