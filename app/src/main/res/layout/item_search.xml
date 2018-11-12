@@ -14,8 +14,8 @@
             android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/thumbnail"
-                android:layout_width="123dp"
-                android:layout_height="69dp"
+                android:layout_width="86dp"
+                android:layout_height="66dp"
                 android:layout_centerInParent="true"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop" />
@@ -29,7 +29,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="15dp"
         android:layout_weight="1"
         android:orientation="vertical">
         <TextView
@@ -40,11 +40,11 @@
             android:layout_marginTop="10dp"
             android:layout_weight="0"
             android:ellipsize="end"
-            android:maxLines="2"
-            android:singleLine="false"
+            android:maxLines="1"
+            android:singleLine="true"
             android:text=""
             android:textColor="#000000"
-            android:textSize="14dp" />
+            android:textSize="20sp" />
         <TextView
             android:id="@+id/vtitle"
             android:layout_width="wrap_content"
@@ -52,9 +52,10 @@
             android:layout_gravity="center_vertical|left"
             android:layout_weight="0"
             android:text=""
+            android:textColor="@color/orange_app_identity_color"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textSize="12dp" />
+            android:textSize="12sp" />
         <TextView
             android:id="@+id/cnt"
             android:layout_width="wrap_content"
