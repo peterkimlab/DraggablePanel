@@ -129,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_RECORD_AUDIO = 110;
     private static final int REQUEST_SEARCH = 400;
 
+    private List<Datums> favoriteList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -851,4 +853,22 @@ public class MainActivity extends AppCompatActivity {
             replaceFragment();
         }
     }
+
+    public String checkFavorite(String videoIds) {
+        String check = "";
+        if (favoriteList != null && favoriteList.size() != 0) {
+            for (int i = 0; i < favoriteList.size(); i++) {
+                if(favoriteList.get(i).source.get(HummingUtils.ElasticField.IDS).equals(videoIds)){
+                    check = favoriteList.get(i).id;
+                    break;
+                }
+            }
+        }
+        return check;
+    }
+
+    public void setFavoriteList(List<Datums> favoriteList) {
+        this.favoriteList = favoriteList;
+    }
+
 }

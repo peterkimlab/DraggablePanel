@@ -145,7 +145,6 @@ public class RelationFragment extends Fragment implements MainActivity.onKeyBack
                 })
         );
 
-
         mainActivity = (MainActivity) getActivity();
 
         mHandler = new Handler(){
@@ -202,16 +201,12 @@ public class RelationFragment extends Fragment implements MainActivity.onKeyBack
                         check = true;
                     }
                     if (resource != null && resource.hits != null) {
-                        Log.e("test","=====================aaaaa");
                         List aaa = new ArrayList();
                         for (int i = 0; i < resource.hits.hits.size(); i++) {
-                            Log.e("test","============"+resource.hits.hits.get(i).source.get(HummingUtils.ElasticField.TEXT_EN).toString().trim()+"=========cccc");
                             if (resource.hits.hits.get(i).source.get(HummingUtils.ElasticField.TEXT_EN).toString().trim().equals("I'm out of here.")) {
-                                Log.e("test","=====================bbbbb");
                                 datumList.add(resource.hits.hits.get(i));
                             }
                             if (resource.hits.hits.get(i).source.get(HummingUtils.ElasticField.TEXT_EN).toString().trim().equals("I'm out of here!")) {
-                                Log.e("test","=====================bbbbb2");
                                 datumList.add(resource.hits.hits.get(i));
                             }
                         }

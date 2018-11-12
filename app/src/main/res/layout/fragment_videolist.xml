@@ -42,11 +42,13 @@
                         <android.support.design.widget.TabLayout
                             android:id="@+id/tabs"
                             android:layout_width="match_parent"
-                            android:layout_height="30dp"
-                            android:background="@color/colorPrimaryDark"
-                            app:tabSelectedTextColor="@color/grey4"
+                            android:layout_height="60dp"
+                            app:tabBackground="@drawable/tab_selector"
+                            app:tabIndicatorColor="@color/white"
+                            android:background="@color/white"
+                            app:tabSelectedTextColor="@color/orange_app_identity_color"
                             app:tabTextAppearance="@style/text_tab"
-                            app:tabTextColor="@color/grey6" />
+                            app:tabTextColor="@color/gray_youtube_tab_bar_text" />
                     </LinearLayout>
                 </android.support.design.widget.CollapsingToolbarLayout>
             </android.support.design.widget.AppBarLayout>

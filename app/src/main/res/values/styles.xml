@@ -162,7 +162,7 @@
 
     <!-- tab text -->
     <style name="text_tab" parent="TextAppearance.Design.Tab">
-        <item name="android:textSize">14dp</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <!-- player imageview -->

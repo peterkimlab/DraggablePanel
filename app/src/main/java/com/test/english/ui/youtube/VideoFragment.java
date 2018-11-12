@@ -148,16 +148,16 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
         return view;
     }
 
-    /*public void checkFavorite(){
+    public void checkFavorite() {
         String favoriteIds = mainActivity.checkFavorite(videoIds);
-        if(!favoriteIds.equals("")){
+        if (!favoriteIds.equals("")) {
             favorite.setTag("favorite_on");
             favorite.setImageResource(R.drawable.ic_action_favorited);
-        }else{
+        } else {
             favorite.setTag("favorite_off");
             favorite.setImageResource(R.drawable.ic_action_favorite);
         }
-    }*/
+    }
 
     public void putDataKo() {
 
