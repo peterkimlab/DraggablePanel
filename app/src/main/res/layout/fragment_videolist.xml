@@ -7,7 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
     <!--<com.eandd700.learn.home.adapter.ProgressBar
         android:id="@+id/songProgress"
         style="@style/progress_bar" />-->
@@ -20,7 +19,7 @@
         android:gravity="bottom"
         sothree:umanoDragView="@+id/dragView"
         sothree:umanoOverlay="true"
-        sothree:umanoPanelHeight="80dp"
+        sothree:umanoPanelHeight="@dimen/youtube_app_bar_height"
         sothree:umanoParallaxOffset="200dp"
         sothree:umanoShadowHeight="4dp">
         <android.support.design.widget.CoordinatorLayout
@@ -43,9 +42,9 @@
                             android:id="@+id/tabs"
                             android:layout_width="match_parent"
                             android:layout_height="60dp"
+                            android:background="@color/white"
                             app:tabBackground="@drawable/tab_selector"
                             app:tabIndicatorColor="@color/white"
-                            android:background="@color/white"
                             app:tabSelectedTextColor="@color/orange_app_identity_color"
                             app:tabTextAppearance="@style/text_tab"
                             app:tabTextColor="@color/gray_youtube_tab_bar_text" />
@@ -59,7 +58,6 @@
                 android:background="@color/colorBack"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         </android.support.design.widget.CoordinatorLayout>
-
         <!-- SLIDING LAYOUT -->
         <LinearLayout
             android:id="@+id/dragView"
@@ -71,40 +69,38 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <com.flurgle.blurkit.BlurLayout
-                    android:id="@+id/blurLayout"
+                <!--<com.flurgle.blurkit.BlurLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@color/bottom_navigation_view"
                     android:layout_weight="1"
-                    blurkit:blk_downscaleFactor="0.25">
+                    blurkit:blk_downscaleFactor="1">-->
                     <LinearLayout
                         android:id="@+id/small_lenear_view"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
-                        android:background="@color/transparent"
+                        android:background="@color/bottom_navigation_view"
                         android:orientation="horizontal">
-                        <LinearLayout
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                            android:layout_height="@dimen/youtube_app_bar_height">
                             <ImageView
                                 android:id="@+id/small_artwork"
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
+                                android:layout_width="27dp"
+                                android:layout_height="15dp"
                                 android:layout_weight="0"
-                                android:background="#10000000"
                                 android:contentDescription="@null"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/ic_action_up" />
-                            <LinearLayout
+                                android:layout_alignParentLeft="true"
+                                android:src="@drawable/icon_open" />
+                            <!--<LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="50dp"
-                                android:layout_weight="1"
+                                android:layout_height="100dp"
                                 android:background="#10000000"
                                 android:clickable="true"
-                                android:orientation="horizontal">
+                                android:layout_alignParentRight="true"
+                                android:orientation="horizontal">-->
                                 <Button
                                     android:id="@+id/small_texta"
                                     style="@style/btn_circle_white_smaill"
@@ -116,14 +112,16 @@
                                     android:layout_marginLeft="15dp"
                                     android:layout_marginRight="15dp"
                                     android:src="@drawable/ic_action_play" />
-                                <Button
+                                <ImageButton
                                     android:id="@+id/small_textt"
-                                    style="@style/btn_circle_white_smaill"
-                                    android:text="T" />
-                            </LinearLayout>
-                        </LinearLayout>
+                                    android:layout_width="70dp"
+                                    android:layout_height="70dp"
+                                    android:layout_alignParentRight="true"
+                                    android:background="@drawable/icon_record"/>
+                            <!--</LinearLayout>-->
+                        </RelativeLayout>
                     </LinearLayout>
-                </com.flurgle.blurkit.BlurLayout>
+                <!--</com.flurgle.blurkit.BlurLayout>-->
                 <FrameLayout
                     android:id="@+id/timeFrame"
                     android:layout_width="match_parent"
@@ -136,7 +134,6 @@
                         android:layout_below="@+id/timeVideoView" />
                 </FrameLayout>
             </FrameLayout>
-
             <com.flurgle.blurkit.BlurLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

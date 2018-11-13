@@ -89,7 +89,7 @@ public class VideoListFragment extends Fragment {
     private ImageButton smallToggle;
   //  private ImageView smallNext;
     private Button smallTexta;
-    private Button smallTextt;
+    private ImageButton smallTextt;
     //private ProgressBar songProgress;
     private AppCompatSeekBar seekbar;
 
@@ -162,7 +162,6 @@ public class VideoListFragment extends Fragment {
                             + i
                             + ".amr");
                     if(file.exists()){
-                        Log.e("test", "aaaaaaaaaaaaaaaaaaaaaa1Delete");
                         file.delete();
                     }
                 }
@@ -173,9 +172,7 @@ public class VideoListFragment extends Fragment {
         mainActivity = (MainActivity) getActivity();
         tabLayout = (TabLayout)view.findViewById(R.id.tabs);
         viewPager = (ViewPager)view.findViewById(R.id.view_pager);
-
         appBarLayout = (AppBarLayout)view.findViewById(R.id.id_appbar);
-
 
         mAdapterViewPager = new VideoListFragmentPageAdapter(getChildFragmentManager(), mainActivity);
         viewPager.setAdapter(mAdapterViewPager);
@@ -266,7 +263,7 @@ public class VideoListFragment extends Fragment {
                 mainActivity.getVideoFragment().showHideText();
             }
         });
-        smallTextt = (Button) view.findViewById(R.id.small_textt);
+        smallTextt = (ImageButton) view.findViewById(R.id.small_textt);
         smallTextt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View p0) {
@@ -511,10 +508,7 @@ public class VideoListFragment extends Fragment {
             }
         });
 
-
         linearLayout = view.findViewById(R.id.dragView);
-
-
         otherVoices = (TextView) view.findViewById(R.id.otherVoices);
 
         createPolly();

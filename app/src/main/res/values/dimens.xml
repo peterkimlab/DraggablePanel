@@ -80,5 +80,8 @@
 
     //MyPage
 
+    //YouTube
+    <dimen name="youtube_app_bar_height">100dp</dimen>
+
 
 </resources>

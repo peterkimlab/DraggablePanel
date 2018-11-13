@@ -249,6 +249,7 @@ public class MainActivity extends AppCompatActivity {
         draggableView.setBottomFragment(videoListFragment);
 
         draggableView.setDraggableListener(new DraggableListener() {
+
             @Override public void onMaximized() {
                 /*if(musicFragment != null){
                     musicFragment.stopVideo();
@@ -279,6 +280,7 @@ public class MainActivity extends AppCompatActivity {
                 /*if(!voiceBtn.isOpened()){
                     voiceBtn.showMenuButton(true);
                 }*/
+                bottomNavigation.setVisibility(View.GONE);
             }
 
             //Empty
@@ -288,6 +290,7 @@ public class MainActivity extends AppCompatActivity {
                 voiceBtn.hideMenuButton(true);
                 recordFab.hide(true);
                 deleteFile();*/
+                bottomNavigation.setVisibility(View.GONE);
             }
 
             @Override public void onClosedToLeft() {
@@ -299,6 +302,7 @@ public class MainActivity extends AppCompatActivity {
 
                 deleteFile();*/
                 videoListFragment.collapsePanel();
+                bottomNavigation.setVisibility(View.VISIBLE);
             }
 
             @Override public void onClosedToRight() {
@@ -309,6 +313,7 @@ public class MainActivity extends AppCompatActivity {
                 recordFab.hide(true);
                 deleteFile();*/
                 videoListFragment.collapsePanel();
+                bottomNavigation.setVisibility(View.VISIBLE);
             }
 
             @Override
