@@ -66,30 +66,16 @@ public class VideoListFragment extends Fragment {
 
     private TextView totalDur;
     private TextView currentDur;
-    private Button textButton;
-    private Button texttButton;
-    private Button textsButton;
-    private TextView playSpeed40;
-    private TextView playSpeed60;
-    private TextView playSpeed80;
-    private TextView playSpeed100;
-    private TextView playSpeed120;
-
-    private ImageView repeatOne;
-    private ImageView repeat;
-    private ImageView shuffle;
-    private ImageView rewind;
-    private ImageView forward;
-    private ImageView smallArtworkDown;
+    private Button textButton, texttButton, textsButton;
+    private TextView playSpeed40, playSpeed60, playSpeed80, playSpeed100, playSpeed120;
+    private ImageView repeatOne, repeat, shuffle, rewind, forward, smallArtworkDown;
 
     private ImageView prev;
     private FloatingActionButton play;
     private ImageView next;
    // private ImageView smallPrev;
-    private ImageButton smallToggle;
+    private ImageButton smallToggle, smallTexta, smallTextt;
   //  private ImageView smallNext;
-    private Button smallTexta;
-    private ImageButton smallTextt;
     //private ProgressBar songProgress;
     private AppCompatSeekBar seekbar;
 
@@ -216,7 +202,7 @@ public class VideoListFragment extends Fragment {
         timeLineView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch(motionEvent.getAction()) {
+                switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         int width = view.getWidth();
                         float x = motionEvent.getX();
@@ -256,7 +242,7 @@ public class VideoListFragment extends Fragment {
             }
         });
 
-        smallTexta = (Button) view.findViewById(R.id.small_texta);
+        smallTexta = (ImageButton) view.findViewById(R.id.small_texta);
         smallTexta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View p0) {

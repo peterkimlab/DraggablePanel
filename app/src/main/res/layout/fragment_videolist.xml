@@ -69,59 +69,51 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <!--<com.flurgle.blurkit.BlurLayout
+                <LinearLayout
+                    android:id="@+id/small_lenear_view"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
                     android:background="@color/bottom_navigation_view"
-                    android:layout_weight="1"
-                    blurkit:blk_downscaleFactor="1">-->
-                    <LinearLayout
-                        android:id="@+id/small_lenear_view"
+                    android:orientation="horizontal">
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:background="@color/bottom_navigation_view"
-                        android:orientation="horizontal">
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/youtube_app_bar_height">
-                            <ImageView
-                                android:id="@+id/small_artwork"
-                                android:layout_width="27dp"
-                                android:layout_height="15dp"
-                                android:layout_weight="0"
-                                android:contentDescription="@null"
-                                android:scaleType="centerCrop"
-                                android:layout_alignParentLeft="true"
-                                android:src="@drawable/icon_open" />
-                            <!--<LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="100dp"
-                                android:background="#10000000"
-                                android:clickable="true"
-                                android:layout_alignParentRight="true"
-                                android:orientation="horizontal">-->
-                                <Button
-                                    android:id="@+id/small_texta"
-                                    style="@style/btn_circle_white_smaill"
-                                    android:layout_marginLeft="10dp"
-                                    android:text="A" />
-                                <ImageButton
-                                    android:id="@+id/small_toggle"
-                                    style="@style/btn_play_circle_white"
-                                    android:layout_marginLeft="15dp"
-                                    android:layout_marginRight="15dp"
-                                    android:src="@drawable/ic_action_play" />
-                                <ImageButton
-                                    android:id="@+id/small_textt"
-                                    android:layout_width="70dp"
-                                    android:layout_height="70dp"
-                                    android:layout_alignParentRight="true"
-                                    android:background="@drawable/icon_record"/>
-                            <!--</LinearLayout>-->
-                        </RelativeLayout>
-                    </LinearLayout>
-                <!--</com.flurgle.blurkit.BlurLayout>-->
+                        android:layout_height="@dimen/youtube_app_bar_height"
+                        android:padding="10dp">
+                        <ImageView
+                            android:id="@+id/small_artwork"
+                            android:layout_width="27dp"
+                            android:layout_height="15dp"
+                            android:layout_marginLeft="@dimen/youtube_app_bar_padding"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentLeft="true"
+                            android:src="@drawable/icon_open" />
+                        <ImageButton
+                            android:id="@+id/small_textt"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_marginRight="@dimen/youtube_app_bar_padding"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:background="@drawable/icon_record"/>
+                        <ImageButton
+                            android:id="@+id/small_toggle"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_marginRight="@dimen/youtube_app_bar_icon_gab"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@id/small_textt"
+                            android:background="@drawable/icon_play" />
+                        <ImageButton
+                            android:id="@+id/small_texta"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_marginRight="@dimen/youtube_app_bar_icon_gab"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@id/small_toggle"
+                            android:background="@drawable/icon_koreng" />
+                    </RelativeLayout>
+                </LinearLayout>
                 <FrameLayout
                     android:id="@+id/timeFrame"
                     android:layout_width="match_parent"
