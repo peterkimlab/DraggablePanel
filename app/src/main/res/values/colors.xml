@@ -203,4 +203,7 @@
     //Youtube
     <color name="gray_youtube_tab_bar_unselected_background">#eaeaea</color>
     <color name="gray_youtube_tab_bar_text">#999999</color>
+    <color name="black_youtube_background">#333333</color>
+
+
 </resources>

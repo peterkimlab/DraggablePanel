@@ -420,6 +420,7 @@ public class VideoListFragment extends Fragment {
             }
         });
         forward.setVisibility(View.GONE);
+
         smallArtworkDown = (ImageView) view.findViewById(R.id.small_artwork_down);
         smallArtworkDown.setOnClickListener(new View.OnClickListener() {
             @Override
