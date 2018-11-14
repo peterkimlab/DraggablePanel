@@ -69,8 +69,8 @@ public class VideoListFragment extends Fragment {
     private TextView totalDur;
     private TextView currentDur;
     private Button textButton, texttButton, textsButton;
-    private TextView playSpeed40, playSpeed60, playSpeed80, playSpeed100, playSpeed120;
-    private ImageView repeatOne, repeat, shuffle, rewind, forward, smallArtworkDown;
+    /*private TextView playSpeed40, playSpeed60, playSpeed80, playSpeed100, playSpeed120;*/
+    private ImageView repeatOne, repeat, playSpeed, shuffle, rewind, forward, smallArtworkDown;
 
     private ImageView prev;
     private FloatingActionButton play;
@@ -264,7 +264,7 @@ public class VideoListFragment extends Fragment {
                 mainActivity.getVideoFragment().showHideText();
             }
         });*/
-        playSpeed40 = (TextView) view.findViewById(R.id.playSpeed40);
+        /*playSpeed40 = (TextView) view.findViewById(R.id.playSpeed40);
         playSpeed40.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View p0) {
@@ -303,7 +303,7 @@ public class VideoListFragment extends Fragment {
                 playSpeed(120);
 
             }
-        });
+        });*/
 
         prev = (ImageView) view.findViewById(R.id.prev);
         prev.setOnClickListener(new View.OnClickListener() {
@@ -350,6 +350,35 @@ public class VideoListFragment extends Fragment {
             }
         });
         smallNext.setVisibility(View.GONE);*/
+
+        playSpeed = (ImageView) view.findViewById(R.id.playSpeed);
+        playSpeed.setTag("100");
+        playSpeed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (playSpeed.getTag().toString().equals("100")) {
+                    playSpeed(120);
+                    playSpeed.setTag("120");
+                    playSpeed.setImageResource(R.drawable.icon_x_120);
+                } else if (playSpeed.getTag().toString().equals("120")) {
+                    playSpeed(40);
+                    playSpeed.setTag("40");
+                    playSpeed.setImageResource(R.drawable.icon_x_40);
+                } else if (playSpeed.getTag().toString().equals("40")) {
+                    playSpeed(60);
+                    playSpeed.setTag("60");
+                    playSpeed.setImageResource(R.drawable.icon_x_60);
+                } else if (playSpeed.getTag().toString().equals("60")) {
+                    playSpeed(80);
+                    playSpeed.setTag("80");
+                    playSpeed.setImageResource(R.drawable.icon_x_80);
+                } else if (playSpeed.getTag().toString().equals("80")) {
+                    playSpeed(100);
+                    playSpeed.setTag("100");
+                    playSpeed.setImageResource(R.drawable.icon_x_100);
+                }
+            }
+        });
 
         repeatOne = (ImageView) view.findViewById(R.id.repeatOne);
         repeatOne.setTag("1");
@@ -888,28 +917,7 @@ public class VideoListFragment extends Fragment {
         }
     }
 
-    public void playSpeedButtonInit(int speed){
-        playSpeed40.setTextColor(-1);
-        playSpeed60.setTextColor(-1);
-        playSpeed80.setTextColor(-1);
-        playSpeed100.setTextColor(-1);
-        playSpeed120.setTextColor(-1);
-
-        if (speed == 40) {
-            playSpeed40.setTextColor(getColor(R.color.colorAccent));
-        } else if(speed == 60) {
-            playSpeed60.setTextColor(getColor(R.color.colorAccent));
-        } else if(speed == 80) {
-            playSpeed80.setTextColor(getColor(R.color.colorAccent));
-        } else if(speed == 120) {
-            playSpeed120.setTextColor(getColor(R.color.colorAccent));
-        }else{
-            playSpeed100.setTextColor(getColor(R.color.colorAccent));
-        }
-    }
-
     public void playSpeed(int speed) {
-        playSpeedButtonInit(speed);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mainActivity.getVideoFragment().setSpeed(speed);
         }
