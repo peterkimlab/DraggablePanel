@@ -36,10 +36,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
 import com.exam.english.R;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.test.english.api.Datums;
 import com.test.english.record.CustomSTT;
+import com.test.english.ui.adapter.ProgressBar;
 import com.test.english.ui.main.MainActivity;
 import com.test.english.util.HummingUtils;
 import com.test.english.video.TimeLineViewMini;
@@ -463,9 +465,9 @@ public class VideoListFragment extends Fragment {
             }
         });
 
-        //songProgress = (ProgressBar) view.findViewById(R.id.songProgress);
-        //songProgress.setMax(100);
-        //songProgress.setProgressWithAnim(0);
+        /*songProgress = (ProgressBar) view.findViewById(R.id.songProgress);
+        songProgress.setMax(100);
+        songProgress.setProgressWithAnim(0);*/
         seekbar = (AppCompatSeekBar) view.findViewById(R.id.seekbar);
         seekbar.setMax(100);
         seekbar.setProgress(0);
@@ -587,8 +589,6 @@ public class VideoListFragment extends Fragment {
         }
     }
 
-
-
     /*public void downMp4(InputStream is, String textToRead, String voiceId){
         Log.e("test", "bbbbbbbbbbbbbbbbb2");
 
@@ -629,18 +629,15 @@ public class VideoListFragment extends Fragment {
 
     public void finishOpeningSoundFile(){
 //        timeLineView.setVideo(Uri.fromFile(new File(filePAth)));
-        Log.e("test", "++++++------------"+thumbnails);
 
         timeLineView.setVideo(mainActivity.getVideoUrl());
         timeLineView.setThumbnailList(thumbnails);
         timeLineView.setBitmap(timeLineView.getWidth(), getContext());
-
     }
 
     public void setThumbnails(List<String> thumbnails) {
         this.thumbnails = thumbnails;
     }
-
 
     public void createPolly() {
 
@@ -683,8 +680,6 @@ public class VideoListFragment extends Fragment {
                                             }
                                         };
                                         mHandler.post(runnable);
-
-
 
                                     }
                                 };
@@ -774,15 +769,11 @@ public class VideoListFragment extends Fragment {
     }
 
     public static float convertDpToPixel(float dp, Context context){
-
         Resources resources = context.getResources();
-
         DisplayMetrics metrics = resources.getDisplayMetrics();
-
         float px = dp * (metrics.densityDpi / 160f);
 
         return (int)px;
-
     }
 
    /* private void showTextLayout(boolean showHide) {
@@ -795,8 +786,6 @@ public class VideoListFragment extends Fragment {
             recordPlayLayout.setLayoutParams(layoutParams);*//*
         }
     }*/
-
-
 
     public void hidePanel() {
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
@@ -815,10 +804,10 @@ public class VideoListFragment extends Fragment {
     public void setMiniPlayerAlphaProgress(View panel, float slideOffset) {
         float alpha = 1 - slideOffset;
         smallLinearView.setAlpha(alpha);
-        if(alpha == 0){
-            smallLinearView.setVisibility(View.INVISIBLE);
+        if (alpha == 0) {
+            smallLinearView.setVisibility(View.GONE);
             timeFrame.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             smallLinearView.setVisibility(View.VISIBLE);
             timeFrame.setVisibility(View.GONE);
         }

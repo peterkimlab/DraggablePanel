@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:blurkit="http://schemas.android.com/apk/res-auto"
     xmlns:card="http://schemas.android.com/apk/res-auto"
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -115,242 +114,237 @@
                     </RelativeLayout>
                 </LinearLayout>
             </FrameLayout>
-            <com.flurgle.blurkit.BlurLayout
+            <LinearLayout
+                android:id="@+id/controls"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                blurkit:blk_downscaleFactor="0.25">
+                android:layout_height="wrap_content"
+                android:background="@color/black_youtube_background"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp">
                 <LinearLayout
-                    android:id="@+id/controls"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/black_youtube_background"
-                    android:clickable="true"
-                    android:orientation="vertical"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="10dp"
-                    android:paddingBottom="10dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="top|left"
+                        android:contentDescription="@null"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_action_up"
+                        android:visibility="invisible" />
+                    <android.support.v7.widget.CardView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="top|left"
-                            android:contentDescription="@null"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/ic_action_up"
-                            android:visibility="invisible" />
-                        <android.support.v7.widget.CardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left"
-                            app:cardBackgroundColor="@color/transparent"
-                            card:cardCornerRadius="5dp">
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/card_edge"
-                                android:orientation="horizontal">
-                                <TextView
-                                    android:id="@+id/playSpeed40"
-                                    style="@style/text_play_speed"
-                                    android:text="40%" />
-                                <TextView
-                                    android:id="@+id/playSpeed60"
-                                    style="@style/text_play_speed"
-                                    android:text="60%" />
-                                <TextView
-                                    android:id="@+id/playSpeed80"
-                                    style="@style/text_play_speed"
-                                    android:text="80%" />
-                                <TextView
-                                    android:id="@+id/playSpeed100"
-                                    style="@style/text_play_speed"
-                                    android:text="100%" />
-                                <TextView
-                                    android:id="@+id/playSpeed120"
-                                    style="@style/text_play_speed"
-                                    android:text="120%" />
-                            </LinearLayout>
-                        </android.support.v7.widget.CardView>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-                            <ImageView
-                                android:id="@+id/repeatOne"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center|top"
-                                android:background="@drawable/border3"
-                                android:layout_marginBottom="10dp"
-                                android:src="@drawable/ic_action_repeatx1"/>
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <FrameLayout
-                        android:id="@+id/timeFrame"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="invisible">
-                        <com.test.english.video.TimeLineViewMini
-                            android:id="@+id/timeLineView"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_below="@+id/timeVideoView" />
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="top|center_horizontal"
-                        android:layout_marginTop="5dp"
-                        android:orientation="horizontal">
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="60dp"
-                            android:layout_weight="1"
-                            android:gravity="top|center_horizontal"
-                            android:orientation="horizontal">
-                            <Button
-                                android:id="@+id/text"
-                                style="@style/btn_circle_white"
-                                android:layout_marginRight="5dp"
-                                android:text="A"  />
-                            <Button
-                                android:id="@+id/textt"
-                                style="@style/btn_circle_white"
-                                android:layout_marginLeft="5dp"
-                                android:layout_marginRight="5dp"
-                                android:text="T"  />
-                            <Button
-                                android:id="@+id/texts"
-                                style="@style/btn_circle_white"
-                                android:layout_marginLeft="5dp"
-                                android:text="S"  />
-                        </LinearLayout>
-
+                        android:layout_gravity="left"
+                        app:cardBackgroundColor="@color/transparent"
+                        card:cardCornerRadius="5dp">
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="15dp"
-                            android:layout_weight="0"
+                            android:background="@drawable/card_edge"
                             android:orientation="horizontal">
-                            <ImageView
-                                android:id="@+id/rewind"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/rewind_normal" />
-                            <ImageView
-                                android:id="@+id/forward"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="15dp"
-                                android:src="@drawable/fast_forward_normal" />
+                            <TextView
+                                android:id="@+id/playSpeed40"
+                                style="@style/text_play_speed"
+                                android:text="40%" />
+                            <TextView
+                                android:id="@+id/playSpeed60"
+                                style="@style/text_play_speed"
+                                android:text="60%" />
+                            <TextView
+                                android:id="@+id/playSpeed80"
+                                style="@style/text_play_speed"
+                                android:text="80%" />
+                            <TextView
+                                android:id="@+id/playSpeed100"
+                                style="@style/text_play_speed"
+                                android:text="100%" />
+                            <TextView
+                                android:id="@+id/playSpeed120"
+                                style="@style/text_play_speed"
+                                android:text="120%" />
                         </LinearLayout>
-                    </LinearLayout>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="10dp"
-                        android:background="@color/transparent"/>
-                    <TextView
-                        android:id="@+id/otherVoices"
-                        style="@style/textview_player_voice"
-                        android:layout_marginBottom="15dp"/>
-                    <LinearLayout
-                        android:id="@+id/time_details"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:orientation="horizontal"
-                        android:padding="2dp">
-                        <TextView
-                            android:id="@+id/currentDur"
-                            style="@style/textview_player_time" />
-                        <android.support.v7.widget.AppCompatSeekBar
-                            android:id="@+id/seekbar"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:padding="4dp"
-                            android:progress="0"
-                            android:thumb="@drawable/thum" />
-                        <TextView
-                            android:id="@+id/totalDur"
-                             style="@style/textview_player_time"/>
-                    </LinearLayout>
+                    </android.support.v7.widget.CardView>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:layout_gravity="center"
-                        android:layout_marginBottom="40dp"
                         android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="4dp"
-                        android:weightSum="4">
+                        android:orientation="horizontal">
                         <ImageView
-                            android:id="@+id/shuffle"
-                            style="@style/imageview_player"
-                            android:layout_marginLeft="4dp"
-                            android:layout_weight="1"
-                            android:src="@drawable/shuf_off" />
-                        <ImageView
-                            android:id="@+id/prev"
-                            style="@style/imageview_player"
-                            android:layout_marginLeft="4dp"
-                            android:layout_weight="1"
-                            android:src="@drawable/aw_ic_prev" />
-                        <FrameLayout
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:layout_gravity="center">
-                            <android.support.design.widget.FloatingActionButton
-                                android:id="@+id/play_pause_toggle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:clickable="true"
-                                android:scaleType="centerInside"
-                                android:src="@drawable/aw_ic_play"
-                                android:tag="bg_tint_accent_color"
-                                app:borderWidth="0dp"
-                                app:elevation="4dp"
-                                app:fabSize="normal"
-                                app:pressedTranslationZ="12dp"
-                                app:rippleColor="@color/colorAccent" />
-                        </FrameLayout>
-
-                        <ImageView
-                            android:id="@+id/next"
-                            style="@style/imageview_player"
-                            android:layout_marginLeft="4dp"
-                            android:layout_weight="1"
-                            android:src="@drawable/aw_ic_next" />
-                        <ImageView
-                            android:id="@+id/repeat"
-                            style="@style/imageview_player"
-                            android:layout_marginLeft="4dp"
-                            android:layout_weight="1"
-                            android:src="@drawable/rep_no" />
+                            android:id="@+id/repeatOne"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center|top"
+                            android:background="@drawable/border3"
+                            android:layout_marginBottom="10dp"
+                            android:src="@drawable/ic_action_repeatx1"/>
                     </LinearLayout>
                 </LinearLayout>
-                <ImageView
-                    android:id="@+id/small_artwork_down"
-                    style="@style/imageview_player"
-                    android:layout_gravity="top|left"
-                    android:background="#20000000"
-                    android:layout_margin="5dp"
-                    android:src="@drawable/ic_action_arrow_down" />
-            </com.flurgle.blurkit.BlurLayout>
+
+                <FrameLayout
+                    android:id="@+id/timeFrame"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible">
+                    <com.test.english.video.TimeLineViewMini
+                        android:id="@+id/timeLineView"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_below="@+id/timeVideoView" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top|center_horizontal"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="60dp"
+                        android:layout_weight="1"
+                        android:gravity="top|center_horizontal"
+                        android:orientation="horizontal">
+                        <Button
+                            android:id="@+id/text"
+                            style="@style/btn_circle_white"
+                            android:layout_marginRight="5dp"
+                            android:text="A"  />
+                        <Button
+                            android:id="@+id/textt"
+                            style="@style/btn_circle_white"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:text="T"  />
+                        <Button
+                            android:id="@+id/texts"
+                            style="@style/btn_circle_white"
+                            android:layout_marginLeft="5dp"
+                            android:text="S"  />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="15dp"
+                        android:layout_weight="0"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:id="@+id/rewind"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/rewind_normal" />
+                        <ImageView
+                            android:id="@+id/forward"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:src="@drawable/fast_forward_normal" />
+                    </LinearLayout>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/transparent"/>
+                <TextView
+                    android:id="@+id/otherVoices"
+                    style="@style/textview_player_voice"
+                    android:layout_marginBottom="15dp"/>
+                <LinearLayout
+                    android:id="@+id/time_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:padding="2dp">
+                    <TextView
+                        android:id="@+id/currentDur"
+                        style="@style/textview_player_time" />
+                    <android.support.v7.widget.AppCompatSeekBar
+                        android:id="@+id/seekbar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:padding="4dp"
+                        android:progress="0"
+                        android:thumb="@drawable/thum" />
+                    <TextView
+                        android:id="@+id/totalDur"
+                         style="@style/textview_player_time"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="40dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="4dp"
+                    android:weightSum="4">
+                    <ImageView
+                        android:id="@+id/shuffle"
+                        style="@style/imageview_player"
+                        android:layout_marginLeft="4dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/shuf_off" />
+                    <ImageView
+                        android:id="@+id/prev"
+                        style="@style/imageview_player"
+                        android:layout_marginLeft="4dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/aw_ic_prev" />
+                    <FrameLayout
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_gravity="center">
+                        <android.support.design.widget.FloatingActionButton
+                            android:id="@+id/play_pause_toggle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:clickable="true"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/aw_ic_play"
+                            android:tag="bg_tint_accent_color"
+                            app:borderWidth="0dp"
+                            app:elevation="4dp"
+                            app:fabSize="normal"
+                            app:pressedTranslationZ="12dp"
+                            app:rippleColor="@color/colorAccent" />
+                    </FrameLayout>
+
+                    <ImageView
+                        android:id="@+id/next"
+                        style="@style/imageview_player"
+                        android:layout_marginLeft="4dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/aw_ic_next" />
+                    <ImageView
+                        android:id="@+id/repeat"
+                        style="@style/imageview_player"
+                        android:layout_marginLeft="4dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/rep_no" />
+                </LinearLayout>
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/small_artwork_down"
+                style="@style/imageview_player"
+                android:layout_gravity="top|left"
+                android:background="#20000000"
+                android:layout_margin="5dp"
+                android:src="@drawable/ic_action_arrow_down" />
         </LinearLayout>
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 </LinearLayout>

@@ -249,8 +249,9 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
         simpleExoPlayerView.requestFocus();
 
         PlayerControlView controlView = simpleExoPlayerView.findViewById(R.id.exo_controller);
+
         /*ImageView youtubeButton = controlView.findViewById(R.id.youtubeButton);
-        youtubeButton.setOnClickListener(new View.OnClickListener() {
+         youtubeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 watchYoutubeVideo(getActivity(), youtubeid);
@@ -263,8 +264,8 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
             public void onClick(View v) {
                 draggableView.minimize();
             }
-        });
-
+        });*/
+        /*
         ImageView share = controlView.findViewById(R.id.share);
         share.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -655,7 +656,6 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
                 videoLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
                 videoLayoutParams.height = cachedHeight;
                 mVideoLayout.setLayoutParams(videoLayoutParams);
-
             }
         });
     }
