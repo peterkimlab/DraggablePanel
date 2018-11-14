@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <!--<com.eandd700.learn.home.adapter.ProgressBar
+    <com.test.english.ui.adapter.ProgressBar
         android:id="@+id/songProgress"
-        style="@style/progress_bar" />-->
+        style="@style/progress_bar" />
     <com.sothree.slidinguppanel.SlidingUpPanelLayout
         android:id="@+id/sliding_layout"
         android:layout_width="match_parent"
@@ -40,7 +40,7 @@
                         <android.support.design.widget.TabLayout
                             android:id="@+id/tabs"
                             android:layout_width="match_parent"
-                            android:layout_height="60dp"
+                            android:layout_height="55dp"
                             android:background="@color/white"
                             app:tabBackground="@drawable/tab_selector"
                             app:tabIndicatorColor="@color/white"

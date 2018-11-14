@@ -39,7 +39,7 @@ public class ProgressBar extends android.widget.ProgressBar {
     private static final String TAG = ProgressBar.class.getName();
     private final long DEFAULT_DURATION = 100;
     private final int DEFAULT_CORNER_RADIUS = -1;
-    private int accent = getResources().getColor(R.color.colorAccent);
+    private int accent = getResources().getColor(R.color.orange_app_identity_color);
     private int DEFAULT_PROGRESS_COLOR = accent;
     private int progressColor;
     private int DEFAULT_PROGRESS_BACKGROUND_COLOR = Color.TRANSPARENT;

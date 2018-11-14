@@ -84,6 +84,7 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
     String videoUrl = "";
 
     Context context;
+    private ProgressRunnable progressRunnable;
     private static Handler songProgressHandler;
 
     private SimpleExoPlayerView simpleExoPlayerView;
@@ -134,7 +135,7 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
         mainActivity = (MainActivity) getActivity();
 
         songProgressHandler = new Handler(Looper.getMainLooper());
-        //progressRunnable = new ProgressRunnable(mainActivity);
+        progressRunnable = new ProgressRunnable(mainActivity);
 
         initExoPlayer(view);
 
@@ -333,7 +334,6 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
 
             @Override
             public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-                Log.e(TAG, "Listener-onPlayerStateChanged..." + playbackState);
                 if (playWhenReady && playbackState == Player.STATE_READY) {
                     // media actually playing
                     simpleExoPlayerView.hideController();
@@ -343,12 +343,12 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
                     if(player.getDuration() > sss){
                         sss++;
                     }
-                    //mainActivity.getVideoListFragment().maxProgress(sss);
+                    mainActivity.getVideoListFragment().maxProgress(sss);
 
                     Handler handlers2 = new Handler();
                     handlers2.postDelayed(new Runnable() {
                         @Override public void run() {
-                            //finalProgress();
+                            finalProgress();
                         }
                     }, 100);
                 } else if (playWhenReady) {
@@ -359,7 +359,7 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
                             if (draggableView.isMaximized()) {
                                 simpleExoPlayerView.showController();
                             }
-                            //removeProgress();
+                            removeProgress();
                             nowPlayCnt++;
 
                             if (draggableView.isMaximized()) {
@@ -830,7 +830,7 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
         return nowPlayListNo;
     }
 
-    /*private void finalProgress() {
+    private void finalProgress() {
         runProgress = true;
         songProgressHandler.post(progressRunnable);
     }
@@ -848,7 +848,7 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
             if(runProgress && player.getDuration() > pos){
                 songProgressHandler.postDelayed(progressRunnable, 100);
             }
-    }*/
+    }
 
     /*public void setSentence(String sentence) {
         if(palyTfOtherVoice){
@@ -876,7 +876,8 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
     public Datums getBaseSentence(){
         return baseSentence;
     }
-    /*private static class ProgressRunnable implements Runnable {
+
+    private static class ProgressRunnable implements Runnable {
 
         private final WeakReference<MainActivity> activityWeakReference;
 
@@ -889,7 +890,7 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
             MainActivity mainActivity = activityWeakReference.get();
             mainActivity.getVideoFragment().updateProgress();
         }
-    }*/
+    }
     public void setView(DraggablePanel draggablePanel) {
         this.draggableView =  draggablePanel;
     }

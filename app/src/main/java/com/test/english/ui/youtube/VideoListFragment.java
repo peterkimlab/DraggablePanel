@@ -78,7 +78,7 @@ public class VideoListFragment extends Fragment {
    // private ImageView smallPrev;
     private ImageButton smallToggle, smallTexta, smallTextt;
   //  private ImageView smallNext;
-    //private ProgressBar songProgress;
+    private ProgressBar songProgress;
     private AppCompatSeekBar seekbar;
 
     /*private Button recordPlayButton1;
@@ -465,9 +465,9 @@ public class VideoListFragment extends Fragment {
             }
         });
 
-        /*songProgress = (ProgressBar) view.findViewById(R.id.songProgress);
+        songProgress = (ProgressBar) view.findViewById(R.id.songProgress);
         songProgress.setMax(100);
-        songProgress.setProgressWithAnim(0);*/
+        songProgress.setProgressWithAnim(0);
         seekbar = (AppCompatSeekBar) view.findViewById(R.id.seekbar);
         seekbar.setMax(100);
         seekbar.setProgress(0);
@@ -895,26 +895,24 @@ public class VideoListFragment extends Fragment {
         playSpeed100.setTextColor(-1);
         playSpeed120.setTextColor(-1);
 
-        if(speed == 40){
+        if (speed == 40) {
             playSpeed40.setTextColor(getColor(R.color.colorAccent));
-        }else if(speed == 60){
+        } else if(speed == 60) {
             playSpeed60.setTextColor(getColor(R.color.colorAccent));
-        }else if(speed == 80){
+        } else if(speed == 80) {
             playSpeed80.setTextColor(getColor(R.color.colorAccent));
-        }else if(speed == 120){
+        } else if(speed == 120) {
             playSpeed120.setTextColor(getColor(R.color.colorAccent));
         }else{
             playSpeed100.setTextColor(getColor(R.color.colorAccent));
         }
     }
 
-    public void playSpeed(int speed){
-
+    public void playSpeed(int speed) {
         playSpeedButtonInit(speed);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mainActivity.getVideoFragment().setSpeed(speed);
         }
-
     }
 
     public void showSpeakButton(boolean showFlg){
@@ -974,7 +972,6 @@ public class VideoListFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-
     }
 
     public static String StringReplace(String str){
@@ -1003,9 +1000,10 @@ public class VideoListFragment extends Fragment {
     }
 
     public List<Datums> getPlayList(int nowPosition){
-        /*RelationFragment fm = (RelationFragment)mAdapterViewPager.getFragment(0);
+        RelationFragment fm = (RelationFragment)mAdapterViewPager.getFragment(0);
         List<Datums> datumList = fm.getPlayList(nowPosition);
 
+        /*
         if(mainActivity.getVideoFragment().getNowPlayListType().equals("relation")){
             RelationFragment fm = (RelationFragment)mAdapterViewPager.getFragment(0);
             datumList = fm.getPlayList(nowPosition);
@@ -1013,8 +1011,8 @@ public class VideoListFragment extends Fragment {
             EpisodeFragment fm = (EpisodeFragment)mAdapterViewPager.getFragment(1);
             datumList = fm.getPlayList(nowPosition);
         }
-        return datumList;*/
-        return null;
+        return null;*/
+        return datumList;
     }
 
    /* public void playListPosition(int playPosition){
@@ -1023,36 +1021,31 @@ public class VideoListFragment extends Fragment {
         mainActivity.setVideoEpisodeUrl(datums, playPosition);
     }*/
 
-    public void setNextVideo(int nowPosition, boolean nextFlg){
+    public void setNextVideo(int nowPosition, boolean nextFlg) {
         String shuffleTag = shuffle.getTag().toString();
         boolean random = false;
-        if(shuffleTag.equals("on")){
+        if (shuffleTag.equals("on")) {
             random = true;
         }
-
         List<Datums> datumList = getPlayList(nowPosition);
-
-        if(random){
+        if (random) {
             Random r = new Random();
             int n = datumList.size()-1;
             if (n < 01) {
                 n = 0;
             }
             nowPosition = r.nextInt(n);
-        }else{
-            if(nextFlg){
+        } else {
+            if (nextFlg) {
                 nowPosition++;
-            }else{
+            } else {
                 nowPosition--;
             }
-
         }
-
-        if(nowPosition > -1 && datumList.size() > nowPosition){
+        if (nowPosition > -1 && datumList.size() > nowPosition) {
             Datums datums = datumList.get(nowPosition);
             mainActivity.setVideoEpisodeUrl(datums, nowPosition, false);
         }
-
     }
 
     public float compareSentence(String str1Tmp, String str2Tmp){
@@ -1121,8 +1114,6 @@ public class VideoListFragment extends Fragment {
         if(rate < 0 ){
             rate = 0;
         }
-
-
         return rate;
     }
 
@@ -1170,8 +1161,6 @@ public class VideoListFragment extends Fragment {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-
-
                         }
                     };
                     mLoadSoundFileThread.start();
@@ -1213,15 +1202,15 @@ public class VideoListFragment extends Fragment {
     }
 
     public void updateProgress(int pos){
-        //songProgress.setProgressWithAnim(pos);
-        //songProgress.setProgressWithAnim(0);
+        songProgress.setProgressWithAnim(pos);
+        songProgress.setProgressWithAnim(0);
         seekbar.setProgress(pos);
         currentDur.setText(milliSecondsToTimer(pos));
     }
 
     public void maxProgress(int max){
-        //songProgress.cancelAnimation();
-        //songProgress.setMaxWithAnim(max);
+        songProgress.cancelAnimation();
+        songProgress.setMaxWithAnim(max);
         seekbar.setMax(max);
 
         totalDur.setText(milliSecondsToTimer(max));
