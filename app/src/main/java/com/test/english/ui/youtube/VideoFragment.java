@@ -339,11 +339,11 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
                     simpleExoPlayerView.hideController();
                     PlaybackParameters params = new PlaybackParameters(playSpeed, 1.0f);
                     player.setPlaybackParameters(params);
-                    int sss = (int)player.getDuration();
-                    if(player.getDuration() > sss){
-                        sss++;
+                    int duration = (int) player.getDuration();
+                    if (player.getDuration() > duration) {
+                        duration++;
                     }
-                    mainActivity.getVideoListFragment().maxProgress(sss);
+                    mainActivity.getVideoListFragment().maxProgress(duration);
 
                     Handler handlers2 = new Handler();
                     handlers2.postDelayed(new Runnable() {
@@ -399,7 +399,6 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
                     }, 1000);
                     // player paused in any state
                 }
-
             }
 
             @Override
