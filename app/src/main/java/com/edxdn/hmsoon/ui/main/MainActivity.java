@@ -26,6 +26,7 @@ import com.amazonaws.services.polly.model.DescribeVoicesResult;
 import com.amazonaws.services.polly.model.Voice;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.edxdn.hmsoon.ui.fragmentcommon.ContentsFragment;
+import com.edxdn.hmsoon.ui.fragmentcommon.ConversationFragment;
 import com.exam.english.R;
 import com.github.pedrovgs.DraggableListener;
 import com.github.pedrovgs.DraggablePanel;
@@ -795,9 +796,11 @@ public class MainActivity extends AppCompatActivity {
             case 8:
                 VerticalFragment verticalFragment = new VerticalFragment();
                 return verticalFragment;
+            */
             case 9:
                 ConversationFragment conversationFragment = new ConversationFragment();
                 return conversationFragment;
+            /*
             case 10:
                 PagerFragment pagerFragment = new PagerFragment();
                 return pagerFragment;
