@@ -206,4 +206,8 @@
     <color name="black_youtube_background">#333333</color>
     <color name="gray_youtube_progress_bar">#dddddd</color>
 
+    //Conversation
+    <color name="orange_conversation_me">#ffc15c</color>
+    <color name="orange_conversation_you">#cccccc</color>
+
 </resources>
