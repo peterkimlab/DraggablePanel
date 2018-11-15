@@ -135,6 +135,11 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public int getItemCount() {
+
+        if (itemsList.get(0).getvType() == ExploreFragmentAdapter.POPULAR_TYPE) {
+            return 4;
+        }
+
         return (null != itemsList ? itemsList.size() : 0);
     }
 
