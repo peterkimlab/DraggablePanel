@@ -121,6 +121,14 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
                 break;
             case ExploreFragmentAdapter.CHAT_TYPE:
                 ((ChatItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        MyCustomApplication.getMainInstance().openInterestPage(1, mDataList.get(i));
+                    }
+                });
+
                 break;
         }
     }

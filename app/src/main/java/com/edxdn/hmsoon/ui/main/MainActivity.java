@@ -9,6 +9,8 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -23,6 +25,7 @@ import com.amazonaws.services.polly.model.DescribeVoicesRequest;
 import com.amazonaws.services.polly.model.DescribeVoicesResult;
 import com.amazonaws.services.polly.model.Voice;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.edxdn.hmsoon.ui.fragmentcommon.ContentsFragment;
 import com.exam.english.R;
 import com.github.pedrovgs.DraggableListener;
 import com.github.pedrovgs.DraggablePanel;
@@ -824,10 +827,11 @@ public class MainActivity extends AppCompatActivity {
                 return watchedFragment;
             case 19:
                 musicFragment = new PlayMusicFragment();
-                return musicFragment;
+                return musicFragment; */
             case 20:
                 ContentsFragment contentsFragment = new ContentsFragment();
                 return contentsFragment;
+            /*
             default:
                 libFragment = new LibraryFragment();
                 return libFragment;*/
@@ -874,6 +878,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void setFavoriteList(List<Datums> favoriteList) {
         this.favoriteList = favoriteList;
+    }
+
+    public void openInterestPage(int type, Datums datums) {
+        if (type == 1) {
+            navItemIndex = 9;
+            CURRENT_TAG = TAG_MOVIES;
+            CURRENT_TITLE = datums.source.get(HummingUtils.ElasticField.TITLE).toString();
+            CURRENT_ICODE = datums.source.get(HummingUtils.ElasticField.ICODE).toString();
+        }
+        replaceFragment();
     }
 
 }
