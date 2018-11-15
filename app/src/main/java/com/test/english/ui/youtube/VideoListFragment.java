@@ -63,18 +63,12 @@ import static android.app.Activity.RESULT_OK;
 public class VideoListFragment extends Fragment {
 
     private TabLayout tabLayout;
-    AppBarLayout appBarLayout;
+    private AppBarLayout appBarLayout;
     private ViewPager viewPager;
-
-    private TextView totalDur;
-    private TextView currentDur;
+    private TextView totalDur, otherVoices, currentDur;
     private Button textButton, texttButton, textsButton;
-    /*private TextView playSpeed40, playSpeed60, playSpeed80, playSpeed100, playSpeed120;*/
-    private ImageView repeatOne, repeat, playSpeed, shuffle, rewind, forward, smallArtworkDown;
+    private ImageView repeatOne, repeat, playSpeed, shuffle, rewind, forward, smallArtworkDown, prev, play, next;
 
-    private ImageView prev;
-    private FloatingActionButton play;
-    private ImageView next;
    // private ImageView smallPrev;
     private ImageButton smallToggle, smallTexta, smallTextt;
   //  private ImageView smallNext;
@@ -85,27 +79,22 @@ public class VideoListFragment extends Fragment {
     private Button recordPlayButton2;
     private Button recordPlayButton3;*/
 
-    LinearLayout linearLayout;
-
-    VideoListFragmentPageAdapter mAdapterViewPager;
-    MainActivity mainActivity;
-
-    TimeLineViewMini timeLineView;
-    File file;
-    public List<String> thumbnails;
-
-    int totalDuration = 0;
+    private LinearLayout linearLayout, smallLinearView, controlsBg;
+    private VideoListFragmentPageAdapter mAdapterViewPager;
+    private MainActivity mainActivity;
+    private TimeLineViewMini timeLineView;
+    private File file;
+    private List<String> thumbnails;
+    private int totalDuration = 0;
     private Thread mLoadSoundFileThread;
-
     private CustomSTT customSTT;
     private final int REQ_CODE_SPEECH = 100;
-
     private MediaRecorder mRecorder;
     private long mStartTime = 0;
     private int[] amplitudes = new int[100];
     private int iii = 0;
     private File mOutputFile;
-    int recodingCnt = 0;
+    private int recodingCnt = 0;
     private Handler mHandler = new Handler();
     private Handler mHandler2 = new Handler();
     /*private Runnable mTickExecutor = new Runnable() {
@@ -116,16 +105,11 @@ public class VideoListFragment extends Fragment {
         }
     };*/
 
-    MediaPlayer player;
+    private MediaPlayer player;
 
     private SlidingUpPanelLayout mLayout;
-    private LinearLayout smallLinearView;
     private FrameLayout timeFrame;
-
-    private LinearLayout controlsBg;
-
-    MediaPlayer mediaPlayer;
-    TextView otherVoices;
+    private MediaPlayer mediaPlayer;
     int voiceIdx = 0;
     boolean palyTfOtherVoice = true;
 
@@ -264,46 +248,6 @@ public class VideoListFragment extends Fragment {
                 mainActivity.getVideoFragment().showHideText();
             }
         });*/
-        /*playSpeed40 = (TextView) view.findViewById(R.id.playSpeed40);
-        playSpeed40.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View p0) {
-                playSpeed(40);
-
-            }
-        });
-        playSpeed60 = (TextView) view.findViewById(R.id.playSpeed60);
-        playSpeed60.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View p0) {
-                playSpeed(60);
-
-            }
-        });
-        playSpeed80 = (TextView) view.findViewById(R.id.playSpeed80);
-        playSpeed80.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View p0) {
-                playSpeed(80);
-
-            }
-        });
-        playSpeed100 = (TextView) view.findViewById(R.id.playSpeed100);
-        playSpeed100.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View p0) {
-                playSpeed(100);
-
-            }
-        });
-        playSpeed120 = (TextView) view.findViewById(R.id.playSpeed120);
-        playSpeed120.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View p0) {
-                playSpeed(120);
-
-            }
-        });*/
 
         prev = (ImageView) view.findViewById(R.id.prev);
         prev.setOnClickListener(new View.OnClickListener() {
@@ -312,7 +256,7 @@ public class VideoListFragment extends Fragment {
                 setNextVideo(mainActivity.getVideoFragment().getNowPlayListNo(),false);
             }
         });
-        play = (FloatingActionButton) view.findViewById(R.id.play_pause_toggle);
+        play = (ImageView) view.findViewById(R.id.play_pause_toggle);
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View p0) {
@@ -400,21 +344,16 @@ public class VideoListFragment extends Fragment {
             }
         });
         repeat = (ImageView) view.findViewById(R.id.repeat);
-        repeat.setTag("off");
+        repeat.setTag("all");
         repeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View p0) {
-                if(repeat.getTag().toString().equals("off")){
-                    repeat.setTag("all");
-                    repeat.setImageResource(R.drawable.rep_one);
-                }else if(repeat.getTag().toString().equals("all")){
-                    repeat.setImageResource(R.drawable.rep_all);
+                if(repeat.getTag().toString().equals("all")){
                     repeat.setTag("one");
-                }else if(repeat.getTag().toString().equals("one")){
-                    repeat.setImageResource(R.drawable.rep_no);
-                    repeat.setTag("off");
+                    repeat.setImageResource(R.drawable.icon_replay_one);
+                } else if (repeat.getTag().toString().equals("one")) {
+                    repeat.setTag("all");
                 }
-
             }
         });
         shuffle = (ImageView) view.findViewById(R.id.shuffle);
@@ -424,10 +363,10 @@ public class VideoListFragment extends Fragment {
             public void onClick(View p0) {
                 if(shuffle.getTag().toString().equals("off")){
                     shuffle.setTag("on");
-                    shuffle.setImageResource(R.drawable.shuf_on);
+                    shuffle.setImageResource(R.drawable.icon_shuffle_active);
                 }else{
                     shuffle.setTag("off");
-                    shuffle.setImageResource(R.drawable.shuf_off);
+                    shuffle.setImageResource(R.drawable.icon_shuffle);
 
                 }
             }
@@ -450,7 +389,7 @@ public class VideoListFragment extends Fragment {
                 updateProgress(mainActivity.getVideoFragment().getCurrentPosition());
             }
         });
-        forward.setVisibility(View.GONE);
+        //forward.setVisibility(View.GONE);
 
         smallArtworkDown = (ImageView) view.findViewById(R.id.small_artwork_down);
         smallArtworkDown.setOnClickListener(new View.OnClickListener() {
@@ -767,7 +706,7 @@ public class VideoListFragment extends Fragment {
                 if(voiceIdx >= mainActivity.voices.size() -1){
                     voiceIdx = 0;
                 }
-                otherVoices.setText(mainActivity.getString(R.string.player_other_voices)+" ( "+(voiceIdx+1)+" / "+mainActivity.voices.size()+")");
+                otherVoices.setText("" +(voiceIdx + 1) + "/" + mainActivity.voices.size());
                 setupNewMediaPlayer();
                 palyTfOtherVoice = true;
             }
@@ -790,7 +729,7 @@ public class VideoListFragment extends Fragment {
 
         // otherVoices
         voiceIdx = 0;
-        otherVoices.setText(mainActivity.getString(R.string.player_other_voices)+ " ( "+(voiceIdx+1)+" / "+mainActivity.voices.size()+")");
+        otherVoices.setText("" +(voiceIdx + 1) + "/" + mainActivity.voices.size());
         // otherVoices List 랜덤 섞기
         long seed = System.nanoTime();
         Collections.shuffle(mainActivity.voices, new Random(seed));
@@ -942,7 +881,7 @@ public class VideoListFragment extends Fragment {
     public void setDataTime(final String videoUrl) {
 
         totalDuration = mainActivity.getTotalDuration();
-        otherVoices.setText(mainActivity.getString(R.string.player_other_voices) + " ( "+(voiceIdx+1)+" / "+mainActivity.voices.size()+")");
+        otherVoices.setText("" +(voiceIdx + 1) + "/" + mainActivity.voices.size());
 
         finishOpeningSoundFile();
        /* Runnable runnable = new Runnable() {
