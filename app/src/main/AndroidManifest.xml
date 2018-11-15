@@ -10,9 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name="com.test.english.application.MyCustomApplication">
+        android:name="com.edxdn.hmsoon.application.MyCustomApplication">
         <activity
-            android:name="com.test.english.ui.main.MainActivity">
+            android:name="com.edxdn.hmsoon.ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

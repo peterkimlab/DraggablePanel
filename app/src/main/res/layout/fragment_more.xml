@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context="com.test.english.ui.fragmentcommon.MoreFragment">
+    tools:context="com.edxdn.hmsoon.ui.fragmentcommon.MoreFragment">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/your_play_list"
             android:layout_width="match_parent"

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.test.english.ui.data.BlankFragment">
+    tools:context="com.edxdn.hmsoon.ui.data.BlankFragment">
 
     <TextView
         android:id="@+id/textview"

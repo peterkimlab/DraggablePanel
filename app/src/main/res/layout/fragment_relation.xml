@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <com.test.english.ui.youtube.EmptyRecyclerView
+    <com.edxdn.hmsoon.ui.youtube.EmptyRecyclerView
         android:id="@+id/your_play_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
