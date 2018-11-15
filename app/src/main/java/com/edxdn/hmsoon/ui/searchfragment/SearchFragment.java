@@ -10,9 +10,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.edxdn.hmsoon.util.ClearEditText;
 import com.exam.english.R;
 import com.edxdn.hmsoon.api.APIClient;
 import com.edxdn.hmsoon.api.APIInterface;
@@ -41,6 +44,7 @@ public class SearchFragment extends Fragment implements MainActivity.onKeyBackPr
 
     private MainActivity mainActivity;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private ClearEditText tvSearch;
 
     public SearchFragment() {
     }
@@ -73,7 +77,7 @@ public class SearchFragment extends Fragment implements MainActivity.onKeyBackPr
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
+        /*recyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int current_page) {
                 getData(current_page+1, MainActivity.SEARCH_VALUE);
@@ -86,7 +90,7 @@ public class SearchFragment extends Fragment implements MainActivity.onKeyBackPr
             @Override
             public void onScrolledUpDown(int dy) {
             }
-        });
+        });*/
         recyclerView.setHasFixedSize(true);
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getActivity(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
@@ -108,6 +112,26 @@ public class SearchFragment extends Fragment implements MainActivity.onKeyBackPr
                 mainActivity.setVideoUrl(datums);
             }
         };
+
+        tvSearch = view.findViewById(R.id.tvSearch);
+        tvSearch.requestFocus();
+
+        tvSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                getData(tvSearch.getText().toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         /*mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -142,25 +166,29 @@ public class SearchFragment extends Fragment implements MainActivity.onKeyBackPr
         mAdapter = new SearchAdapter(getActivity(), datumList);
         recyclerView.setAdapter(mAdapter);
 
-        getData(1, MainActivity.SEARCH_VALUE);
-
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        //datumList.clear();
-        //getData(1, MainActivity.SEARCH_VALUE);
     }
 
-    public void getData(int current_page, String sentence) {
-        Call<SearchResource> call = apiInterface.doSearchDataList(current_page + "", sentence);
+    public void getData(String sentence) {
+
+        if (sentence.isEmpty()) {
+            datumList.clear();
+            mAdapter.notifyDataSetChanged();
+            return;
+        }
+
+        Call<SearchResource> call = apiInterface.doSearchDataList(1 + "", sentence);
         call.enqueue(new Callback<SearchResource>() {
             @Override
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
                 SearchResource resource = response.body();
                 if (resource != null && resource.hits != null) {
+                    datumList.clear();
                     datumList.addAll(resource.hits.hits);
                 }
                 mAdapter.notifyDataSetChanged();

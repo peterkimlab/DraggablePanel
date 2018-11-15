@@ -8,16 +8,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <EditText
+        <com.edxdn.hmsoon.util.ClearEditText
             android:id="@+id/tvSearch"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/explore_main_title_layout_margin_top"
             android:textStyle="bold"
             android:textSize="22sp"
             android:textColor="@color/black"
             android:background="@android:color/transparent"/>
-        <View
+        <!--<View
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1"/>
@@ -26,7 +26,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginTop="@dimen/explore_main_title_layout_margin_top"
-            android:src="@drawable/ic_action_clear" />
+            android:src="@drawable/ic_action_clear" />-->
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
