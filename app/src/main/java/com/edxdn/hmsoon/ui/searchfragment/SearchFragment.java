@@ -15,6 +15,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+
 import com.edxdn.hmsoon.util.ClearEditText;
 import com.exam.english.R;
 import com.edxdn.hmsoon.api.APIClient;
@@ -115,6 +117,8 @@ public class SearchFragment extends Fragment implements MainActivity.onKeyBackPr
 
         tvSearch = view.findViewById(R.id.tvSearch);
         tvSearch.requestFocus();
+        //InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        //imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 
         tvSearch.addTextChangedListener(new TextWatcher() {
             @Override

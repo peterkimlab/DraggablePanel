@@ -17,16 +17,6 @@
             android:textSize="22sp"
             android:textColor="@color/black"
             android:background="@android:color/transparent"/>
-        <!--<View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-        <ImageView
-            android:id="@+id/clearBtn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="@dimen/explore_main_title_layout_margin_top"
-            android:src="@drawable/ic_action_clear" />-->
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
