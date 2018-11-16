@@ -252,7 +252,7 @@ public class VideoListFragment extends Fragment {
                 AndroidAudioRecorder.with(getActivity())
                         // Required
                         .setFilePath(AUDIO_FILE_PATH)
-                        .setColor(ContextCompat.getColor(getContext(), R.color.recorder_bg))
+                        .setColor(ContextCompat.getColor(getContext(), R.color.orange_app_identity_color))
                         .setRequestCode(REQUEST_RECORD_AUDIO)
 
                         // Optional

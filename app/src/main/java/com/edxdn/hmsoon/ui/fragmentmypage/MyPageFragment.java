@@ -27,9 +27,6 @@ public class MyPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mypage, container, false);
 
-        // https://dreamaz.tistory.com/345
-        // http://a-student.github.io/SvgToVectorDrawableConverter.Web/
-
         rvMultipleViewType = (RecyclerView) view.findViewById(R.id.rv_multipe_view_type);
         mData = new ArrayList<>();
         rvMultipleViewType.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));

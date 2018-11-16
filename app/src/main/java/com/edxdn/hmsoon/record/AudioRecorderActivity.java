@@ -81,7 +81,7 @@ public class AudioRecorderActivity extends AppCompatActivity
             keepDisplayOn = getIntent().getBooleanExtra(AndroidAudioRecorder.EXTRA_KEEP_DISPLAY_ON, false);
         }
 
-        if(keepDisplayOn){
+        if (keepDisplayOn) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
@@ -98,12 +98,12 @@ public class AudioRecorderActivity extends AppCompatActivity
 
         visualizerView = new GLAudioVisualizationView.Builder(this)
                 .setLayersCount(1)
-                .setWavesCount(6)
-                .setWavesHeight(R.dimen.aar_wave_height)
-                .setWavesFooterHeight(R.dimen.aar_footer_height)
-                .setBubblesPerLayer(20)
-                .setBubblesSize(R.dimen.aar_bubble_size)
-                .setBubblesRandomizeSize(true)
+                //.setWavesCount(6)
+                //.setWavesHeight(R.dimen.aar_wave_height)
+                //.setWavesFooterHeight(R.dimen.aar_footer_height)
+                //.setBubblesPerLayer(20)
+                //.setBubblesSize(R.dimen.aar_bubble_size)
+                //.setBubblesRandomizeSize(true)
                 .setBackgroundColor(Util.getDarkerColor(color))
                 .setLayerColors(new int[]{color})
                 .build();
@@ -120,7 +120,7 @@ public class AudioRecorderActivity extends AppCompatActivity
         restartView.setVisibility(View.INVISIBLE);
         playView.setVisibility(View.INVISIBLE);
 
-        if(Util.isBrightColor(color)) {
+        if (Util.isBrightColor(color)) {
             ContextCompat.getDrawable(this, R.drawable.aar_ic_clear)
                     .setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
             ContextCompat.getDrawable(this, R.drawable.aar_ic_check)
@@ -136,7 +136,7 @@ public class AudioRecorderActivity extends AppCompatActivity
     @Override
     public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        if(autoStart && !isRecording){
+        if (autoStart && !isRecording) {
             toggleRecording(null);
         }
     }
@@ -239,8 +239,8 @@ public class AudioRecorderActivity extends AppCompatActivity
         });
     }
 
-    public void restartRecording(View v){
-        if(isRecording) {
+    public void restartRecording(View v) {
+        if (isRecording) {
             stopRecording();
         } else if(isPlaying()) {
             stopPlaying();
@@ -256,7 +256,7 @@ public class AudioRecorderActivity extends AppCompatActivity
         statusView.setVisibility(View.INVISIBLE);
         restartView.setVisibility(View.INVISIBLE);
         playView.setVisibility(View.INVISIBLE);
-        recordView.setImageResource(R.drawable.aar_ic_rec);
+        recordView.setImageResource(R.drawable.btn_record_recoding);
         timerView.setText("00:00:00");
         recorderSecondsElapsed = 0;
         playerSecondsElapsed = 0;
@@ -269,21 +269,19 @@ public class AudioRecorderActivity extends AppCompatActivity
         statusView.setVisibility(View.VISIBLE);
         restartView.setVisibility(View.INVISIBLE);
         playView.setVisibility(View.INVISIBLE);
-        recordView.setImageResource(R.drawable.aar_ic_pause);
-        playView.setImageResource(R.drawable.aar_ic_play);
+        recordView.setImageResource(R.drawable.btn_stop_recording);
+        playView.setImageResource(R.drawable.btn_play_recording);
 
         visualizerHandler = new VisualizerHandler();
         visualizerView.linkTo(visualizerHandler);
 
-        if(recorder == null) {
+        if (recorder == null) {
             timerView.setText("00:00:00");
-
             recorder = OmRecorder.wav(
                     new PullTransport.Default(Util.getMic(source, channel, sampleRate), AudioRecorderActivity.this),
                     new File(filePath));
         }
         recorder.resumeRecording();
-
         startTimer();
     }
 
@@ -296,37 +294,34 @@ public class AudioRecorderActivity extends AppCompatActivity
         statusView.setVisibility(View.VISIBLE);
         restartView.setVisibility(View.VISIBLE);
         playView.setVisibility(View.VISIBLE);
-        recordView.setImageResource(R.drawable.aar_ic_rec);
-        playView.setImageResource(R.drawable.aar_ic_play);
+        recordView.setImageResource(R.drawable.btn_record_recoding);
+        playView.setImageResource(R.drawable.btn_play_recording);
 
         visualizerView.release();
-        if(visualizerHandler != null) {
+        if (visualizerHandler != null) {
             visualizerHandler.stop();
         }
 
         if (recorder != null) {
             recorder.pauseRecording();
         }
-
         stopTimer();
     }
 
     private void stopRecording(){
         visualizerView.release();
-        if(visualizerHandler != null) {
+        if (visualizerHandler != null) {
             visualizerHandler.stop();
         }
-
         recorderSecondsElapsed = 0;
         if (recorder != null) {
             recorder.stopRecording();
             recorder = null;
         }
-
         stopTimer();
     }
 
-    private void startPlaying(){
+    private void startPlaying() {
         try {
             stopRecording();
             player = new MediaPlayer();
@@ -345,8 +340,7 @@ public class AudioRecorderActivity extends AppCompatActivity
             timerView.setText("00:00:00");
             statusView.setText(R.string.aar_playing);
             statusView.setVisibility(View.VISIBLE);
-            playView.setImageResource(R.drawable.aar_ic_stop);
-
+            playView.setImageResource(R.drawable.btn_stop_recording);
             playerSecondsElapsed = 0;
             startTimer();
         } catch (Exception e){
@@ -354,27 +348,26 @@ public class AudioRecorderActivity extends AppCompatActivity
         }
     }
 
-    private void stopPlaying(){
+    private void stopPlaying() {
         statusView.setText("");
         statusView.setVisibility(View.INVISIBLE);
-        playView.setImageResource(R.drawable.aar_ic_play);
+        playView.setImageResource(R.drawable.btn_play_recording);
 
         visualizerView.release();
-        if(visualizerHandler != null) {
+        if (visualizerHandler != null) {
             visualizerHandler.stop();
         }
 
-        if(player != null){
+        if (player != null) {
             try {
                 player.stop();
                 player.reset();
             } catch (Exception e){ }
         }
-
         stopTimer();
     }
 
-    private boolean isPlaying(){
+    private boolean isPlaying() {
         try {
             return player != null && player.isPlaying() && !isRecording;
         } catch (Exception e){
@@ -382,7 +375,7 @@ public class AudioRecorderActivity extends AppCompatActivity
         }
     }
 
-    private void startTimer(){
+    private void startTimer() {
         stopTimer();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -393,7 +386,7 @@ public class AudioRecorderActivity extends AppCompatActivity
         }, 0, 1000);
     }
 
-    private void stopTimer(){
+    private void stopTimer() {
         if (timer != null) {
             timer.cancel();
             timer.purge();

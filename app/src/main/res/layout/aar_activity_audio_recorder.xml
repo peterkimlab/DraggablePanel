@@ -6,83 +6,134 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center">
-
     <LinearLayout
+        android:id="@+id/timerLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:orientation="vertical">
-
         <TextView
             android:id="@+id/status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="-10dp"
             android:textSize="20sp"
-            android:textColor="@android:color/white"
+            android:textColor="@color/black_youtube_background"
             android:fontFamily="sans-serif-light"
             android:visibility="invisible"/>
-
         <TextView
             android:id="@+id/timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="60sp"
-            android:textColor="@android:color/white"
-            android:fontFamily="sans-serif-thin"
+            android:textColor="@color/black_youtube_background"
+            android:textStyle="bold"
             android:text="00:00:00"/>
-
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/aar_footer_height"
-        android:layout_alignParentBottom="true">
-
+        android:layout_height="wrap_content"
+        android:layout_below="@id/timerLayout"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="-1dp">
         <ImageButton
             android:id="@+id/restart"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/record"
-            android:layout_toLeftOf="@+id/record"
-            android:layout_marginTop="50dp"
-            android:padding="10dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/aar_ic_restart"
             android:onClick="restartRecording"
-            android:visibility="invisible"
-            style="@style/Widget.AppCompat.Button.Borderless"/>
-
+            android:layout_toLeftOf="@+id/record"
+            android:scaleType="fitCenter"
+            android:src="@drawable/aar_ic_restart"/>
         <ImageButton
             android:id="@+id/record"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="50dp"
-            android:layout_margin="15dp"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="192dp"
+            android:layout_height="192dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
+            android:onClick="toggleRecording"
             android:padding="10dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/aar_ic_play"
-            android:onClick="toggleRecording"
-            style="@style/Widget.AppCompat.Button.Borderless"/>
-
+            android:src="@drawable/btn_record_recoding" />
         <ImageButton
             android:id="@+id/play"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/record"
             android:layout_toRightOf="@+id/record"
-            android:layout_marginTop="50dp"
+            android:onClick="togglePlaying"
             android:padding="10dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/aar_ic_play"
-            android:onClick="togglePlaying"
-            style="@style/Widget.AppCompat.Button.Borderless"/>
-
+            android:src="@drawable/btn_play_recording"/>
+        <TextView
+            android:id="@+id/tvDec"
+            android:layout_below="@+id/record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="21sp"
+            android:textColor="@color/black_standard_text"
+            android:layout_marginBottom="20dp"
+            android:text="문장을 외워서 녹음해보세요"/>
+        <RelativeLayout
+            android:id="@+id/rlEvaluation"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_below="@+id/tvDec"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/border_record_reputation_item">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal" >
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/icon_evaluation"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="평가하기"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_below="@+id/rlEvaluation"
+            android:gravity="center"
+            android:background="@drawable/border_record_reputation_item">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal" >
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/icon_speak"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="문장 다시듣기"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+        </RelativeLayout>
     </RelativeLayout>
-
 </RelativeLayout>
