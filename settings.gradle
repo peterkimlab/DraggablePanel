@@ -1,1 +1,1 @@
-include ':app', ':draggablepanel', ':YouTubePlayer', ':k4l-video-trimmer', ':slidinglibrary', ':blurkit', ':recordlib'
+include ':app', ':draggablepanel', ':YouTubePlayer', ':k4l-video-trimmer', ':slidinglibrary', ':blurkit'

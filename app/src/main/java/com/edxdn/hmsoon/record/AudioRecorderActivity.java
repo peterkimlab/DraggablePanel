@@ -14,7 +14,6 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.cleveroad.audiovisualization.DbmHandler;
 import com.cleveroad.audiovisualization.GLAudioVisualizationView;
 import com.edxdn.hmsoon.record.model.AudioChannel;
@@ -25,7 +24,6 @@ import com.exam.english.R;
 import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import omrecorder.AudioChunk;
 import omrecorder.OmRecorder;
 import omrecorder.PullTransport;
@@ -63,7 +61,7 @@ public class AudioRecorderActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(cafe.adriel.androidaudiorecorder.R.layout.aar_activity_audio_recorder);
+        setContentView(R.layout.aar_activity_audio_recorder);
 
         if (savedInstanceState != null) {
             filePath = savedInstanceState.getString(AndroidAudioRecorder.EXTRA_FILE_PATH);
@@ -95,27 +93,27 @@ public class AudioRecorderActivity extends AppCompatActivity
             getSupportActionBar().setBackgroundDrawable(
                     new ColorDrawable(Util.getDarkerColor(color)));
             getSupportActionBar().setHomeAsUpIndicator(
-                    ContextCompat.getDrawable(this, cafe.adriel.androidaudiorecorder.R.drawable.aar_ic_clear));
+                    ContextCompat.getDrawable(this, R.drawable.aar_ic_clear));
         }
 
         visualizerView = new GLAudioVisualizationView.Builder(this)
                 .setLayersCount(1)
                 .setWavesCount(6)
-                .setWavesHeight(cafe.adriel.androidaudiorecorder.R.dimen.aar_wave_height)
-                .setWavesFooterHeight(cafe.adriel.androidaudiorecorder.R.dimen.aar_footer_height)
+                .setWavesHeight(R.dimen.aar_wave_height)
+                .setWavesFooterHeight(R.dimen.aar_footer_height)
                 .setBubblesPerLayer(20)
-                .setBubblesSize(cafe.adriel.androidaudiorecorder.R.dimen.aar_bubble_size)
+                .setBubblesSize(R.dimen.aar_bubble_size)
                 .setBubblesRandomizeSize(true)
                 .setBackgroundColor(Util.getDarkerColor(color))
                 .setLayerColors(new int[]{color})
                 .build();
 
-        contentLayout = (RelativeLayout) findViewById(cafe.adriel.androidaudiorecorder.R.id.content);
-        statusView = (TextView) findViewById(cafe.adriel.androidaudiorecorder.R.id.status);
-        timerView = (TextView) findViewById(cafe.adriel.androidaudiorecorder.R.id.timer);
-        restartView = (ImageButton) findViewById(cafe.adriel.androidaudiorecorder.R.id.restart);
-        recordView = (ImageButton) findViewById(cafe.adriel.androidaudiorecorder.R.id.record);
-        playView = (ImageButton) findViewById(cafe.adriel.androidaudiorecorder.R.id.play);
+        contentLayout = (RelativeLayout) findViewById(R.id.content);
+        statusView = (TextView) findViewById(R.id.status);
+        timerView = (TextView) findViewById(R.id.timer);
+        restartView = (ImageButton) findViewById(R.id.restart);
+        recordView = (ImageButton) findViewById(R.id.record);
+        playView = (ImageButton) findViewById(R.id.play);
 
         contentLayout.setBackgroundColor(Util.getDarkerColor(color));
         contentLayout.addView(visualizerView, 0);
@@ -123,9 +121,9 @@ public class AudioRecorderActivity extends AppCompatActivity
         playView.setVisibility(View.INVISIBLE);
 
         if(Util.isBrightColor(color)) {
-            ContextCompat.getDrawable(this, cafe.adriel.androidaudiorecorder.R.drawable.aar_ic_clear)
+            ContextCompat.getDrawable(this, R.drawable.aar_ic_clear)
                     .setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
-            ContextCompat.getDrawable(this, cafe.adriel.androidaudiorecorder.R.drawable.aar_ic_check)
+            ContextCompat.getDrawable(this, R.drawable.aar_ic_check)
                     .setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
             statusView.setTextColor(Color.BLACK);
             timerView.setTextColor(Color.BLACK);
@@ -179,7 +177,7 @@ public class AudioRecorderActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.aar_audio_recorder, menu);
+        //getMenuInflater().inflate(R.menu.aar_audio_recorder, menu);
         //saveMenuItem = menu.findItem(R.id.action_save);
         //saveMenuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.aar_ic_check));
         return super.onCreateOptionsMenu(menu);
@@ -258,7 +256,7 @@ public class AudioRecorderActivity extends AppCompatActivity
         statusView.setVisibility(View.INVISIBLE);
         restartView.setVisibility(View.INVISIBLE);
         playView.setVisibility(View.INVISIBLE);
-        recordView.setImageResource(cafe.adriel.androidaudiorecorder.R.drawable.aar_ic_rec);
+        recordView.setImageResource(R.drawable.aar_ic_rec);
         timerView.setText("00:00:00");
         recorderSecondsElapsed = 0;
         playerSecondsElapsed = 0;
@@ -267,12 +265,12 @@ public class AudioRecorderActivity extends AppCompatActivity
     private void resumeRecording() {
         isRecording = true;
         //saveMenuItem.setVisible(false);
-        statusView.setText(cafe.adriel.androidaudiorecorder.R.string.aar_recording);
+        statusView.setText(R.string.aar_recording);
         statusView.setVisibility(View.VISIBLE);
         restartView.setVisibility(View.INVISIBLE);
         playView.setVisibility(View.INVISIBLE);
-        recordView.setImageResource(cafe.adriel.androidaudiorecorder.R.drawable.aar_ic_pause);
-        playView.setImageResource(cafe.adriel.androidaudiorecorder.R.drawable.aar_ic_play);
+        recordView.setImageResource(R.drawable.aar_ic_pause);
+        playView.setImageResource(R.drawable.aar_ic_play);
 
         visualizerHandler = new VisualizerHandler();
         visualizerView.linkTo(visualizerHandler);
@@ -294,12 +292,12 @@ public class AudioRecorderActivity extends AppCompatActivity
         /*if(!isFinishing()) {
             saveMenuItem.setVisible(true);
         }*/
-        statusView.setText(cafe.adriel.androidaudiorecorder.R.string.aar_paused);
+        statusView.setText(R.string.aar_paused);
         statusView.setVisibility(View.VISIBLE);
         restartView.setVisibility(View.VISIBLE);
         playView.setVisibility(View.VISIBLE);
-        recordView.setImageResource(cafe.adriel.androidaudiorecorder.R.drawable.aar_ic_rec);
-        playView.setImageResource(cafe.adriel.androidaudiorecorder.R.drawable.aar_ic_play);
+        recordView.setImageResource(R.drawable.aar_ic_rec);
+        playView.setImageResource(R.drawable.aar_ic_play);
 
         visualizerView.release();
         if(visualizerHandler != null) {
@@ -345,9 +343,9 @@ public class AudioRecorderActivity extends AppCompatActivity
             });
 
             timerView.setText("00:00:00");
-            statusView.setText(cafe.adriel.androidaudiorecorder.R.string.aar_playing);
+            statusView.setText(R.string.aar_playing);
             statusView.setVisibility(View.VISIBLE);
-            playView.setImageResource(cafe.adriel.androidaudiorecorder.R.drawable.aar_ic_stop);
+            playView.setImageResource(R.drawable.aar_ic_stop);
 
             playerSecondsElapsed = 0;
             startTimer();
@@ -359,7 +357,7 @@ public class AudioRecorderActivity extends AppCompatActivity
     private void stopPlaying(){
         statusView.setText("");
         statusView.setVisibility(View.INVISIBLE);
-        playView.setImageResource(cafe.adriel.androidaudiorecorder.R.drawable.aar_ic_play);
+        playView.setImageResource(R.drawable.aar_ic_play);
 
         visualizerView.release();
         if(visualizerHandler != null) {

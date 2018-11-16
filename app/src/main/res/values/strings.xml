@@ -526,5 +526,11 @@
 
     <string name="mypage_logout">LogOut</string>
 
+    //Record
+    <string name="aar_save">Save</string>
+    <string name="aar_paused">Paused</string>
+    <string name="aar_recording">Recording</string>
+    <string name="aar_playing">Playing</string>
+
 
 </resources>
