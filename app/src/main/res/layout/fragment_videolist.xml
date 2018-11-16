@@ -89,7 +89,7 @@
                             android:layout_marginLeft="@dimen/youtube_app_bar_padding"
                             android:src="@drawable/icon_open" />
                         <ImageButton
-                            android:id="@+id/small_textt"
+                            android:id="@+id/btnRecord"
                             android:layout_width="70dp"
                             android:layout_height="70dp"
                             android:layout_alignParentRight="true"
@@ -102,7 +102,7 @@
                             android:layout_height="70dp"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="@dimen/youtube_app_bar_icon_gab"
-                            android:layout_toLeftOf="@id/small_textt"
+                            android:layout_toLeftOf="@id/btnRecord"
                             android:background="@drawable/icon_play" />
                         <ImageButton
                             android:id="@+id/small_texta"

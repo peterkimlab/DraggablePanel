@@ -16,11 +16,11 @@ import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.support.annotation.ColorRes;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.util.DisplayMetrics;
@@ -36,7 +36,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
+import com.edxdn.hmsoon.record.AndroidAudioRecorder;
+import com.edxdn.hmsoon.record.model.AudioChannel;
+import com.edxdn.hmsoon.record.model.AudioSampleRate;
+import com.edxdn.hmsoon.record.model.AudioSource;
 import com.exam.english.R;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.edxdn.hmsoon.api.Datums;
@@ -56,7 +59,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.regex.Pattern;
-
 import static android.app.Activity.RESULT_OK;
 
 @SuppressLint("ValidFragment")
@@ -70,7 +72,7 @@ public class VideoListFragment extends Fragment {
     private ImageView repeatOne, repeat, playSpeed, shuffle, rewind, forward, smallArtworkDown, prev, play, next;
 
    // private ImageView smallPrev;
-    private ImageButton smallToggle, smallTexta, smallTextt;
+    private ImageButton smallToggle, smallTexta, smallTextt, btnRecord;
   //  private ImageView smallNext;
     private ProgressBar songProgress;
     private AppCompatSeekBar seekbar;
@@ -115,6 +117,10 @@ public class VideoListFragment extends Fragment {
 
     List<String> filePAthList = new ArrayList<>();
     List<String> fileNameList = new ArrayList<>();
+
+    private static final int REQUEST_RECORD_AUDIO = 0;
+    private static final String AUDIO_FILE_PATH =
+            Environment.getExternalStorageDirectory().getPath() + "/recorded_audio.wav";
 
     public static VideoListFragment newInstance() {
         MainActivity.SEARCH_POPUP_VALUE = MainActivity.SEARCH_VALUE;
@@ -235,13 +241,39 @@ public class VideoListFragment extends Fragment {
                 mainActivity.getVideoFragment().showHideText();
             }
         });
-        smallTextt = (ImageButton) view.findViewById(R.id.small_textt);
+
+        btnRecord = (ImageButton) view.findViewById(R.id.btnRecord);
+        btnRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                /*Intent intent = new Intent(getContext(), AudioRecorderActivity.class);
+                getContext().startActivity(intent);*/
+                AndroidAudioRecorder.with(getActivity())
+                        // Required
+                        .setFilePath(AUDIO_FILE_PATH)
+                        .setColor(ContextCompat.getColor(getContext(), R.color.recorder_bg))
+                        .setRequestCode(REQUEST_RECORD_AUDIO)
+
+                        // Optional
+                        .setSource(AudioSource.MIC)
+                        .setChannel(AudioChannel.STEREO)
+                        .setSampleRate(AudioSampleRate.HZ_48000)
+                        .setAutoStart(false)
+                        .setKeepDisplayOn(true)
+
+                        // Start recording
+                        .record();
+            }
+        });
+
+        /*smallTextt = (ImageButton) view.findViewById(R.id.small_textt);
         smallTextt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View p0) {
                 mainActivity.getVideoFragment().showHideTextKr();
             }
-        });
+        });*/
         /*textButton.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View p0) {
@@ -472,6 +504,7 @@ public class VideoListFragment extends Fragment {
 
         return view;
     }
+
 
     public static class VideoListFragmentPageAdapter extends FragmentPagerAdapter {
 

@@ -1,5 +1,6 @@
 package com.edxdn.hmsoon.ui.main;
 
+import android.Manifest;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -148,6 +149,9 @@ public class MainActivity extends AppCompatActivity {
         application.setMainInstance(this);
 
         setContentView(R.layout.activity_main);
+
+        HummingUtils.requestPermission(this, Manifest.permission.RECORD_AUDIO);
+        HummingUtils.requestPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         draggable_panel = (DraggablePanel) findViewById(R.id.draggable_panel);
