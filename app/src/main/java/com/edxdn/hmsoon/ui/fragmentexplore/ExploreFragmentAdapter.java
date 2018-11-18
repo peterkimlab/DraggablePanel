@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.exam.english.R;
 import com.edxdn.hmsoon.api.Datums;
@@ -20,7 +19,6 @@ import com.edxdn.hmsoon.application.MyCustomApplication;
 import com.edxdn.hmsoon.ui.adapter.SpacesItemDecoration;
 import com.edxdn.hmsoon.ui.data.DataTypeMusicFragment;
 import com.edxdn.hmsoon.ui.data.ExploreFragmentItemModel;
-import com.edxdn.hmsoon.ui.fragmentmusic.MusicFragmentAdapter;
 import com.edxdn.hmsoon.util.HummingUtils;
 
 import java.util.ArrayList;
@@ -138,7 +136,7 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 ((PatternViewHolder) holder).itemTitle.setText("추천패턴");
                 break;
             case POPULAR_TYPE:
-                dataList = dataset.get(DataTypeMusicFragment.POPULAR_TYPE);
+                dataList = dataset.get(DataTypeMusicFragment.EXPLORE_POPULAR_TYPE);
                 if (dataList != null) {
                     for (Datums datas : dataList) {
                         singleItem.add(new ExploreFragmentItemModel(POPULAR_TYPE, HummingUtils.getTitle(datas, context), HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
@@ -153,7 +151,7 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 ((PopularViewHolder) holder).itemMainTitle.setText("인기영상");
                 break;
             case CHAT_TYPE:
-                dataList = dataset.get(DataTypeMusicFragment.CHAT_TYPE);
+                dataList = dataset.get(DataTypeMusicFragment.EXPLORE_CHAT_TYPE);
                 if (dataList != null) {
                     for (Datums datas : dataList) {
                         singleItem.add(new ExploreFragmentItemModel(CHAT_TYPE, datas.source.get(HummingUtils.ElasticField.STYPE).toString(),"","", datas.source.get(HummingUtils.ElasticField.TITLE).toString()));

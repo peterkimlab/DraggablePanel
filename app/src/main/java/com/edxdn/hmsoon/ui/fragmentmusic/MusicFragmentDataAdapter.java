@@ -54,8 +54,8 @@ public class MusicFragmentDataAdapter extends RecyclerView.Adapter<RecyclerView.
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_music_video_ranking_type, null);
                 return new MusicFragmentDataAdapter.RankingItemRowHolder(view);
             case MusicFragmentAdapter.RECENT_TYPE:
-                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_explore_pattern, null);
-                return new MusicFragmentDataAdapter.PatternItemRowHolder(view);
+                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_music_video_started_type, null);
+                return new RecentItemRowHolder(view);
             case MusicFragmentAdapter.MOTHER_GOOSE_TYPE:
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_explore_video_started_type, null);
                 return new MusicFragmentDataAdapter.PopularItemRowHolder(view);
@@ -84,23 +84,19 @@ public class MusicFragmentDataAdapter extends RecyclerView.Adapter<RecyclerView.
                         ((MainActivity)mContext).setVideoUrl(mDataList.get(i));
                     }
                 });
-
                 break;
             case MusicFragmentAdapter.RECENT_TYPE:
-                if (i % 2 == 0) {
-                    ((MusicFragmentDataAdapter.PatternItemRowHolder) holder).item_layout.setBackgroundResource(R.drawable.today_pic);
-                } else {
-                    ((MusicFragmentDataAdapter.PatternItemRowHolder) holder).item_layout.setBackgroundResource(R.drawable.today_pic_2);
-                }
-                ((MusicFragmentDataAdapter.PatternItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
+                Glide.with(mContext)
+                        .load(singleItem.getItem_thumbnail())
+                        .into(((MusicFragmentDataAdapter.RecentItemRowHolder) holder).itemImage);
+                ((MusicFragmentDataAdapter.RecentItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        MyCustomApplication.getMainInstance().onClickItems("sentences", singleItem.getSentence());
+                        ((MainActivity)mContext).setVideoUrl(mDataList.get(i));
                     }
                 });
-
                 break;
             case MusicFragmentAdapter.MOTHER_GOOSE_TYPE:
                 Glide.with(mContext)
@@ -114,7 +110,6 @@ public class MusicFragmentDataAdapter extends RecyclerView.Adapter<RecyclerView.
                         ((MainActivity)mContext).setVideoUrl(mDataList.get(i));
                     }
                 });
-
                 break;
             case MusicFragmentAdapter.RECOMMEND_TYPE:
                 ((MusicFragmentDataAdapter.ChatItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
@@ -154,12 +149,15 @@ public class MusicFragmentDataAdapter extends RecyclerView.Adapter<RecyclerView.
             this.tvSentence = (TextView) view.findViewById(R.id.sentence);
         }
     }
-    public static class PatternItemRowHolder extends RecyclerView.ViewHolder {
-        LinearLayout item_layout;
+    public static class RecentItemRowHolder extends RecyclerView.ViewHolder {
+        TextView tvTitle;
+        ImageView itemImage;
+        TextView tvTime;
         TextView tvSentence;
-        public PatternItemRowHolder(View view) {
+        public RecentItemRowHolder(View view) {
             super(view);
-            this.item_layout = (LinearLayout) view.findViewById(R.id.item_layout);
+            this.itemImage = (ImageView) view.findViewById(R.id.thumbnail);
+            this.tvTitle = (TextView) view.findViewById(R.id.vtitle);
             this.tvSentence = (TextView) view.findViewById(R.id.sentence);
         }
     }

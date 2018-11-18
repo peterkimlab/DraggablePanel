@@ -30,7 +30,7 @@ public class MusicFragment extends Fragment {
 
     private FragmentExploreBinding binding;
     private MusicFragmentAdapter mAdapter;
-    private List<Datums> rankingList, recentList, popularList, chatList;
+    private List<Datums> rankingList, recentList, motherGooseList, recommendList;
     private HashMap<String, List<Datums>> dataset;
     private APIInterface apiInterface;
     private Handler mHandler;
@@ -50,8 +50,8 @@ public class MusicFragment extends Fragment {
 
         rankingList = new ArrayList<>();
         recentList = new ArrayList<>();
-        popularList = new ArrayList<>();
-        chatList = new ArrayList<>();
+        motherGooseList = new ArrayList<>();
+        recommendList = new ArrayList<>();
 
         // 아덥터
         mAdapter = new MusicFragmentAdapter(getActivity(), dataset);
@@ -83,14 +83,14 @@ public class MusicFragment extends Fragment {
         Handler getDataPatternHandler = new Handler();
         getDataPatternHandler.postDelayed(new Runnable() {
             @Override public void run() {
-                getDataPattern(1, "");
+                getDataRecent(1, "");
             }
         }, 100);
 
-        Handler getDataPopularSentencesHandler = new Handler();
-        getDataPopularSentencesHandler.postDelayed(new Runnable() {
+        Handler getDataMotherGooseHandler = new Handler();
+        getDataMotherGooseHandler.postDelayed(new Runnable() {
             @Override public void run() {
-                getDataPopularSentences(1, "");
+                getDataMotherGoose(1, "");
             }
         }, 500);
 
@@ -105,15 +105,15 @@ public class MusicFragment extends Fragment {
 
     // 인기순위
     public void getDataRanking(int current_page, String sort) {
-        Call<SearchResource> call = apiInterface.getSentences(current_page + "", "", sort, "");
+        Call<SearchResource> call = apiInterface.getPopular(current_page+"", "", sort);
         call.enqueue(new Callback<SearchResource>() {
             @Override
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
                 SearchResource resource = response.body();
                 if (resource != null && resource.hits != null) {
-                    popularList.addAll(resource.hits.hits);
+                    rankingList.addAll(resource.hits.hits);
                 }
-                dataset.put(DataTypeMusicFragment.RANKING_TYPE, popularList);
+                dataset.put(DataTypeMusicFragment.MUSIC_RANKING_TYPE, rankingList);
                 mAdapter.notifyDataSetChanged();
             }
             @Override
@@ -124,8 +124,8 @@ public class MusicFragment extends Fragment {
     }
 
     //최근 음악
-    public void getDataPattern(int current_page, String sort) {
-        Call<SearchResource> call = apiInterface.getPatterns(current_page + "", sort);
+    public void getDataRecent(int current_page, String sort) {
+        Call<SearchResource> call = apiInterface.getContents(current_page+"", "youtube_mothergoose");
         call.enqueue(new Callback<SearchResource>() {
             @Override
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
@@ -133,7 +133,7 @@ public class MusicFragment extends Fragment {
                 if (resource != null && resource.hits != null) {
                     recentList.addAll(resource.hits.hits);
                 }
-                dataset.put(DataTypeMusicFragment.EXPLORE_PATTERN_TYPE, recentList);
+                dataset.put(DataTypeMusicFragment.MUSIC_RECENT_TYPE, recentList);
                 mAdapter.notifyDataSetChanged();
             }
 
@@ -145,17 +145,18 @@ public class MusicFragment extends Fragment {
     }
 
     //추천 동요
-    public void getDataPopularSentences(int current_page, String sort) {
+    public void getDataMotherGoose(int current_page, String sort) {
         //Call<SearchResource> call = apiInterface.getPopular(current_page+"", "", sort);
-        Call<SearchResource> call = apiInterface.getSentences(current_page + "", "", sort, "");
+        Call<SearchResource> call = apiInterface.getContents(current_page+"", "youtube_mothergoose");
+        //Call<SearchResource> call = apiInterface.getSentences(current_page + "", "", sort, "");
         call.enqueue(new Callback<SearchResource>() {
             @Override
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
                 SearchResource resource = response.body();
                 if (resource != null && resource.hits != null) {
-                    popularList.addAll(resource.hits.hits);
+                    motherGooseList.addAll(resource.hits.hits);
                 }
-                dataset.put(DataTypeMusicFragment.POPULAR_TYPE, popularList);
+                dataset.put(DataTypeMusicFragment.MUSIC_MOTHERGOOSE_TYPE, motherGooseList);
                 mAdapter.notifyDataSetChanged();
             }
             @Override
@@ -173,9 +174,9 @@ public class MusicFragment extends Fragment {
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
                 SearchResource resource = response.body();
                 if (resource != null && resource.hits != null) {
-                    chatList.addAll(resource.hits.hits);
+                    recommendList.addAll(resource.hits.hits);
                 }
-                dataset.put(DataTypeMusicFragment.CHAT_TYPE, chatList);
+                dataset.put(DataTypeMusicFragment.MUSIC_RECOMMEND_TYPE, recommendList);
                 mAdapter.notifyDataSetChanged();
             }
 

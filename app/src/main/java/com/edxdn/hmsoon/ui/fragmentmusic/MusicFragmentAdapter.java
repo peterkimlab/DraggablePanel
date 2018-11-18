@@ -17,7 +17,6 @@ import com.edxdn.hmsoon.ui.data.ExploreFragmentItemModel;
 import com.edxdn.hmsoon.ui.fragmentexplore.ExploreFragmentAdapter;
 import com.exam.english.R;
 import com.edxdn.hmsoon.api.Datums;
-import com.edxdn.hmsoon.application.MyCustomApplication;
 import com.edxdn.hmsoon.ui.data.DataTypeMusicFragment;
 import com.edxdn.hmsoon.util.HummingUtils;
 import java.util.ArrayList;
@@ -65,7 +64,7 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
                 view = LayoutInflater.from(context).inflate(R.layout.list_item_music_ranking, parent, false);
                 return new MusicFragmentAdapter.RankingViewHolder(view);
             case RECENT_TYPE:
-                view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_sub_title, parent, false);
+                view = LayoutInflater.from(context).inflate(R.layout.list_item_music_sub_title, parent, false);
                 return new MusicFragmentAdapter.RecentViewHolder(view);
             case MOTHER_GOOSE_TYPE:
                 view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_standard, parent, false);
@@ -88,7 +87,7 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         switch (position) {
             case RANKING_TYPE:
-                dataList = dataset.get(DataTypeMusicFragment.RANKING_TYPE);
+                dataList = dataset.get(DataTypeMusicFragment.MUSIC_RANKING_TYPE);
                 if (dataList != null) {
                     for (Datums datas : dataList) {
                         singleItem.add(new ExploreFragmentItemModel(RANKING_TYPE, HummingUtils.getTitle(datas, context), HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
@@ -103,10 +102,10 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ((MusicFragmentAdapter.RankingViewHolder) holder).itemMainTitle.setText("인기순위");
                 break;
             case RECENT_TYPE:
-                dataList = dataset.get(DataTypeMusicFragment.EXPLORE_PATTERN_TYPE);
+                dataList = dataset.get(DataTypeMusicFragment.MUSIC_RECENT_TYPE);
                 if (dataList != null) {
                     for (Datums datas : dataList) {
-                        singleItem.add(new ExploreFragmentItemModel(RECENT_TYPE,"",HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL),"", datas.source.get(HummingUtils.ElasticField.PATTERN).toString()));
+                        singleItem.add(new ExploreFragmentItemModel(RECENT_TYPE, HummingUtils.getTitle(datas, context), HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
                     }
                     ((MusicFragmentAdapter.RecentViewHolder) holder).recycler_view_list.addItemDecoration(decoration);
                     ((MusicFragmentAdapter.RecentViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
@@ -114,19 +113,11 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
                     itemListDataAdapter = new MusicFragmentDataAdapter(context, singleItem, dataList);
                     ((MusicFragmentAdapter.RecentViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
                     ((MusicFragmentAdapter.RecentViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
-
-                    ((MusicFragmentAdapter.RecentViewHolder) holder).btnMore.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            MyCustomApplication.getMainInstance().onClickItems("patterns", "");
-                        }
-                    });
-
                 }
-                ((MusicFragmentAdapter.RecentViewHolder) holder).itemTitle.setText("최근음악");
+                ((MusicFragmentAdapter.RecentViewHolder) holder).itemMainTitle.setText("최근음악");
                 break;
             case MOTHER_GOOSE_TYPE:
-                dataList = dataset.get(DataTypeMusicFragment.POPULAR_TYPE);
+                dataList = dataset.get(DataTypeMusicFragment.MUSIC_MOTHERGOOSE_TYPE);
                 if (dataList != null) {
                     for (Datums datas : dataList) {
                         singleItem.add(new ExploreFragmentItemModel(MOTHER_GOOSE_TYPE, HummingUtils.getTitle(datas, context), HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
@@ -138,10 +129,10 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
                     ((MusicFragmentAdapter.MotherGooseViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
                     ((MusicFragmentAdapter.MotherGooseViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
                 }
-                ((MusicFragmentAdapter.MotherGooseViewHolder) holder).itemMainTitle.setText("인기영상");
+                ((MusicFragmentAdapter.MotherGooseViewHolder) holder).itemMainTitle.setText("추천동요");
                 break;
             case RECOMMEND_TYPE:
-                dataList = dataset.get(DataTypeMusicFragment.CHAT_TYPE);
+                dataList = dataset.get(DataTypeMusicFragment.MUSIC_RECOMMEND_TYPE);
                 if (dataList != null) {
                     for (Datums datas : dataList) {
                         singleItem.add(new ExploreFragmentItemModel(RECOMMEND_TYPE, datas.source.get(HummingUtils.ElasticField.STYPE).toString(),"","", datas.source.get(HummingUtils.ElasticField.TITLE).toString()));
@@ -152,7 +143,7 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
                     ((MusicFragmentAdapter.RecommendViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
                     ((MusicFragmentAdapter.RecommendViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
                 }
-                ((MusicFragmentAdapter.RecommendViewHolder) holder).itemMainTitle.setText("채팅회화");
+                ((MusicFragmentAdapter.RecommendViewHolder) holder).itemMainTitle.setText("추천음악");
                 break;
         }
     }
@@ -180,15 +171,16 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public static class RecentViewHolder extends RecyclerView.ViewHolder {
 
+        protected TextView itemMainTitle;
         protected TextView itemTitle;
         protected RecyclerView recycler_view_list;
         protected Button btnMore;
 
         public RecentViewHolder(View itemView) {
             super(itemView);
+            this.itemMainTitle = (TextView) itemView.findViewById(R.id.itemMainTitle);
             this.itemTitle = (TextView) itemView.findViewById(R.id.itemTitle);
             this.recycler_view_list = (RecyclerView) itemView.findViewById(R.id.recycler_view_list);
-            this.btnMore= (Button) itemView.findViewById(R.id.btnMore);
         }
     }
 

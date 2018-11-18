@@ -7,7 +7,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -157,7 +156,7 @@ public class ExploreFragment extends Fragment {
                 if (resource != null && resource.hits != null) {
                     popularList.addAll(resource.hits.hits);
                 }
-                dataset.put(DataTypeMusicFragment.POPULAR_TYPE, popularList);
+                dataset.put(DataTypeMusicFragment.EXPLORE_POPULAR_TYPE, popularList);
                 mAdapter.notifyDataSetChanged();
             }
             @Override
@@ -177,7 +176,7 @@ public class ExploreFragment extends Fragment {
                 if(resource != null && resource.hits != null){
                     chatList.addAll(resource.hits.hits);
                 }
-                dataset.put(DataTypeMusicFragment.CHAT_TYPE, chatList);
+                dataset.put(DataTypeMusicFragment.EXPLORE_CHAT_TYPE, chatList);
                 mAdapter.notifyDataSetChanged();
             }
 
