@@ -135,6 +135,8 @@ public class MusicFragmentDataAdapter extends RecyclerView.Adapter<RecyclerView.
 
         if (itemsList.get(0).getvType() == MusicFragmentAdapter.RANKING_TYPE) {
             return 6;
+        } else if (itemsList.get(0).getvType() == MusicFragmentAdapter.MOTHER_GOOSE_TYPE){
+            return 4;
         }
 
         return (null != itemsList ? itemsList.size() : 0);

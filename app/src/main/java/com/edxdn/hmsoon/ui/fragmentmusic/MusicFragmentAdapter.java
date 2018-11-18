@@ -62,7 +62,7 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
         View view;
         switch (viewType) {
             case RANKING_TYPE:
-                view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_standard, parent, false);
+                view = LayoutInflater.from(context).inflate(R.layout.list_item_music_ranking, parent, false);
                 return new MusicFragmentAdapter.RankingViewHolder(view);
             case RECENT_TYPE:
                 view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_sub_title, parent, false);
