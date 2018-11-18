@@ -6,10 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.edxdn.hmsoon.application.MyCustomApplication;
+import com.edxdn.hmsoon.ui.data.ExploreFragmentItemModel;
+import com.edxdn.hmsoon.ui.fragmentexplore.ExploreFragmentAdapter;
+import com.edxdn.hmsoon.ui.fragmentexplore.ExploreFragmentDataAdapter;
 import com.exam.english.R;
 import com.edxdn.hmsoon.api.Datums;
 import com.edxdn.hmsoon.ui.data.MusicFragmentItemModel;
@@ -18,73 +23,168 @@ import com.edxdn.hmsoon.ui.main.MainActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MusicFragmentDataAdapter extends RecyclerView.Adapter<MusicFragmentDataAdapter.SingleItemRowHolder> {
+public class MusicFragmentDataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private ArrayList<ExploreFragmentItemModel> itemsList;
     private Context mContext;
-    private ArrayList<MusicFragmentItemModel> itemsList;
     List<Datums> mDataList;
 
-    public MusicFragmentDataAdapter(Context context, ArrayList<MusicFragmentItemModel> itemsList, List<Datums> dataList) {
+    public MusicFragmentDataAdapter(Context context, ArrayList<ExploreFragmentItemModel> itemsList, List<Datums> dataList) {
         this.mContext = context;
         this.itemsList = itemsList;
         this.mDataList = dataList;
     }
 
     @Override
-    public SingleItemRowHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_music_image_type, null);
-        SingleItemRowHolder mh = new SingleItemRowHolder(v);
-        return mh;
+    public int getItemViewType(int position) {
+
+        switch (itemsList.get(position).getvType()) {
+            case 0:
+                return ExploreFragmentAdapter.SENTENCE_TYPE;
+            case 1:
+                return ExploreFragmentAdapter.PATTERN_TYPE;
+            case 2:
+                return ExploreFragmentAdapter.POPULAR_TYPE;
+            case 3:
+                return ExploreFragmentAdapter.CHAT_TYPE;
+            default:
+                return -1;
+        }
     }
 
     @Override
-    public void onBindViewHolder(final SingleItemRowHolder holder, final int i) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View view;
+        switch (i) {
+            case ExploreFragmentAdapter.SENTENCE_TYPE:
+                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_explore_pattern, null);
+                return new ExploreFragmentDataAdapter.SentenceItemRowHolder(view);
+            case ExploreFragmentAdapter.PATTERN_TYPE:
+                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_explore_pattern, null);
+                return new ExploreFragmentDataAdapter.PatternItemRowHolder(view);
+            case ExploreFragmentAdapter.POPULAR_TYPE:
+                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_explore_video_started_type, null);
+                return new ExploreFragmentDataAdapter.PopularItemRowHolder(view);
+            case ExploreFragmentAdapter.CHAT_TYPE:
+                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_explore_chat, null);
+                return new ExploreFragmentDataAdapter.ChatItemRowHolder(view);
+        }
+        return null;
+    }
 
-        MusicFragmentItemModel singleItem = itemsList.get(i);
+    @Override
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int i) {
 
-        holder.tvTitle.setText(singleItem.getVtitle());
-        Glide.with(mContext)
-                .load(singleItem.getItem_thumbnail())
-                .apply(RequestOptions.centerCropTransform())
-                .into(holder.itemImage);
-        holder.tvTime.setText(singleItem.getTime());
-        holder.tvSentence.setText(singleItem.getSentence());
+        final ExploreFragmentItemModel singleItem = itemsList.get(i);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((MainActivity)mContext).setVideoUrl(mDataList.get(i));
-            }
-        });
+        switch (singleItem.getvType()) {
+            case ExploreFragmentAdapter.SENTENCE_TYPE:
+                if (i % 2 == 0) {
+                    ((MusicFragmentDataAdapter.SentenceItemRowHolder) holder).item_layout.setBackgroundResource(R.drawable.today_pic);
+                } else {
+                    ((MusicFragmentDataAdapter.SentenceItemRowHolder) holder).item_layout.setBackgroundResource(R.drawable.today_pic_2);
+                }
+                ((MusicFragmentDataAdapter.SentenceItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
 
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        MyCustomApplication.getMainInstance().onClickItems("sentences", singleItem.getSentence());
+                    }
+                });
+
+                break;
+            case ExploreFragmentAdapter.PATTERN_TYPE:
+                if (i % 2 == 0) {
+                    ((MusicFragmentDataAdapter.PatternItemRowHolder) holder).item_layout.setBackgroundResource(R.drawable.today_pic);
+                } else {
+                    ((MusicFragmentDataAdapter.PatternItemRowHolder) holder).item_layout.setBackgroundResource(R.drawable.today_pic_2);
+                }
+                ((MusicFragmentDataAdapter.PatternItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        MyCustomApplication.getMainInstance().onClickItems("sentences", singleItem.getSentence());
+                    }
+                });
+
+                break;
+            case ExploreFragmentAdapter.POPULAR_TYPE:
+                Glide.with(mContext)
+                        .load(singleItem.getItem_thumbnail())
+                        .into(((MusicFragmentDataAdapter.PopularItemRowHolder) holder).itemImage);
+                ((MusicFragmentDataAdapter.PopularItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ((MainActivity)mContext).setVideoUrl(mDataList.get(i));
+                    }
+                });
+
+                break;
+            case ExploreFragmentAdapter.CHAT_TYPE:
+                ((MusicFragmentDataAdapter.ChatItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        MyCustomApplication.getMainInstance().openInterestPage(1, mDataList.get(i));
+                    }
+                });
+
+                break;
+        }
     }
 
     @Override
     public int getItemCount() {
+
+        if (itemsList.get(0).getvType() == ExploreFragmentAdapter.POPULAR_TYPE) {
+            return 4;
+        }
+
         return (null != itemsList ? itemsList.size() : 0);
     }
 
-    public static class SingleItemRowHolder extends RecyclerView.ViewHolder {
-
+    public static class SentenceItemRowHolder extends RecyclerView.ViewHolder {
+        LinearLayout item_layout;
+        TextView tvSentence;
+        public SentenceItemRowHolder(View view) {
+            super(view);
+            this.item_layout = (LinearLayout) view.findViewById(R.id.item_layout);
+            this.tvSentence = (TextView) view.findViewById(R.id.sentence);
+        }
+    }
+    public static class PatternItemRowHolder extends RecyclerView.ViewHolder {
+        LinearLayout item_layout;
+        TextView tvSentence;
+        public PatternItemRowHolder(View view) {
+            super(view);
+            this.item_layout = (LinearLayout) view.findViewById(R.id.item_layout);
+            this.tvSentence = (TextView) view.findViewById(R.id.sentence);
+        }
+    }
+    public static class PopularItemRowHolder extends RecyclerView.ViewHolder {
         TextView tvTitle;
         ImageView itemImage;
         TextView tvTime;
         TextView tvSentence;
-
-        public SingleItemRowHolder(View view) {
+        public PopularItemRowHolder(View view) {
             super(view);
-
-            this.tvTime = (TextView) view.findViewById(R.id.time);
             this.itemImage = (ImageView) view.findViewById(R.id.thumbnail);
             this.tvTitle = (TextView) view.findViewById(R.id.vtitle);
             this.tvSentence = (TextView) view.findViewById(R.id.sentence);
-
-            /*view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });*/
+        }
+    }
+    public static class ChatItemRowHolder extends RecyclerView.ViewHolder {
+        LinearLayout item_layout;
+        TextView tvSentence;
+        public ChatItemRowHolder(View view) {
+            super(view);
+            this.item_layout = (LinearLayout) view.findViewById(R.id.item_layout);
+            this.tvSentence = (TextView) view.findViewById(R.id.sentence);
         }
     }
 }

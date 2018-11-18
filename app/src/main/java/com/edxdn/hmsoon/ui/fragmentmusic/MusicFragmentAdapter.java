@@ -1,9 +1,12 @@
 package com.edxdn.hmsoon.ui.fragmentmusic;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Rect;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.edxdn.hmsoon.ui.adapter.SpacesItemDecoration;
+import com.edxdn.hmsoon.ui.data.ExploreFragmentItemModel;
+import com.edxdn.hmsoon.ui.fragmentexplore.ExploreFragmentAdapter;
+import com.edxdn.hmsoon.ui.fragmentexplore.ExploreFragmentDataAdapter;
 import com.exam.english.R;
 import com.edxdn.hmsoon.api.Datums;
 import com.edxdn.hmsoon.application.MyCustomApplication;
@@ -23,10 +30,17 @@ import java.util.List;
 
 public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final String TAG = MusicFragmentAdapter.class.getSimpleName();
-
+    private static final String TAG = ExploreFragmentAdapter.class.getSimpleName();
     private Context context;
     private HashMap<String, List<Datums>> dataset;
+
+    private final int DECORATE_PADDING = 5;
+
+    public static final int SENTENCE_TYPE = 0;
+    public static final int PATTERN_TYPE = 1;
+    public static final int POPULAR_TYPE = 2;
+    //public static final int STUDIED_SENTENCE_TYPE = 3;
+    public static final int CHAT_TYPE = 3;
 
     public MusicFragmentAdapter(Context context, HashMap<String, List<Datums>> dataset) {
         this.context = context;
@@ -37,11 +51,13 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
     public int getItemViewType(int position) {
         switch (position) {
             case 0:
-                return DataTypeMusicFragment.IMAGE_TYPE;
+                return SENTENCE_TYPE;
             case 1:
-                return DataTypeMusicFragment.IMAGE_TYPE;
+                return PATTERN_TYPE;
             case 2:
-                return DataTypeMusicFragment.IMAGE_TYPE;
+                return POPULAR_TYPE;
+            case 3:
+                return CHAT_TYPE;
         }
         return -1;
     }
@@ -50,9 +66,18 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         switch (viewType) {
-            case DataTypeMusicFragment.IMAGE_TYPE:
-                view = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
-                return new ImageTypeViewHolder(view);
+            case SENTENCE_TYPE:
+                view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_main_title, parent, false);
+                return new MusicFragmentAdapter.SentenceViewHolder(view);
+            case PATTERN_TYPE:
+                view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_sub_title, parent, false);
+                return new MusicFragmentAdapter.PatternViewHolder(view);
+            case POPULAR_TYPE:
+                view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_standard, parent, false);
+                return new MusicFragmentAdapter.PopularViewHolder(view);
+            case CHAT_TYPE:
+                view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_standard, parent, false);
+                return new MusicFragmentAdapter.ChatViewHolder(view);
         }
         return null;
     }
@@ -60,68 +85,87 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
 
-        ArrayList<MusicFragmentItemModel> singleItem = new ArrayList<MusicFragmentItemModel>();
+        ArrayList<ExploreFragmentItemModel> singleItem = new ArrayList<ExploreFragmentItemModel>();
         List<Datums> dataList;
-        MusicFragmentDataAdapter itemListDataAdapter;
+        ExploreFragmentDataAdapter itemListDataAdapter = null;
+
+        SpacesItemDecoration decoration = new SpacesItemDecoration(DECORATE_PADDING);
 
         switch (position) {
-            case 0:
-                dataList = dataset.get(DataTypeMusicFragment.POPULAR_TYPE);
+            case SENTENCE_TYPE:
+                dataList = dataset.get(DataTypeMusicFragment.EXPLORE_SENTENCE_TYPE);
                 if (dataList != null) {
                     for (Datums datas : dataList) {
-                        singleItem.add(new MusicFragmentItemModel(HummingUtils.getTitle(datas, context), HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
+                        singleItem.add(new ExploreFragmentItemModel(SENTENCE_TYPE, "","","", datas.source.get(HummingUtils.ElasticField.PATTERN).toString()));
                     }
+                    ((MusicFragmentAdapter.SentenceViewHolder) holder).recycler_view_list.addItemDecoration(decoration);
+                    ((MusicFragmentAdapter.SentenceViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+                    ((MusicFragmentAdapter.SentenceViewHolder) holder).recycler_view_list.setHasFixedSize(true);
+                    itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
+                    ((MusicFragmentAdapter.SentenceViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
+                    ((MusicFragmentAdapter.SentenceViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
 
-                    itemListDataAdapter = new MusicFragmentDataAdapter(context, singleItem, dataList);
-
-                    ((ImageTypeViewHolder) holder).recycler_view_list.setHasFixedSize(true);
-                    //((ImageTypeViewHolder) holder).recycler_view_list.setLayoutManager(new GridLayoutManager(context, 2));
-                    ((ImageTypeViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-                    ((ImageTypeViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
-                    ((ImageTypeViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
-
-                    ((ImageTypeViewHolder) holder).btnMore.setOnClickListener(new View.OnClickListener() {
+                    ((MusicFragmentAdapter.SentenceViewHolder) holder).btnMore.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             MyCustomApplication.getMainInstance().onClickItems("sentences", "");
-                            Toast.makeText(context, "more", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
+                ((MusicFragmentAdapter.SentenceViewHolder) holder).itemMainTitle.setText("Today");
+                ((MusicFragmentAdapter.SentenceViewHolder) holder).itemTitle.setText("추천문장");
                 break;
-            case 1:
-                dataList = dataset.get(DataTypeMusicFragment.MOTHERGOOSE_TYPE);
-
+            case PATTERN_TYPE:
+                dataList = dataset.get(DataTypeMusicFragment.EXPLORE_PATTERN_TYPE);
                 if (dataList != null) {
                     for (Datums datas : dataList) {
-                        singleItem.add(new MusicFragmentItemModel("", HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
+                        singleItem.add(new ExploreFragmentItemModel(PATTERN_TYPE,"",HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL),"", datas.source.get(HummingUtils.ElasticField.PATTERN).toString()));
                     }
+                    ((MusicFragmentAdapter.PatternViewHolder) holder).recycler_view_list.addItemDecoration(decoration);
+                    ((MusicFragmentAdapter.PatternViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+                    ((MusicFragmentAdapter.PatternViewHolder) holder).recycler_view_list.setHasFixedSize(true);
+                    itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
+                    ((MusicFragmentAdapter.PatternViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
+                    ((MusicFragmentAdapter.PatternViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
 
-                    itemListDataAdapter = new MusicFragmentDataAdapter(context, singleItem, dataList);
+                    ((MusicFragmentAdapter.PatternViewHolder) holder).btnMore.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            MyCustomApplication.getMainInstance().onClickItems("patterns", "");
+                        }
+                    });
 
-                    ((ImageTypeViewHolder) holder).recycler_view_list.setHasFixedSize(true);
-                    ((ImageTypeViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-                    ((ImageTypeViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
-                    ((ImageTypeViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
                 }
+                ((MusicFragmentAdapter.PatternViewHolder) holder).itemTitle.setText("추천패턴");
                 break;
-            case 2:
-                dataList = dataset.get(DataTypeMusicFragment.SENTENCE_TYPE);
-
+            case POPULAR_TYPE:
+                dataList = dataset.get(DataTypeMusicFragment.POPULAR_TYPE);
                 if (dataList != null) {
                     for (Datums datas : dataList) {
-                        //(((PopularViewHolder) holder).sentence.setText(HummingUtils.getSentenceByMode(datas, context));
-                        //(((PopularViewHolder) holder).vtitle.setText(HummingUtils.getTitleByMode(datas, context));
-                        singleItem.add(new MusicFragmentItemModel("", HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
+                        singleItem.add(new ExploreFragmentItemModel(POPULAR_TYPE, HummingUtils.getTitle(datas, context), HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
                     }
-
-                    itemListDataAdapter = new MusicFragmentDataAdapter(context, singleItem, dataList);
-
-                    ((ImageTypeViewHolder) holder).recycler_view_list.setHasFixedSize(true);
-                    ((ImageTypeViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-                    ((ImageTypeViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
-                    ((ImageTypeViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
+                    ((MusicFragmentAdapter.PopularViewHolder) holder).recycler_view_list.addItemDecoration(new MusicFragmentAdapter.GridSpacingItemDecoration(2, dpToPx(5), true));
+                    ((MusicFragmentAdapter.PopularViewHolder) holder).recycler_view_list.setLayoutManager(new GridLayoutManager(context, 2));
+                    ((MusicFragmentAdapter.PopularViewHolder) holder).recycler_view_list.setHasFixedSize(true);
+                    itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
+                    ((MusicFragmentAdapter.PopularViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
+                    ((MusicFragmentAdapter.PopularViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
                 }
+                ((MusicFragmentAdapter.PopularViewHolder) holder).itemMainTitle.setText("인기영상");
+                break;
+            case CHAT_TYPE:
+                dataList = dataset.get(DataTypeMusicFragment.CHAT_TYPE);
+                if (dataList != null) {
+                    for (Datums datas : dataList) {
+                        singleItem.add(new ExploreFragmentItemModel(CHAT_TYPE, datas.source.get(HummingUtils.ElasticField.STYPE).toString(),"","", datas.source.get(HummingUtils.ElasticField.TITLE).toString()));
+                    }
+                    ((MusicFragmentAdapter.ChatViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+                    ((MusicFragmentAdapter.ChatViewHolder) holder).recycler_view_list.setHasFixedSize(true);
+                    itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
+                    ((MusicFragmentAdapter.ChatViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
+                    ((MusicFragmentAdapter.ChatViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
+                }
+                ((MusicFragmentAdapter.ChatViewHolder) holder).itemMainTitle.setText("채팅회화");
                 break;
         }
     }
@@ -131,17 +175,107 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
         return dataset.size();
     }
 
-    public static class ImageTypeViewHolder extends RecyclerView.ViewHolder {
+    public static class SentenceViewHolder extends RecyclerView.ViewHolder{
+
+        protected TextView itemMainTitle;
+        protected TextView itemTitle;
+        protected RecyclerView recycler_view_list;
+        protected Button btnMore;
+
+        public SentenceViewHolder(View itemView) {
+            super(itemView);
+            this.itemMainTitle = (TextView) itemView.findViewById(R.id.itemMainTitle);
+            this.itemTitle = (TextView) itemView.findViewById(R.id.itemTitle);
+            this.recycler_view_list = (RecyclerView) itemView.findViewById(R.id.recycler_view_list);
+            this.btnMore= (Button) itemView.findViewById(R.id.btnMore);
+        }
+    }
+
+    public static class PatternViewHolder extends RecyclerView.ViewHolder {
 
         protected TextView itemTitle;
         protected RecyclerView recycler_view_list;
         protected Button btnMore;
 
-        public ImageTypeViewHolder(View itemView) {
+        public PatternViewHolder(View itemView) {
             super(itemView);
             this.itemTitle = (TextView) itemView.findViewById(R.id.itemTitle);
             this.recycler_view_list = (RecyclerView) itemView.findViewById(R.id.recycler_view_list);
-            this.btnMore = (Button) itemView.findViewById(R.id.btnMore);
+            this.btnMore= (Button) itemView.findViewById(R.id.btnMore);
         }
+    }
+
+    public class PopularViewHolder extends RecyclerView.ViewHolder {
+
+        protected TextView itemMainTitle;
+        protected TextView itemTitle;
+        protected RecyclerView recycler_view_list;
+        protected Button btnMore;
+
+        public PopularViewHolder(View itemView) {
+            super(itemView);
+            this.itemMainTitle = (TextView) itemView.findViewById(R.id.itemMainTitle);
+            this.itemTitle = (TextView) itemView.findViewById(R.id.itemTitle);
+            this.recycler_view_list = (RecyclerView) itemView.findViewById(R.id.recycler_view_list);
+            this.btnMore= (Button) itemView.findViewById(R.id.btnMore);
+        }
+    }
+
+    public static class ChatViewHolder extends RecyclerView.ViewHolder{
+
+        protected TextView itemMainTitle;
+        protected TextView itemTitle;
+        protected RecyclerView recycler_view_list;
+        protected Button btnMore;
+
+        public ChatViewHolder(View itemView) {
+            super(itemView);
+            this.itemMainTitle = (TextView) itemView.findViewById(R.id.itemMainTitle);
+            this.itemTitle = (TextView) itemView.findViewById(R.id.itemTitle);
+            this.recycler_view_list = (RecyclerView) itemView.findViewById(R.id.recycler_view_list);
+            this.btnMore= (Button) itemView.findViewById(R.id.btnMore);
+        }
+    }
+
+    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
+
+        private int spanCount;
+        private int spacing;
+        private boolean includeEdge;
+
+        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
+            this.spanCount = spanCount;
+            this.spacing = spacing;
+            this.includeEdge = includeEdge;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            int position = parent.getChildAdapterPosition(view); // item position
+            int column = position % spanCount; // item column
+
+            if (includeEdge) {
+                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
+                outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
+                if (position < spanCount) { // top edge
+                    outRect.top = spacing;
+                }
+                outRect.bottom = spacing; // item bottom
+            } else {
+                outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
+                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
+                if (position >= spanCount) {
+                    outRect.top = spacing; // item top
+                }
+            }
+        }
+    }
+
+    /**
+     * Converting dp to pixel
+     */
+    private int dpToPx(int dp) {
+        Resources r = context.getResources();
+        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 }
