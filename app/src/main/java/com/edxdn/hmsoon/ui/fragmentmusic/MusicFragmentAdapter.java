@@ -12,17 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.edxdn.hmsoon.ui.adapter.SpacesItemDecoration;
 import com.edxdn.hmsoon.ui.data.ExploreFragmentItemModel;
 import com.edxdn.hmsoon.ui.fragmentexplore.ExploreFragmentAdapter;
-import com.edxdn.hmsoon.ui.fragmentexplore.ExploreFragmentDataAdapter;
 import com.exam.english.R;
 import com.edxdn.hmsoon.api.Datums;
 import com.edxdn.hmsoon.application.MyCustomApplication;
 import com.edxdn.hmsoon.ui.data.DataTypeMusicFragment;
-import com.edxdn.hmsoon.ui.data.MusicFragmentItemModel;
 import com.edxdn.hmsoon.util.HummingUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,11 +32,10 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private final int DECORATE_PADDING = 5;
 
-    public static final int SENTENCE_TYPE = 0;
-    public static final int PATTERN_TYPE = 1;
-    public static final int POPULAR_TYPE = 2;
-    //public static final int STUDIED_SENTENCE_TYPE = 3;
-    public static final int CHAT_TYPE = 3;
+    public static final int RANKING_TYPE = 0;
+    public static final int RECENT_TYPE = 1;
+    public static final int MOTHER_GOOSE_TYPE = 2;
+    public static final int RECOMMEND_TYPE = 3;
 
     public MusicFragmentAdapter(Context context, HashMap<String, List<Datums>> dataset) {
         this.context = context;
@@ -51,13 +46,13 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
     public int getItemViewType(int position) {
         switch (position) {
             case 0:
-                return SENTENCE_TYPE;
+                return RANKING_TYPE;
             case 1:
-                return PATTERN_TYPE;
+                return RECENT_TYPE;
             case 2:
-                return POPULAR_TYPE;
+                return MOTHER_GOOSE_TYPE;
             case 3:
-                return CHAT_TYPE;
+                return RECOMMEND_TYPE;
         }
         return -1;
     }
@@ -66,18 +61,18 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         switch (viewType) {
-            case SENTENCE_TYPE:
-                view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_main_title, parent, false);
-                return new MusicFragmentAdapter.SentenceViewHolder(view);
-            case PATTERN_TYPE:
+            case RANKING_TYPE:
+                view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_standard, parent, false);
+                return new MusicFragmentAdapter.RankingViewHolder(view);
+            case RECENT_TYPE:
                 view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_sub_title, parent, false);
-                return new MusicFragmentAdapter.PatternViewHolder(view);
-            case POPULAR_TYPE:
+                return new MusicFragmentAdapter.RecentViewHolder(view);
+            case MOTHER_GOOSE_TYPE:
                 view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_standard, parent, false);
-                return new MusicFragmentAdapter.PopularViewHolder(view);
-            case CHAT_TYPE:
+                return new MusicFragmentAdapter.MotherGooseViewHolder(view);
+            case RECOMMEND_TYPE:
                 view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_standard, parent, false);
-                return new MusicFragmentAdapter.ChatViewHolder(view);
+                return new MusicFragmentAdapter.RecommendViewHolder(view);
         }
         return null;
     }
@@ -87,48 +82,40 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         ArrayList<ExploreFragmentItemModel> singleItem = new ArrayList<ExploreFragmentItemModel>();
         List<Datums> dataList;
-        ExploreFragmentDataAdapter itemListDataAdapter = null;
+        MusicFragmentDataAdapter itemListDataAdapter = null;
 
         SpacesItemDecoration decoration = new SpacesItemDecoration(DECORATE_PADDING);
 
         switch (position) {
-            case SENTENCE_TYPE:
-                dataList = dataset.get(DataTypeMusicFragment.EXPLORE_SENTENCE_TYPE);
+            case RANKING_TYPE:
+                dataList = dataset.get(DataTypeMusicFragment.RANKING_TYPE);
                 if (dataList != null) {
                     for (Datums datas : dataList) {
-                        singleItem.add(new ExploreFragmentItemModel(SENTENCE_TYPE, "","","", datas.source.get(HummingUtils.ElasticField.PATTERN).toString()));
+                        singleItem.add(new ExploreFragmentItemModel(RANKING_TYPE, HummingUtils.getTitle(datas, context), HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
                     }
-                    ((MusicFragmentAdapter.SentenceViewHolder) holder).recycler_view_list.addItemDecoration(decoration);
-                    ((MusicFragmentAdapter.SentenceViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-                    ((MusicFragmentAdapter.SentenceViewHolder) holder).recycler_view_list.setHasFixedSize(true);
-                    itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
-                    ((MusicFragmentAdapter.SentenceViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
-                    ((MusicFragmentAdapter.SentenceViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
-
-                    ((MusicFragmentAdapter.SentenceViewHolder) holder).btnMore.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            MyCustomApplication.getMainInstance().onClickItems("sentences", "");
-                        }
-                    });
+                    ((MusicFragmentAdapter.RankingViewHolder) holder).recycler_view_list.addItemDecoration(new MusicFragmentAdapter.GridSpacingItemDecoration(3, dpToPx(5), true));
+                    ((MusicFragmentAdapter.RankingViewHolder) holder).recycler_view_list.setLayoutManager(new GridLayoutManager(context, 3));
+                    ((MusicFragmentAdapter.RankingViewHolder) holder).recycler_view_list.setHasFixedSize(true);
+                    itemListDataAdapter = new MusicFragmentDataAdapter(context, singleItem, dataList);
+                    ((MusicFragmentAdapter.RankingViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
+                    ((MusicFragmentAdapter.RankingViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
                 }
-                ((MusicFragmentAdapter.SentenceViewHolder) holder).itemMainTitle.setText("Today");
-                ((MusicFragmentAdapter.SentenceViewHolder) holder).itemTitle.setText("추천문장");
+                ((MusicFragmentAdapter.RankingViewHolder) holder).itemMainTitle.setText("인기순위");
                 break;
-            case PATTERN_TYPE:
+            case RECENT_TYPE:
                 dataList = dataset.get(DataTypeMusicFragment.EXPLORE_PATTERN_TYPE);
                 if (dataList != null) {
                     for (Datums datas : dataList) {
-                        singleItem.add(new ExploreFragmentItemModel(PATTERN_TYPE,"",HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL),"", datas.source.get(HummingUtils.ElasticField.PATTERN).toString()));
+                        singleItem.add(new ExploreFragmentItemModel(RECENT_TYPE,"",HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL),"", datas.source.get(HummingUtils.ElasticField.PATTERN).toString()));
                     }
-                    ((MusicFragmentAdapter.PatternViewHolder) holder).recycler_view_list.addItemDecoration(decoration);
-                    ((MusicFragmentAdapter.PatternViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-                    ((MusicFragmentAdapter.PatternViewHolder) holder).recycler_view_list.setHasFixedSize(true);
-                    itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
-                    ((MusicFragmentAdapter.PatternViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
-                    ((MusicFragmentAdapter.PatternViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
+                    ((MusicFragmentAdapter.RecentViewHolder) holder).recycler_view_list.addItemDecoration(decoration);
+                    ((MusicFragmentAdapter.RecentViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+                    ((MusicFragmentAdapter.RecentViewHolder) holder).recycler_view_list.setHasFixedSize(true);
+                    itemListDataAdapter = new MusicFragmentDataAdapter(context, singleItem, dataList);
+                    ((MusicFragmentAdapter.RecentViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
+                    ((MusicFragmentAdapter.RecentViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
 
-                    ((MusicFragmentAdapter.PatternViewHolder) holder).btnMore.setOnClickListener(new View.OnClickListener() {
+                    ((MusicFragmentAdapter.RecentViewHolder) holder).btnMore.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             MyCustomApplication.getMainInstance().onClickItems("patterns", "");
@@ -136,36 +123,36 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
                     });
 
                 }
-                ((MusicFragmentAdapter.PatternViewHolder) holder).itemTitle.setText("추천패턴");
+                ((MusicFragmentAdapter.RecentViewHolder) holder).itemTitle.setText("최근음악");
                 break;
-            case POPULAR_TYPE:
+            case MOTHER_GOOSE_TYPE:
                 dataList = dataset.get(DataTypeMusicFragment.POPULAR_TYPE);
                 if (dataList != null) {
                     for (Datums datas : dataList) {
-                        singleItem.add(new ExploreFragmentItemModel(POPULAR_TYPE, HummingUtils.getTitle(datas, context), HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
+                        singleItem.add(new ExploreFragmentItemModel(MOTHER_GOOSE_TYPE, HummingUtils.getTitle(datas, context), HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
                     }
-                    ((MusicFragmentAdapter.PopularViewHolder) holder).recycler_view_list.addItemDecoration(new MusicFragmentAdapter.GridSpacingItemDecoration(2, dpToPx(5), true));
-                    ((MusicFragmentAdapter.PopularViewHolder) holder).recycler_view_list.setLayoutManager(new GridLayoutManager(context, 2));
-                    ((MusicFragmentAdapter.PopularViewHolder) holder).recycler_view_list.setHasFixedSize(true);
-                    itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
-                    ((MusicFragmentAdapter.PopularViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
-                    ((MusicFragmentAdapter.PopularViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
+                    ((MusicFragmentAdapter.MotherGooseViewHolder) holder).recycler_view_list.addItemDecoration(new MusicFragmentAdapter.GridSpacingItemDecoration(2, dpToPx(5), true));
+                    ((MusicFragmentAdapter.MotherGooseViewHolder) holder).recycler_view_list.setLayoutManager(new GridLayoutManager(context, 2));
+                    ((MusicFragmentAdapter.MotherGooseViewHolder) holder).recycler_view_list.setHasFixedSize(true);
+                    itemListDataAdapter = new MusicFragmentDataAdapter(context, singleItem, dataList);
+                    ((MusicFragmentAdapter.MotherGooseViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
+                    ((MusicFragmentAdapter.MotherGooseViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
                 }
-                ((MusicFragmentAdapter.PopularViewHolder) holder).itemMainTitle.setText("인기영상");
+                ((MusicFragmentAdapter.MotherGooseViewHolder) holder).itemMainTitle.setText("인기영상");
                 break;
-            case CHAT_TYPE:
+            case RECOMMEND_TYPE:
                 dataList = dataset.get(DataTypeMusicFragment.CHAT_TYPE);
                 if (dataList != null) {
                     for (Datums datas : dataList) {
-                        singleItem.add(new ExploreFragmentItemModel(CHAT_TYPE, datas.source.get(HummingUtils.ElasticField.STYPE).toString(),"","", datas.source.get(HummingUtils.ElasticField.TITLE).toString()));
+                        singleItem.add(new ExploreFragmentItemModel(RECOMMEND_TYPE, datas.source.get(HummingUtils.ElasticField.STYPE).toString(),"","", datas.source.get(HummingUtils.ElasticField.TITLE).toString()));
                     }
-                    ((MusicFragmentAdapter.ChatViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-                    ((MusicFragmentAdapter.ChatViewHolder) holder).recycler_view_list.setHasFixedSize(true);
-                    itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
-                    ((MusicFragmentAdapter.ChatViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
-                    ((MusicFragmentAdapter.ChatViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
+                    ((MusicFragmentAdapter.RecommendViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+                    ((MusicFragmentAdapter.RecommendViewHolder) holder).recycler_view_list.setHasFixedSize(true);
+                    itemListDataAdapter = new MusicFragmentDataAdapter(context, singleItem, dataList);
+                    ((MusicFragmentAdapter.RecommendViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
+                    ((MusicFragmentAdapter.RecommendViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
                 }
-                ((MusicFragmentAdapter.ChatViewHolder) holder).itemMainTitle.setText("채팅회화");
+                ((MusicFragmentAdapter.RecommendViewHolder) holder).itemMainTitle.setText("채팅회화");
                 break;
         }
     }
@@ -175,14 +162,14 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
         return dataset.size();
     }
 
-    public static class SentenceViewHolder extends RecyclerView.ViewHolder{
+    public static class RankingViewHolder extends RecyclerView.ViewHolder{
 
         protected TextView itemMainTitle;
         protected TextView itemTitle;
         protected RecyclerView recycler_view_list;
         protected Button btnMore;
 
-        public SentenceViewHolder(View itemView) {
+        public RankingViewHolder(View itemView) {
             super(itemView);
             this.itemMainTitle = (TextView) itemView.findViewById(R.id.itemMainTitle);
             this.itemTitle = (TextView) itemView.findViewById(R.id.itemTitle);
@@ -191,13 +178,13 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    public static class PatternViewHolder extends RecyclerView.ViewHolder {
+    public static class RecentViewHolder extends RecyclerView.ViewHolder {
 
         protected TextView itemTitle;
         protected RecyclerView recycler_view_list;
         protected Button btnMore;
 
-        public PatternViewHolder(View itemView) {
+        public RecentViewHolder(View itemView) {
             super(itemView);
             this.itemTitle = (TextView) itemView.findViewById(R.id.itemTitle);
             this.recycler_view_list = (RecyclerView) itemView.findViewById(R.id.recycler_view_list);
@@ -205,14 +192,14 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    public class PopularViewHolder extends RecyclerView.ViewHolder {
+    public class MotherGooseViewHolder extends RecyclerView.ViewHolder {
 
         protected TextView itemMainTitle;
         protected TextView itemTitle;
         protected RecyclerView recycler_view_list;
         protected Button btnMore;
 
-        public PopularViewHolder(View itemView) {
+        public MotherGooseViewHolder(View itemView) {
             super(itemView);
             this.itemMainTitle = (TextView) itemView.findViewById(R.id.itemMainTitle);
             this.itemTitle = (TextView) itemView.findViewById(R.id.itemTitle);
@@ -221,14 +208,14 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    public static class ChatViewHolder extends RecyclerView.ViewHolder{
+    public static class RecommendViewHolder extends RecyclerView.ViewHolder{
 
         protected TextView itemMainTitle;
         protected TextView itemTitle;
         protected RecyclerView recycler_view_list;
         protected Button btnMore;
 
-        public ChatViewHolder(View itemView) {
+        public RecommendViewHolder(View itemView) {
             super(itemView);
             this.itemMainTitle = (TextView) itemView.findViewById(R.id.itemMainTitle);
             this.itemTitle = (TextView) itemView.findViewById(R.id.itemTitle);

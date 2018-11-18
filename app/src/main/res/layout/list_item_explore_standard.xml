@@ -22,5 +22,32 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="@dimen/explore_recycler_layout_margin_left"
         android:orientation="horizontal" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/recycler_view_list"
+        android:gravity="center"
+        android:background="@drawable/border_music_more">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal" >
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="25dp"
+                android:src="@drawable/icon_speak"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="더보기"
+                android:textColor="@color/orange_app_identity_color"
+                android:textSize="16sp"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>
 

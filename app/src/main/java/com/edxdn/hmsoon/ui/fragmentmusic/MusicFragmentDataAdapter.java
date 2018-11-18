@@ -8,18 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.edxdn.hmsoon.application.MyCustomApplication;
 import com.edxdn.hmsoon.ui.data.ExploreFragmentItemModel;
-import com.edxdn.hmsoon.ui.fragmentexplore.ExploreFragmentAdapter;
-import com.edxdn.hmsoon.ui.fragmentexplore.ExploreFragmentDataAdapter;
 import com.exam.english.R;
 import com.edxdn.hmsoon.api.Datums;
-import com.edxdn.hmsoon.ui.data.MusicFragmentItemModel;
 import com.edxdn.hmsoon.ui.main.MainActivity;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,13 +34,13 @@ public class MusicFragmentDataAdapter extends RecyclerView.Adapter<RecyclerView.
 
         switch (itemsList.get(position).getvType()) {
             case 0:
-                return ExploreFragmentAdapter.SENTENCE_TYPE;
+                return MusicFragmentAdapter.RANKING_TYPE;
             case 1:
-                return ExploreFragmentAdapter.PATTERN_TYPE;
+                return MusicFragmentAdapter.RECENT_TYPE;
             case 2:
-                return ExploreFragmentAdapter.POPULAR_TYPE;
+                return MusicFragmentAdapter.MOTHER_GOOSE_TYPE;
             case 3:
-                return ExploreFragmentAdapter.CHAT_TYPE;
+                return MusicFragmentAdapter.RECOMMEND_TYPE;
             default:
                 return -1;
         }
@@ -56,18 +50,18 @@ public class MusicFragmentDataAdapter extends RecyclerView.Adapter<RecyclerView.
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view;
         switch (i) {
-            case ExploreFragmentAdapter.SENTENCE_TYPE:
+            case MusicFragmentAdapter.RANKING_TYPE:
+                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_music_video_ranking_type, null);
+                return new MusicFragmentDataAdapter.RankingItemRowHolder(view);
+            case MusicFragmentAdapter.RECENT_TYPE:
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_explore_pattern, null);
-                return new ExploreFragmentDataAdapter.SentenceItemRowHolder(view);
-            case ExploreFragmentAdapter.PATTERN_TYPE:
-                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_explore_pattern, null);
-                return new ExploreFragmentDataAdapter.PatternItemRowHolder(view);
-            case ExploreFragmentAdapter.POPULAR_TYPE:
+                return new MusicFragmentDataAdapter.PatternItemRowHolder(view);
+            case MusicFragmentAdapter.MOTHER_GOOSE_TYPE:
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_explore_video_started_type, null);
-                return new ExploreFragmentDataAdapter.PopularItemRowHolder(view);
-            case ExploreFragmentAdapter.CHAT_TYPE:
+                return new MusicFragmentDataAdapter.PopularItemRowHolder(view);
+            case MusicFragmentAdapter.RECOMMEND_TYPE:
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_explore_chat, null);
-                return new ExploreFragmentDataAdapter.ChatItemRowHolder(view);
+                return new MusicFragmentDataAdapter.ChatItemRowHolder(view);
         }
         return null;
     }
@@ -78,23 +72,21 @@ public class MusicFragmentDataAdapter extends RecyclerView.Adapter<RecyclerView.
         final ExploreFragmentItemModel singleItem = itemsList.get(i);
 
         switch (singleItem.getvType()) {
-            case ExploreFragmentAdapter.SENTENCE_TYPE:
-                if (i % 2 == 0) {
-                    ((MusicFragmentDataAdapter.SentenceItemRowHolder) holder).item_layout.setBackgroundResource(R.drawable.today_pic);
-                } else {
-                    ((MusicFragmentDataAdapter.SentenceItemRowHolder) holder).item_layout.setBackgroundResource(R.drawable.today_pic_2);
-                }
-                ((MusicFragmentDataAdapter.SentenceItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
+            case MusicFragmentAdapter.RANKING_TYPE:
+                Glide.with(mContext)
+                        .load(singleItem.getItem_thumbnail())
+                        .into(((MusicFragmentDataAdapter.RankingItemRowHolder) holder).itemImage);
+                ((MusicFragmentDataAdapter.RankingItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        MyCustomApplication.getMainInstance().onClickItems("sentences", singleItem.getSentence());
+                        ((MainActivity)mContext).setVideoUrl(mDataList.get(i));
                     }
                 });
 
                 break;
-            case ExploreFragmentAdapter.PATTERN_TYPE:
+            case MusicFragmentAdapter.RECENT_TYPE:
                 if (i % 2 == 0) {
                     ((MusicFragmentDataAdapter.PatternItemRowHolder) holder).item_layout.setBackgroundResource(R.drawable.today_pic);
                 } else {
@@ -110,7 +102,7 @@ public class MusicFragmentDataAdapter extends RecyclerView.Adapter<RecyclerView.
                 });
 
                 break;
-            case ExploreFragmentAdapter.POPULAR_TYPE:
+            case MusicFragmentAdapter.MOTHER_GOOSE_TYPE:
                 Glide.with(mContext)
                         .load(singleItem.getItem_thumbnail())
                         .into(((MusicFragmentDataAdapter.PopularItemRowHolder) holder).itemImage);
@@ -124,7 +116,7 @@ public class MusicFragmentDataAdapter extends RecyclerView.Adapter<RecyclerView.
                 });
 
                 break;
-            case ExploreFragmentAdapter.CHAT_TYPE:
+            case MusicFragmentAdapter.RECOMMEND_TYPE:
                 ((MusicFragmentDataAdapter.ChatItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -141,19 +133,22 @@ public class MusicFragmentDataAdapter extends RecyclerView.Adapter<RecyclerView.
     @Override
     public int getItemCount() {
 
-        if (itemsList.get(0).getvType() == ExploreFragmentAdapter.POPULAR_TYPE) {
-            return 4;
+        if (itemsList.get(0).getvType() == MusicFragmentAdapter.RANKING_TYPE) {
+            return 6;
         }
 
         return (null != itemsList ? itemsList.size() : 0);
     }
 
-    public static class SentenceItemRowHolder extends RecyclerView.ViewHolder {
-        LinearLayout item_layout;
+    public static class RankingItemRowHolder extends RecyclerView.ViewHolder {
+        TextView tvTitle;
+        ImageView itemImage;
+        TextView tvTime;
         TextView tvSentence;
-        public SentenceItemRowHolder(View view) {
+        public RankingItemRowHolder(View view) {
             super(view);
-            this.item_layout = (LinearLayout) view.findViewById(R.id.item_layout);
+            this.itemImage = (ImageView) view.findViewById(R.id.thumbnail);
+            this.tvTitle = (TextView) view.findViewById(R.id.vtitle);
             this.tvSentence = (TextView) view.findViewById(R.id.sentence);
         }
     }

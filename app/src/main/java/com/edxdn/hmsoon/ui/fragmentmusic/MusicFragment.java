@@ -10,20 +10,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.edxdn.hmsoon.application.MyCustomApplication;
-import com.edxdn.hmsoon.ui.fragmentexplore.ExploreFragment;
-import com.edxdn.hmsoon.ui.fragmentexplore.ExploreFragmentAdapter;
 import com.edxdn.hmsoon.util.HummingUtils;
 import com.exam.english.R;
 import com.exam.english.databinding.FragmentExploreBinding;
-import com.exam.english.databinding.FragmentMusicBinding;
 import com.edxdn.hmsoon.api.APIClient;
 import com.edxdn.hmsoon.api.APIInterface;
 import com.edxdn.hmsoon.api.Datums;
 import com.edxdn.hmsoon.api.SearchResource;
 import com.edxdn.hmsoon.ui.data.DataTypeMusicFragment;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,14 +29,14 @@ import retrofit2.Response;
 public class MusicFragment extends Fragment {
 
     private FragmentExploreBinding binding;
-    private ExploreFragmentAdapter mAdapter;
-    private List<Datums> sentenceList, patternList, popularList, chatList;
+    private MusicFragmentAdapter mAdapter;
+    private List<Datums> rankingList, recentList, popularList, chatList;
     private HashMap<String, List<Datums>> dataset;
     private APIInterface apiInterface;
     private Handler mHandler;
 
-    public static ExploreFragment newInstance() {
-        return new ExploreFragment();
+    public static MusicFragment newInstance() {
+        return new MusicFragment();
     }
 
     @Nullable
@@ -53,13 +48,13 @@ public class MusicFragment extends Fragment {
         apiInterface = APIClient.getClient().create(APIInterface.class);
         dataset = new HashMap<String, List<Datums>>();
 
-        sentenceList = new ArrayList<>();
-        patternList = new ArrayList<>();
+        rankingList = new ArrayList<>();
+        recentList = new ArrayList<>();
         popularList = new ArrayList<>();
         chatList = new ArrayList<>();
 
         // 아덥터
-        mAdapter = new ExploreFragmentAdapter(getActivity(), dataset);
+        mAdapter = new MusicFragmentAdapter(getActivity(), dataset);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         binding.rv.setLayoutManager(layoutManager);
@@ -67,7 +62,7 @@ public class MusicFragment extends Fragment {
 
         mHandler = new Handler() {
             public void handleMessage(Message msg) {
-                Datums datums = patternList.get(msg.what);
+                Datums datums = rankingList.get(msg.what);
                 MyCustomApplication.getMainInstance().onClickItems("sentences", datums.source.get(HummingUtils.ElasticField.PATTERN).toString());
             }
         };
@@ -81,7 +76,7 @@ public class MusicFragment extends Fragment {
         Handler getDataSentenceHandler = new Handler();
         getDataSentenceHandler.postDelayed(new Runnable() {
             @Override public void run() {
-                getDataSentence(1, "");
+                getDataRanking(1, "");
             }
         }, 0);
 
@@ -108,17 +103,37 @@ public class MusicFragment extends Fragment {
 
     }
 
-    // 추천문장
-    public void getDataSentence(int current_page, String pattern) {
-        Call<SearchResource> call = apiInterface.getPatterns(current_page+"", pattern);
+    // 인기순위
+    public void getDataRanking(int current_page, String sort) {
+        Call<SearchResource> call = apiInterface.getSentences(current_page + "", "", sort, "");
         call.enqueue(new Callback<SearchResource>() {
             @Override
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
                 SearchResource resource = response.body();
                 if (resource != null && resource.hits != null) {
-                    sentenceList.addAll(resource.hits.hits);
+                    popularList.addAll(resource.hits.hits);
                 }
-                dataset.put(DataTypeMusicFragment.EXPLORE_SENTENCE_TYPE, sentenceList);
+                dataset.put(DataTypeMusicFragment.RANKING_TYPE, popularList);
+                mAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onFailure(Call<SearchResource> call, Throwable t) {
+                call.cancel();
+            }
+        });
+    }
+
+    //최근 음악
+    public void getDataPattern(int current_page, String sort) {
+        Call<SearchResource> call = apiInterface.getPatterns(current_page + "", sort);
+        call.enqueue(new Callback<SearchResource>() {
+            @Override
+            public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
+                SearchResource resource = response.body();
+                if (resource != null && resource.hits != null) {
+                    recentList.addAll(resource.hits.hits);
+                }
+                dataset.put(DataTypeMusicFragment.EXPLORE_PATTERN_TYPE, recentList);
                 mAdapter.notifyDataSetChanged();
             }
 
@@ -129,28 +144,7 @@ public class MusicFragment extends Fragment {
         });
     }
 
-    // 추천패턴
-    public void getDataPattern(int current_page, String pattern) {
-        Call<SearchResource> call = apiInterface.getPatterns(current_page + "", pattern);
-        call.enqueue(new Callback<SearchResource>() {
-            @Override
-            public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
-                SearchResource resource = response.body();
-                if (resource != null && resource.hits != null) {
-                    patternList.addAll(resource.hits.hits);
-                }
-                dataset.put(DataTypeMusicFragment.EXPLORE_PATTERN_TYPE, patternList);
-                mAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<SearchResource> call, Throwable t) {
-                call.cancel();
-            }
-        });
-    }
-
-    //인기영상
+    //추천 동요
     public void getDataPopularSentences(int current_page, String sort) {
         //Call<SearchResource> call = apiInterface.getPopular(current_page+"", "", sort);
         Call<SearchResource> call = apiInterface.getSentences(current_page + "", "", sort, "");
@@ -171,14 +165,14 @@ public class MusicFragment extends Fragment {
         });
     }
 
-    //채팅
+    //추천 음악
     public void getDataChat(int current_page, String interest) {
         Call<SearchResource> call = apiInterface.getInterests(current_page + "", "");
         call.enqueue(new Callback<SearchResource>() {
             @Override
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
                 SearchResource resource = response.body();
-                if(resource != null && resource.hits != null){
+                if (resource != null && resource.hits != null) {
                     chatList.addAll(resource.hits.hits);
                 }
                 dataset.put(DataTypeMusicFragment.CHAT_TYPE, chatList);
@@ -191,5 +185,4 @@ public class MusicFragment extends Fragment {
             }
         });
     }
-
 }

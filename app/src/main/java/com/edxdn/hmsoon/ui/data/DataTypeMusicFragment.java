@@ -15,6 +15,8 @@ public class DataTypeMusicFragment {
     public static final String POPULAR_TYPE = "popular";
     public static final String CHAT_TYPE = "chat";
 
+    public static final String RANKING_TYPE = "ranking";
+
     public static final String MOTHERGOOSE_TYPE = "mothergoose";
     public static final String SENTENCE_TYPE = "sentence";
 
