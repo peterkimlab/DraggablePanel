@@ -138,9 +138,7 @@ public class MusicFragment extends Fragment {
 
     //추천 동요
     public void getDataMotherGoose(int current_page, String sort) {
-        //Call<SearchResource> call = apiInterface.getPopular(current_page+"", "", sort);
         Call<SearchResource> call = apiInterface.getContents(current_page+"", "youtube_mothergoose");
-        //Call<SearchResource> call = apiInterface.getSentences(current_page + "", "", sort, "");
         call.enqueue(new Callback<SearchResource>() {
             @Override
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
@@ -160,7 +158,7 @@ public class MusicFragment extends Fragment {
 
     //추천 음악
     public void getDataChat(int current_page, String interest) {
-        Call<SearchResource> call = apiInterface.getInterests(current_page + "", "");
+        Call<SearchResource> call = apiInterface.getPopular(current_page+"", "", interest);
         call.enqueue(new Callback<SearchResource>() {
             @Override
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {

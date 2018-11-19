@@ -11,7 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.edxdn.hmsoon.application.MyCustomApplication;
 import com.edxdn.hmsoon.ui.adapter.SpacesItemDecoration;
 import com.edxdn.hmsoon.ui.data.ExploreFragmentItemModel;
 import com.edxdn.hmsoon.ui.fragmentexplore.ExploreFragmentAdapter;
@@ -70,7 +74,7 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
                 view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_standard, parent, false);
                 return new MusicFragmentAdapter.MotherGooseViewHolder(view);
             case RECOMMEND_TYPE:
-                view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_standard, parent, false);
+                view = LayoutInflater.from(context).inflate(R.layout.list_item_music_sub_title, parent, false);
                 return new MusicFragmentAdapter.RecommendViewHolder(view);
         }
         return null;
@@ -100,6 +104,15 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
                     ((MusicFragmentAdapter.RankingViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
                 }
                 ((MusicFragmentAdapter.RankingViewHolder) holder).itemMainTitle.setText("인기순위");
+
+                ((MusicFragmentAdapter.RankingViewHolder) holder).btnMore.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        MyCustomApplication.getMainInstance().onClickItems("sentences", "");
+                    }
+                });
+
+
                 break;
             case RECENT_TYPE:
                 dataList = dataset.get(DataTypeMusicFragment.MUSIC_RECENT_TYPE);
@@ -135,9 +148,10 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
                 dataList = dataset.get(DataTypeMusicFragment.MUSIC_RECOMMEND_TYPE);
                 if (dataList != null) {
                     for (Datums datas : dataList) {
-                        singleItem.add(new ExploreFragmentItemModel(RECOMMEND_TYPE, datas.source.get(HummingUtils.ElasticField.STYPE).toString(),"","", datas.source.get(HummingUtils.ElasticField.TITLE).toString()));
+                        singleItem.add(new ExploreFragmentItemModel(RECOMMEND_TYPE, HummingUtils.getTitle(datas, context), HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
                     }
-                    ((MusicFragmentAdapter.RecommendViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+                    ((MusicFragmentAdapter.RecommendViewHolder) holder).recycler_view_list.addItemDecoration(decoration);
+                    ((MusicFragmentAdapter.RecommendViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
                     ((MusicFragmentAdapter.RecommendViewHolder) holder).recycler_view_list.setHasFixedSize(true);
                     itemListDataAdapter = new MusicFragmentDataAdapter(context, singleItem, dataList);
                     ((MusicFragmentAdapter.RecommendViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
@@ -158,14 +172,14 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
         protected TextView itemMainTitle;
         protected TextView itemTitle;
         protected RecyclerView recycler_view_list;
-        protected Button btnMore;
+        protected RelativeLayout btnMore;
 
         public RankingViewHolder(View itemView) {
             super(itemView);
             this.itemMainTitle = (TextView) itemView.findViewById(R.id.itemMainTitle);
             this.itemTitle = (TextView) itemView.findViewById(R.id.itemTitle);
             this.recycler_view_list = (RecyclerView) itemView.findViewById(R.id.recycler_view_list);
-            this.btnMore= (Button) itemView.findViewById(R.id.btnMore);
+            this.btnMore = (RelativeLayout) itemView.findViewById(R.id.btnMore);
         }
     }
 
@@ -174,7 +188,7 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
         protected TextView itemMainTitle;
         protected TextView itemTitle;
         protected RecyclerView recycler_view_list;
-        protected Button btnMore;
+
 
         public RecentViewHolder(View itemView) {
             super(itemView);

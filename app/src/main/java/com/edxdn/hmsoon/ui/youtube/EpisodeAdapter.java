@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.exam.english.R;
 import com.github.ybq.android.spinkit.SpinKitView;
@@ -113,7 +114,7 @@ public class EpisodeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     ((EpisodeHeaderViewHolder) holder).channelLayout.setVisibility(View.GONE);
                 }
             }
-        }else if (holder instanceof EpisodeViewHolder) {
+        } else if (holder instanceof EpisodeViewHolder) {
             if (seletedPosition != null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (seletedPosition == position) {
@@ -177,7 +178,7 @@ public class EpisodeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public TextView channelDesc;
         public TextView count;
-        public TextView refresh;
+        public RelativeLayout refresh;
         public LinearLayout layout;
         public LinearLayout channelLayout;
         public CircleImageView thumbnail;
@@ -187,7 +188,7 @@ public class EpisodeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             channelDesc = (TextView)itemView.findViewById(R.id.channelDesc);
             count = (TextView)itemView.findViewById(R.id.count);
-            refresh = (TextView)itemView.findViewById(R.id.refresh);
+            refresh = (RelativeLayout)itemView.findViewById(R.id.refresh);
             layout = (LinearLayout)itemView.findViewById(R.id.layout);
             channelLayout = (LinearLayout)itemView.findViewById(R.id.channelLayout);
             thumbnail = (CircleImageView)itemView.findViewById(R.id.thumbnail);

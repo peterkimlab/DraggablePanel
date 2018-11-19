@@ -139,7 +139,7 @@ public class VideoListFragment extends Fragment {
                             + "/Voice Recorder/RECORDING_"
                             + i
                             + ".amr");
-                    if(file.exists()){
+                    if (file.exists()) {
                         file.delete();
                     }
                 }

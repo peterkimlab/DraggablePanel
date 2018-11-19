@@ -7,7 +7,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0">
-        <ImageView
+        <com.edxdn.hmsoon.util.RadiusImageView
             android:id="@+id/thumbnail"
             style="@style/item_thumbnail"/>
         <ImageView
@@ -29,6 +29,8 @@
             android:id="@+id/vtitle"
             style="@style/text_title_en_black"
             android:layout_weight="0"
-            android:visibility="gone"/>
+            android:text="reck on"
+            android:textColor="@color/orange_app_identity_color"
+            android:textSize="16sp"/>
     </LinearLayout>
 </LinearLayout>
