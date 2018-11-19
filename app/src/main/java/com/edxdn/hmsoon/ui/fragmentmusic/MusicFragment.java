@@ -33,7 +33,6 @@ public class MusicFragment extends Fragment {
     private List<Datums> rankingList, recentList, motherGooseList, recommendList;
     private HashMap<String, List<Datums>> dataset;
     private APIInterface apiInterface;
-    private Handler mHandler;
 
     public static MusicFragment newInstance() {
         return new MusicFragment();
@@ -59,13 +58,6 @@ public class MusicFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         binding.rv.setLayoutManager(layoutManager);
         binding.rv.setAdapter(mAdapter);
-
-        mHandler = new Handler() {
-            public void handleMessage(Message msg) {
-                Datums datums = rankingList.get(msg.what);
-                MyCustomApplication.getMainInstance().onClickItems("sentences", datums.source.get(HummingUtils.ElasticField.PATTERN).toString());
-            }
-        };
 
         getDataRetrofit();
 

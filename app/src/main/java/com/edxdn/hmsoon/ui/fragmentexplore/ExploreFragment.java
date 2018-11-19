@@ -33,7 +33,6 @@ public class ExploreFragment extends Fragment {
     private List<Datums> sentenceList, patternList, popularList, chatList;
     private HashMap<String, List<Datums>> dataset;
     private APIInterface apiInterface;
-    private Handler mHandler;
 
     public static ExploreFragment newInstance() {
         return new ExploreFragment();
@@ -59,13 +58,6 @@ public class ExploreFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         binding.rv.setLayoutManager(layoutManager);
         binding.rv.setAdapter(mAdapter);
-
-        mHandler = new Handler() {
-            public void handleMessage(Message msg) {
-                Datums datums = patternList.get(msg.what);
-                MyCustomApplication.getMainInstance().onClickItems("sentences", datums.source.get(HummingUtils.ElasticField.PATTERN).toString());
-            }
-        };
 
         getDataRetrofit();
 

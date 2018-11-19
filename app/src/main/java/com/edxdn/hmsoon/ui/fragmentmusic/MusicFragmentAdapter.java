@@ -92,7 +92,7 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
                     for (Datums datas : dataList) {
                         singleItem.add(new ExploreFragmentItemModel(RANKING_TYPE, HummingUtils.getTitle(datas, context), HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
                     }
-                    ((MusicFragmentAdapter.RankingViewHolder) holder).recycler_view_list.addItemDecoration(new MusicFragmentAdapter.GridSpacingItemDecoration(3, dpToPx(5), true));
+                    ((MusicFragmentAdapter.RankingViewHolder) holder).recycler_view_list.addItemDecoration(new MusicFragmentAdapter.GridSpacingItemDecoration(3, dpToPx(2), true));
                     ((MusicFragmentAdapter.RankingViewHolder) holder).recycler_view_list.setLayoutManager(new GridLayoutManager(context, 3));
                     ((MusicFragmentAdapter.RankingViewHolder) holder).recycler_view_list.setHasFixedSize(true);
                     itemListDataAdapter = new MusicFragmentDataAdapter(context, singleItem, dataList);

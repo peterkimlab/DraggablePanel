@@ -72,7 +72,7 @@
     <dimen name="standard_layout_margin">23dp</dimen>
 
     //Explore
-    <dimen name="explore_main_title_layout_margin_top">10dp</dimen>
+    <dimen name="explore_main_title_layout_margin_top">15dp</dimen>
     <dimen name="explore_main_title_text_view_margin_left">12dp</dimen>
     <dimen name="explore_main_title_text_view_margin_bottom">7dp</dimen>
     <dimen name="explore_main_title_layout_margin_bottom">3dp</dimen>
