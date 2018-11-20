@@ -1,4 +1,4 @@
-package com.edxdn.hmsoon.record;
+package com.edxdn.hmsoon.ui.record;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,9 +6,9 @@ import android.graphics.Color;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 
-import com.edxdn.hmsoon.record.model.AudioChannel;
-import com.edxdn.hmsoon.record.model.AudioSampleRate;
-import com.edxdn.hmsoon.record.model.AudioSource;
+import com.edxdn.hmsoon.ui.record.model.AudioChannel;
+import com.edxdn.hmsoon.ui.record.model.AudioSampleRate;
+import com.edxdn.hmsoon.ui.record.model.AudioSource;
 
 public class AndroidAudioRecorder {
 

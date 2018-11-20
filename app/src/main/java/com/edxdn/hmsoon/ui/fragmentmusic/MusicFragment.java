@@ -3,15 +3,13 @@ package com.edxdn.hmsoon.ui.fragmentmusic;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.edxdn.hmsoon.application.MyCustomApplication;
-import com.edxdn.hmsoon.util.HummingUtils;
+
 import com.exam.english.R;
 import com.exam.english.databinding.FragmentExploreBinding;
 import com.edxdn.hmsoon.api.APIClient;

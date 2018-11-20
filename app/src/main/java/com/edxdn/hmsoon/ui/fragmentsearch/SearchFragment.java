@@ -1,4 +1,4 @@
-package com.edxdn.hmsoon.ui.searchfragment;
+package com.edxdn.hmsoon.ui.fragmentsearch;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -15,7 +15,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 
 import com.edxdn.hmsoon.util.ClearEditText;
 import com.exam.english.R;
@@ -23,7 +22,6 @@ import com.edxdn.hmsoon.api.APIClient;
 import com.edxdn.hmsoon.api.APIInterface;
 import com.edxdn.hmsoon.api.Datums;
 import com.edxdn.hmsoon.api.SearchResource;
-import com.edxdn.hmsoon.ui.adapter.EndlessRecyclerOnScrollListener;
 import com.edxdn.hmsoon.ui.adapter.RecyclerItemClickListener;
 import com.edxdn.hmsoon.ui.adapter.SpacesItemDecoration;
 import com.edxdn.hmsoon.ui.main.MainActivity;

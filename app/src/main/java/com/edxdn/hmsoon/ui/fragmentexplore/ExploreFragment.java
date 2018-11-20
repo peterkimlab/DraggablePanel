@@ -3,7 +3,6 @@ package com.edxdn.hmsoon.ui.fragmentexplore;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,9 +15,8 @@ import com.edxdn.hmsoon.api.APIClient;
 import com.edxdn.hmsoon.api.APIInterface;
 import com.edxdn.hmsoon.api.Datums;
 import com.edxdn.hmsoon.api.SearchResource;
-import com.edxdn.hmsoon.application.MyCustomApplication;
 import com.edxdn.hmsoon.ui.data.DataTypeMusicFragment;
-import com.edxdn.hmsoon.util.HummingUtils;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

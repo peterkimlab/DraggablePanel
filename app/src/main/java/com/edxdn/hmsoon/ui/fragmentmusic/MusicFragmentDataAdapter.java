@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.edxdn.hmsoon.ui.data.ExploreFragmentItemModel;
 import com.exam.english.R;
 import com.edxdn.hmsoon.api.Datums;

@@ -36,14 +36,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import com.edxdn.hmsoon.record.AndroidAudioRecorder;
-import com.edxdn.hmsoon.record.model.AudioChannel;
-import com.edxdn.hmsoon.record.model.AudioSampleRate;
-import com.edxdn.hmsoon.record.model.AudioSource;
+import com.edxdn.hmsoon.ui.record.AndroidAudioRecorder;
+import com.edxdn.hmsoon.ui.record.model.AudioChannel;
+import com.edxdn.hmsoon.ui.record.model.AudioSampleRate;
+import com.edxdn.hmsoon.ui.record.model.AudioSource;
 import com.exam.english.R;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.edxdn.hmsoon.api.Datums;
-import com.edxdn.hmsoon.record.CustomSTT;
+import com.edxdn.hmsoon.ui.record.CustomSTT;
 import com.edxdn.hmsoon.ui.adapter.ProgressBar;
 import com.edxdn.hmsoon.ui.main.MainActivity;
 import com.edxdn.hmsoon.util.HummingUtils;
@@ -69,7 +69,7 @@ public class VideoListFragment extends Fragment {
     private ViewPager viewPager;
     private TextView totalDur, otherVoices, currentDur;
     private Button textButton, texttButton, textsButton;
-    private ImageView repeatOne, repeat, playSpeed, shuffle, rewind, forward, smallArtworkDown, prev, play, next;
+    private ImageView repeatOne, repeat, playSpeed, shuffle, rewind, forward, smallArtworkDown, prev, play, next, record;
 
    // private ImageView smallPrev;
     private ImageButton smallToggle, smallTexta, smallTextt, btnRecord;
@@ -246,9 +246,6 @@ public class VideoListFragment extends Fragment {
         btnRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                /*Intent intent = new Intent(getContext(), AudioRecorderActivity.class);
-                getContext().startActivity(intent);*/
                 AndroidAudioRecorder.with(getActivity())
                         // Required
                         .setFilePath(AUDIO_FILE_PATH)
@@ -380,11 +377,12 @@ public class VideoListFragment extends Fragment {
         repeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View p0) {
-                if(repeat.getTag().toString().equals("all")){
+                if (repeat.getTag().toString().equals("all")) {
                     repeat.setTag("one");
                     repeat.setImageResource(R.drawable.icon_replay_one);
                 } else if (repeat.getTag().toString().equals("one")) {
                     repeat.setTag("all");
+                    repeat.setImageResource(R.drawable.icon_replay_active);
                 }
             }
         });
@@ -401,6 +399,28 @@ public class VideoListFragment extends Fragment {
                     shuffle.setImageResource(R.drawable.icon_shuffle);
 
                 }
+            }
+        });
+
+        record = (ImageView) view.findViewById(R.id.record);
+        record.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AndroidAudioRecorder.with(getActivity())
+                        // Required
+                        .setFilePath(AUDIO_FILE_PATH)
+                        .setColor(ContextCompat.getColor(getContext(), R.color.orange_app_identity_color))
+                        .setRequestCode(REQUEST_RECORD_AUDIO)
+
+                        // Optional
+                        .setSource(AudioSource.MIC)
+                        .setChannel(AudioChannel.STEREO)
+                        .setSampleRate(AudioSampleRate.HZ_48000)
+                        .setAutoStart(false)
+                        .setKeepDisplayOn(true)
+
+                        // Start recording
+                        .record();
             }
         });
 
@@ -628,8 +648,7 @@ public class VideoListFragment extends Fragment {
 
     }*/
 
-    public void finishOpeningSoundFile(){
-//        timeLineView.setVideo(Uri.fromFile(new File(filePAth)));
+    public void finishOpeningSoundFile() {
 
         timeLineView.setVideo(mainActivity.getVideoUrl());
         timeLineView.setThumbnailList(thumbnails);

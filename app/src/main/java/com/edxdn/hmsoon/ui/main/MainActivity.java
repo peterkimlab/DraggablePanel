@@ -10,8 +10,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -42,10 +40,10 @@ import com.edxdn.hmsoon.ui.fragmentcommon.MoreFragment;
 import com.edxdn.hmsoon.ui.fragmentcommon.PatternFragment;
 import com.edxdn.hmsoon.ui.fragmentexplore.ExploreFragment;
 import com.edxdn.hmsoon.ui.fragmentmypage.MyPageFragment;
-import com.edxdn.hmsoon.ui.searchfragment.SearchBeforeHandFragment;
+import com.edxdn.hmsoon.ui.fragmentsearch.SearchBeforeHandFragment;
 import com.edxdn.hmsoon.ui.fragmentmusic.MusicFragment;
 import com.edxdn.hmsoon.ui.helper.BottomNavigationNotShiftHelper;
-import com.edxdn.hmsoon.ui.searchfragment.SearchFragment;
+import com.edxdn.hmsoon.ui.fragmentsearch.SearchFragment;
 import com.edxdn.hmsoon.ui.youtube.MoviePosterFragment;
 import com.edxdn.hmsoon.ui.youtube.VideoFragment;
 import com.edxdn.hmsoon.ui.youtube.VideoListFragment;
@@ -895,6 +893,10 @@ public class MainActivity extends AppCompatActivity {
             CURRENT_ICODE = datums.source.get(HummingUtils.ElasticField.ICODE).toString();
         }
         replaceFragment();
+    }
+
+    public void setNextVideo(int nowPosition) {
+        videoListFragment.setNextVideo(nowPosition, true);
     }
 
 }

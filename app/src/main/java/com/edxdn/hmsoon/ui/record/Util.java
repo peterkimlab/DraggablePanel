@@ -1,12 +1,12 @@
-package com.edxdn.hmsoon.record;
+package com.edxdn.hmsoon.ui.record;
 
 import android.graphics.Color;
 import android.media.AudioFormat;
 import android.os.Handler;
 
-import com.edxdn.hmsoon.record.model.AudioChannel;
-import com.edxdn.hmsoon.record.model.AudioSampleRate;
-import com.edxdn.hmsoon.record.model.AudioSource;
+import com.edxdn.hmsoon.ui.record.model.AudioChannel;
+import com.edxdn.hmsoon.ui.record.model.AudioSampleRate;
+import com.edxdn.hmsoon.ui.record.model.AudioSource;
 
 
 public class Util {

@@ -1,4 +1,4 @@
-package com.edxdn.hmsoon.record;
+package com.edxdn.hmsoon.ui.record;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -16,9 +16,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.cleveroad.audiovisualization.DbmHandler;
 import com.cleveroad.audiovisualization.GLAudioVisualizationView;
-import com.edxdn.hmsoon.record.model.AudioChannel;
-import com.edxdn.hmsoon.record.model.AudioSampleRate;
-import com.edxdn.hmsoon.record.model.AudioSource;
+import com.edxdn.hmsoon.ui.record.model.AudioChannel;
+import com.edxdn.hmsoon.ui.record.model.AudioSampleRate;
+import com.edxdn.hmsoon.ui.record.model.AudioSource;
 import com.exam.english.R;
 
 import java.io.File;

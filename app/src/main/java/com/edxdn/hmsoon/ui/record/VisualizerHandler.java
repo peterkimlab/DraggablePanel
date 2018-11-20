@@ -1,4 +1,4 @@
-package com.edxdn.hmsoon.record;
+package com.edxdn.hmsoon.ui.record;
 
 import com.cleveroad.audiovisualization.DbmHandler;
 

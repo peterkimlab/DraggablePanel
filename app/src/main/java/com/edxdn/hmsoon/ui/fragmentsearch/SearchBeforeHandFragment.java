@@ -1,4 +1,4 @@
-package com.edxdn.hmsoon.ui.searchfragment;
+package com.edxdn.hmsoon.ui.fragmentsearch;
 
 import android.content.res.Resources;
 import android.graphics.Rect;

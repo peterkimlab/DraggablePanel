@@ -56,48 +56,44 @@ import com.edxdn.hmsoon.util.HummingUtils;
 import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
-import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
 @SuppressLint("ValidFragment")
 public class VideoFragment extends Fragment implements VideoRendererEventListener {
     String TAG = "VideoFragment";
 
-    float playSpeed = 1.0f;
-    View mVideoLayout;
+    private float playSpeed = 1.0f;
+    private View mVideoLayout;
     private int cachedHeight;
     private DraggablePanel draggableView;
-    private TextView alltext;
-    private TextView alltextkr;
-    private TextView speakko;
+    private TextView alltext, alltextkr, speakko;
 
-    int nowPlayCnt = 0;
-    int nowPlayListNo = -1;
-    String nowPlayListType = "relation";
-    MainActivity mainActivity;
+    private int nowPlayCnt = 0;
+    private int nowPlayListNo = -1;
+    private String nowPlayListType = "relation";
+    private MainActivity mainActivity;
 
-    String videoUrl = "";
+    private String videoUrl = "";
 
-    Context context;
+    private Context context;
     private ProgressRunnable progressRunnable;
     private static Handler songProgressHandler;
 
     private SimpleExoPlayerView simpleExoPlayerView;
     private SimpleExoPlayer player;
-    MediaSource videoSource;
-    DefaultDataSourceFactory dataSourceFactory;
-    ExtractorsFactory extractorsFactory;
-    View view;
-    String videoIds = "";
-    String youtubeid = "";
+    private MediaSource videoSource;
+    private DefaultDataSourceFactory dataSourceFactory;
+    private ExtractorsFactory extractorsFactory;
+    private View view;
+    private String videoIds = "";
+    private String youtubeid = "";
     boolean runProgress = true;
 
-    ImageView favorite;
+    private ImageView favorite;
     private APIInterface apiInterface;
 
     private Handler mHandler2 = new Handler();
@@ -244,7 +240,7 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
         });
     }
 
-    public void initExoPlayer(View view){
+    public void initExoPlayer(View view) {
 
         simpleExoPlayerView = (SimpleExoPlayerView) view.findViewById(R.id.player_view);
         simpleExoPlayerView.requestFocus();
@@ -352,7 +348,7 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
                         }
                     }, 100);
                 } else if (playWhenReady) {
-                    switch(playbackState) {
+                    switch (playbackState) {
                         case Player.STATE_BUFFERING:
                             break;
                         case Player.STATE_ENDED:
@@ -361,26 +357,25 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
                             }
                             removeProgress();
                             nowPlayCnt++;
-
                             if (draggableView.isMaximized()) {
                                 // 한곡 반복
-                                /*String repeat = mainActivity.getVideoListFragment().getTagRepeat();
-                                if(repeat.equals("one")){
+                                String repeat = mainActivity.getVideoListFragment().getTagRepeat();
+                                if (repeat.equals("one")) {
                                     startVideo();
                                 } else {
                                     // 반복 횟수 - 하나의 곡에 대한 반복
                                     int repeatOne = Integer.valueOf(mainActivity.getVideoListFragment().getTagRepeatOne());
-                                    if(nowPlayCnt < repeatOne){
+                                    if (nowPlayCnt < repeatOne) {
                                         startVideo();
-                                    }else{
+                                    } else {
                                         initNowPlayCnt();
-                                        if(repeat.equals("all")){
+                                        if (repeat.equals("all")) {
                                             mainActivity.setNextVideo(nowPlayListNo);
-                                        }else{
+                                        } else {
                                             buttonShow();
                                         }
                                     }
-                                }*/
+                                }
                             }
                             break;
                         case Player.STATE_IDLE:
@@ -691,7 +686,7 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
 
 
     public void startVideo() {
-        if(player.getContentPosition() >= player.getDuration()){
+        if (player.getContentPosition() >= player.getDuration()) {
             player.seekTo(0);
         }
         player.setPlayWhenReady(true);
@@ -703,8 +698,6 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
             }
         }, 100);
 
-        //player.start();
-        //player.requestFocus();
     }
 
     public void postPlay(){
@@ -825,7 +818,7 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
         this.nowPlayListNo = nowPlayListNo;
     }
 
-    public int getNowPlayListNo(){
+    public int getNowPlayListNo() {
         return nowPlayListNo;
     }
 
@@ -893,6 +886,5 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
     public void setView(DraggablePanel draggablePanel) {
         this.draggableView =  draggablePanel;
     }
-	
-	
+
 }

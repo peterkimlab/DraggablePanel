@@ -1,4 +1,4 @@
-package com.edxdn.hmsoon.record.model;
+package com.edxdn.hmsoon.ui.record.model;
 
 public enum AudioSampleRate {
     HZ_48000,

@@ -1,4 +1,4 @@
-package com.edxdn.hmsoon.ui.searchfragment;
+package com.edxdn.hmsoon.ui.fragmentsearch;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
