@@ -205,6 +205,7 @@
     <color name="gray_youtube_tab_bar_text">#999999</color>
     <color name="black_youtube_background">#333333</color>
     <color name="gray_youtube_progress_bar">#dddddd</color>
+    <color name="gray_youtube_announce_text">#aaaaaa</color>
 
     //Conversation
     <color name="orange_conversation_me">#ffc15c</color>

@@ -209,8 +209,8 @@ public class VideoListFragment extends Fragment {
 
         });
 
-        totalDur = (TextView) view.findViewById(R.id.totalDur);
-        currentDur = (TextView) view.findViewById(R.id.currentDur);
+        //totalDur = (TextView) view.findViewById(R.id.totalDur);
+        //currentDur = (TextView) view.findViewById(R.id.currentDur);
 
         textButton = (Button) view.findViewById(R.id.text);
         textButton.setOnClickListener(new View.OnClickListener() {
@@ -488,7 +488,8 @@ public class VideoListFragment extends Fragment {
         songProgress = (ProgressBar) view.findViewById(R.id.songProgress);
         songProgress.setMax(100);
         songProgress.setProgressWithAnim(0);
-        seekbar = (AppCompatSeekBar) view.findViewById(R.id.seekbar);
+
+        /*seekbar = (AppCompatSeekBar) view.findViewById(R.id.seekbar);
         seekbar.setMax(100);
         seekbar.setProgress(0);
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -507,7 +508,7 @@ public class VideoListFragment extends Fragment {
                 mainActivity.seekTo(seekBar.getProgress());
                 mainActivity.getVideoFragment().startVideo();
             }
-        });
+        });*/
 
         controlsBg = (LinearLayout) view.findViewById(R.id.controls);
         controlsBg.setOnClickListener(new View.OnClickListener() {
@@ -1203,16 +1204,15 @@ public class VideoListFragment extends Fragment {
     public void updateProgress(int pos){
         songProgress.setProgressWithAnim(pos);
         songProgress.setProgressWithAnim(0);
-        seekbar.setProgress(pos);
-        currentDur.setText(milliSecondsToTimer(pos));
+        //seekbar.setProgress(pos);
+        //currentDur.setText(milliSecondsToTimer(pos));
     }
 
     public void maxProgress(int max){
         songProgress.cancelAnimation();
         songProgress.setMaxWithAnim(max);
-        seekbar.setMax(max);
-
-        totalDur.setText(milliSecondsToTimer(max));
+        //seekbar.setMax(max);
+        //totalDur.setText(milliSecondsToTimer(max));
     }
 
     public String milliSecondsToTimer(long milliseconds) {

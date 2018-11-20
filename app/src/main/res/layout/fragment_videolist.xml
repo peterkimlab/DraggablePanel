@@ -165,7 +165,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:layout_marginBottom="40dp"
+                    android:layout_marginBottom="20dp"
                     android:gravity="center"
                     android:orientation="horizontal">
                     <ImageView
@@ -218,59 +218,63 @@
                         android:layout_weight="1"
                         android:src="@drawable/icon_record" />
                 </LinearLayout>
-
-                <View
+                <!--<View
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
-                    android:background="@color/transparent" />
-
+                    android:background="@color/red" />-->
                 <LinearLayout
-                    android:id="@+id/time_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal"
-                    android:padding="2dp"
-                    android:visibility="gone">
-                    <TextView
-                        android:id="@+id/currentDur"
-                        style="@style/textview_player_time" />
-                    <android.support.v7.widget.AppCompatSeekBar
-                        android:id="@+id/seekbar"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:padding="4dp"
-                        android:progress="0"
-                        android:thumb="@drawable/thum" />
-                    <TextView
-                        android:id="@+id/totalDur"
-                        style="@style/textview_player_time" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
                     android:orientation="horizontal">
-                    <Button
-                        android:id="@+id/text"
-                        style="@style/btn_circle_white"
-                        android:layout_marginRight="5dp"
-                        android:text="A" />
-                    <Button
-                        android:id="@+id/textt"
-                        style="@style/btn_circle_white"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:text="T" />
-                    <Button
-                        android:id="@+id/texts"
-                        style="@style/btn_circle_white"
-                        android:layout_marginLeft="5dp"
-                        android:text="S" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:orientation="vertical">
+                        <Button
+                            android:id="@+id/text"
+                            android:layout_width="50dp"
+                            android:layout_height="36dp"
+                            android:layout_marginBottom="5dp"
+                            android:background="@drawable/koreng"/>
+                        <Button
+                            android:id="@+id/texts"
+                            android:layout_width="50dp"
+                            android:layout_height="36dp"
+                            android:background="@drawable/icon_announce"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="20sp"
+                            android:textColor="@color/orange_app_identity_color"
+                            android:text="Quick question"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="20sp"
+                            android:textColor="@color/white"
+                            android:text="간단한 질문"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="20sp"
+                            android:textColor="@color/gray_youtube_announce_text"
+                            android:text="퀵퀘스천"/>
+                    </LinearLayout>
                 </LinearLayout>
+                <Button
+                    android:visibility="gone"
+                    android:id="@+id/textt"
+                    style="@style/btn_circle_white"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="T" />
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"

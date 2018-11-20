@@ -578,7 +578,7 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
         return alltext.getText().toString();
     }
 
-    public void showText(){
+    public void showText() {
         Handler handlers = new Handler();
         handlers.postDelayed(new Runnable() {
             @Override public void run() {
@@ -589,23 +589,23 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
         }, 0);
 
     }
-    public void showHideText(){
-        if(alltext.getVisibility() != View.VISIBLE){
+    public void showHideText() {
+        if (alltext.getVisibility() != View.VISIBLE) {
             alltext.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             alltext.setVisibility(View.GONE);
         }
     }
 
-    public void showHideTextKr(){
-        if(alltextkr.getVisibility() != View.VISIBLE){
+    public void showHideTextKr() {
+        if (alltextkr.getVisibility() != View.VISIBLE) {
             alltextkr.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             alltextkr.setVisibility(View.GONE);
         }
     }
 
-    public void showHideTextSpeak(){
+    public void showHideTextSpeak() {
         if(speakko.getVisibility() != View.VISIBLE){
             speakko.setVisibility(View.VISIBLE);
         }else{
