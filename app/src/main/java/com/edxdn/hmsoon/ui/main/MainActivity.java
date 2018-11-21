@@ -26,6 +26,7 @@ import com.amazonaws.services.polly.model.Voice;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.edxdn.hmsoon.ui.fragmentcommon.ContentsFragment;
 import com.edxdn.hmsoon.ui.fragmentcommon.ConversationFragment;
+import com.edxdn.hmsoon.ui.youtube.PlayMusicFragment;
 import com.exam.english.R;
 import com.github.pedrovgs.DraggableListener;
 import com.github.pedrovgs.DraggablePanel;
@@ -128,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout toolbarlayout2;
     private TextView searchText;
     private TextView searchText2;
+
+    private PlayMusicFragment mPlayMusicFragment;
 
     public static final int REQUEST_RECORD_AUDIO = 110;
     private static final int REQUEST_SEARCH = 400;
@@ -830,10 +833,10 @@ public class MainActivity extends AppCompatActivity {
                 return favoriteFragment;
             case 18:
                 WatchedFragment watchedFragment = new WatchedFragment();
-                return watchedFragment;
+                return watchedFragment; */
             case 19:
-                musicFragment = new PlayMusicFragment();
-                return musicFragment; */
+                mPlayMusicFragment = new PlayMusicFragment();
+                return mPlayMusicFragment;
             case 20:
                 ContentsFragment contentsFragment = new ContentsFragment();
                 return contentsFragment;
@@ -898,6 +901,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void setNextVideo(int nowPosition) {
         videoListFragment.setNextVideo(nowPosition, true);
+    }
+
+    public void setMusicVideoUrl(final Datums datums) {
+        MainActivity.SEARCH_IDS_VALUE = datums.source.get(HummingUtils.ElasticField.IDS).toString();
+        MainActivity.SEARCH_YOUTUBE_VALUE = datums.source.get(HummingUtils.ElasticField.YOUTUBE_ID).toString();
+        MainActivity.SEARCH_YOUTUBE_CHANNEL_VALUE = datums.source.get(HummingUtils.ElasticField.YOUTUBE_CHANNEL_ID).toString();
+        openPage("music", datums.source.get(HummingUtils.ElasticField.TITLE).toString());
     }
 
 }
