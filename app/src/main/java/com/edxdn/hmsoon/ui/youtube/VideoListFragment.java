@@ -23,6 +23,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatSeekBar;
+import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,6 +39,10 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.edxdn.hmsoon.api.APIClient;
+import com.edxdn.hmsoon.api.APIInterface;
+import com.edxdn.hmsoon.api.PostResource;
+import com.edxdn.hmsoon.api.SearchResource;
 import com.edxdn.hmsoon.ui.record.AndroidAudioRecorder;
 import com.edxdn.hmsoon.ui.record.model.AudioChannel;
 import com.edxdn.hmsoon.ui.record.model.AudioSampleRate;
@@ -54,6 +59,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -61,6 +69,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.regex.Pattern;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import static android.app.Activity.RESULT_OK;
 
 @SuppressLint("ValidFragment")
@@ -72,9 +85,16 @@ public class VideoListFragment extends Fragment {
     private TextView totalDur, otherVoices, currentDur;
     private Button textButton, texttButton, textsButton;
     private ImageView repeatOne, repeat, playSpeed, shuffle, rewind, forward, smallArtworkDown, prev, play, next, record;
+    private TextView alltext, alltextkr, speakko;
+    public Thread mGoogleThread = null;
+    private APIInterface apiInterface;
+    private String videoIds = "";
+
+    private String textJa = "";
+    private String textKo = "";
 
    // private ImageView smallPrev;
-    private ImageButton smallToggle, smallTexta, smallTextt, btnRecord;
+    private ImageButton smallToggle, smallTexta, korengBtn, announceBtn, btnRecord;
   //  private ImageView smallNext;
     private ProgressBar songProgress;
     private AppCompatSeekBar seekbar;
@@ -148,11 +168,17 @@ public class VideoListFragment extends Fragment {
             }
         }, 100);
 
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+
         final View view = inflater.inflate(R.layout.fragment_videolist, container, false);
         mainActivity = (MainActivity) getActivity();
         tabLayout = (TabLayout)view.findViewById(R.id.tabs);
         viewPager = (ViewPager)view.findViewById(R.id.view_pager);
         appBarLayout = (AppBarLayout)view.findViewById(R.id.id_appbar);
+
+        alltext = (TextView) view.findViewById(R.id.alltext);
+        alltextkr = (TextView) view.findViewById(R.id.alltextkr);
+        speakko = (TextView) view.findViewById(R.id.speakko);
 
         mAdapterViewPager = new VideoListFragmentPageAdapter(getChildFragmentManager(), mainActivity);
         viewPager.setAdapter(mAdapterViewPager);
@@ -214,7 +240,7 @@ public class VideoListFragment extends Fragment {
         //totalDur = (TextView) view.findViewById(R.id.totalDur);
         //currentDur = (TextView) view.findViewById(R.id.currentDur);
 
-        textButton = (Button) view.findViewById(R.id.text);
+        /*textButton = (Button) view.findViewById(R.id.text);
         textButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -228,13 +254,7 @@ public class VideoListFragment extends Fragment {
                 mainActivity.getVideoFragment().showHideTextKr();
             }
         });
-        textsButton = (Button) view.findViewById(R.id.texts);
-        textsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mainActivity.getVideoFragment().showHideTextSpeak();
-            }
-        });
+
 
         smallTexta = (ImageButton) view.findViewById(R.id.small_texta);
         smallTexta.setOnClickListener(new View.OnClickListener() {
@@ -242,7 +262,7 @@ public class VideoListFragment extends Fragment {
             public void onClick(View view) {
                 mainActivity.getVideoFragment().showHideText();
             }
-        });
+        });*/
 
         btnRecord = (ImageButton) view.findViewById(R.id.btnRecord);
         btnRecord.setOnClickListener(new View.OnClickListener() {
@@ -266,13 +286,21 @@ public class VideoListFragment extends Fragment {
             }
         });
 
-        /*smallTextt = (ImageButton) view.findViewById(R.id.small_textt);
-        smallTextt.setOnClickListener(new View.OnClickListener() {
+        korengBtn = (ImageButton) view.findViewById(R.id.korengBtn);
+        korengBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View p0) {
-                mainActivity.getVideoFragment().showHideTextKr();
+                showHideTextKr();
             }
-        });*/
+        });
+
+        announceBtn = (ImageButton) view.findViewById(R.id.announceBtn);
+        announceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showHideTextSpeak();
+            }
+        });
         /*textButton.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View p0) {
@@ -1117,7 +1145,7 @@ public class VideoListFragment extends Fragment {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, language);
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, mainActivity.getVideoFragment().getAllText("allText"));
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getAllText("allText"));
         intent.putExtra("android.speech.extra.GET_AUDIO_FORMAT", "audio/AMR");
         intent.putExtra("android.speech.extra.GET_AUDIO", true);
 
@@ -1355,6 +1383,215 @@ public class VideoListFragment extends Fragment {
     public void showTab() {
         ////
         appBarLayout.setExpanded(true,true);
+    }
+
+    private Runnable textExecutor = new Runnable() {
+        @Override
+        public void run() {
+            Handler handlers2 = new Handler();
+            handlers2.postDelayed(new Runnable() {
+                @Override public void run() {
+                    alltextkr.setText(Html.fromHtml(textKo));
+                    alltextkr.setVisibility(View.VISIBLE);
+                }
+            }, 100);
+        }
+    };
+
+    public void putDataKo() {
+
+        String textKo22 = textKo;
+        String textJa22 = textJa;
+        String speakkr22 = speakko.getText().toString();
+        try {
+            textKo22 = URLEncoder.encode(textKo22, "UTF-8");
+            textJa22 = URLEncoder.encode(textJa22, "UTF-8");
+            speakkr22 = URLEncoder.encode(speakkr22, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        Call<PostResource> call = apiInterface.putSentenceKo(videoIds, textKo22, textJa22, speakkr22);
+        call.enqueue(new Callback<PostResource>() {
+            @Override
+            public void onResponse(Call<PostResource> call, Response<PostResource> response) {
+                Log.e("test", "==="+videoIds+" ");
+            }
+            @Override
+            public void onFailure(Call<PostResource> call, Throwable t) {
+                Log.d("test","================================================2"+t.getMessage());
+                call.cancel();
+            }
+        });
+    }
+
+    public void putDataKoSpeakkr() {
+
+        String textKo22 = "";
+        String textJa22 = "";
+        String speakkr22 = speakko.getText().toString();
+        try {
+            speakkr22 = URLEncoder.encode(speakkr22, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        Call<PostResource> call = apiInterface.putSentenceKo(videoIds, textKo22, textJa22, speakkr22);
+        call.enqueue(new Callback<PostResource>() {
+            @Override
+            public void onResponse(Call<PostResource> call, Response<PostResource> response) {
+                Log.e("test", "==="+videoIds+" ");
+            }
+            @Override
+            public void onFailure(Call<PostResource> call, Throwable t) {
+                Log.d("test","================================================2"+t.getMessage());
+                call.cancel();
+            }
+        });
+    }
+
+    public void getSpeakKo() {
+
+        Call<SearchResource> call = apiInterface.getSpeak(alltext.getText().toString());
+        call.enqueue(new Callback<SearchResource>() {
+            @Override
+            public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
+                SearchResource resource = response.body();
+                String ens = alltext.getText().toString().toLowerCase();
+                if (resource != null && resource.hits != null) {
+                    for (int i = 0; i < resource.hits.hits.size(); i++) {
+                        String e = resource.hits.hits.get(i).source.get(HummingUtils.ElasticField.TEXT_EN).toString().toLowerCase();
+                        if(ens.toLowerCase().contains(e)){
+                            String k = resource.hits.hits.get(i).source.get(HummingUtils.ElasticField.SPEAK_KO).toString();
+                            ens = ens.toLowerCase().replaceAll(e, k);
+                        }
+                    }
+                }
+                try {
+                    speakko.setText(URLDecoder.decode(ens, "UTF-8"));
+                    speakko.setVisibility(View.VISIBLE);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                putDataKoSpeakkr();
+            }
+            @Override
+            public void onFailure(Call<SearchResource> call, Throwable t) {
+                Log.d("test","================================================2"+t.getMessage());
+                call.cancel();
+            }
+        });
+    }
+
+    public String getAllText(String type){
+        if (type.equals("allText")) {
+            return alltext.getText().toString();
+        } else if(type.equals("allTextKr")) {
+            return alltextkr.getText().toString();
+        }
+        return alltext.getText().toString();
+    }
+
+    public void showText() {
+        Handler handlers = new Handler();
+        handlers.postDelayed(new Runnable() {
+            @Override public void run() {
+                alltext.setVisibility(View.VISIBLE);
+                alltextkr.setVisibility(View.VISIBLE);
+                speakko.setVisibility(View.VISIBLE);
+            }
+        }, 0);
+
+    }
+    public void showHideText() {
+        if (alltext.getVisibility() != View.VISIBLE) {
+            alltext.setVisibility(View.VISIBLE);
+        } else {
+            alltext.setVisibility(View.GONE);
+        }
+    }
+
+    public void showHideTextKr() {
+        if (alltextkr.getVisibility() != View.VISIBLE) {
+            alltextkr.setVisibility(View.VISIBLE);
+        } else {
+            alltextkr.setVisibility(View.GONE);
+        }
+    }
+
+    public void showHideTextSpeak() {
+        if(speakko.getVisibility() != View.VISIBLE){
+            speakko.setVisibility(View.VISIBLE);
+        }else{
+            speakko.setVisibility(View.GONE);
+        }
+    }
+
+    public String getPopupText(){
+        return alltext.getText().toString();
+    }
+
+    public void textHide(){
+        Handler handlers = new Handler();
+        handlers.postDelayed(new Runnable() {
+            @Override public void run() {
+                alltext.setVisibility(View.GONE);
+                alltextkr.setVisibility(View.GONE);
+                speakko.setVisibility(View.GONE);
+            }
+        }, 0);
+
+    }
+
+    public void setAlltext(String alltextParam, String alltextKrParam,  String speakkoParam){
+        try {
+            alltextkr.setText(Html.fromHtml(URLDecoder.decode(alltextKrParam, "UTF-8")));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        alltext.setText(alltextParam);
+        speakko.setText(speakkoParam);
+
+        try {
+            speakko.setText(URLDecoder.decode(speakkoParam, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        if (alltextParam.trim().equals("I'm out of here.")) {
+            Handler handler11 = new Handler();
+            handler11.postDelayed(new Runnable() {
+                @Override public void run() {
+                    speakko.setText("아 마러 히r");//I'm outta here.
+                    alltextkr.setText("난 이만 가 볼게");
+                }
+            }, 200);
+        } else {
+            Handler handler2 = new Handler();
+            handler2.postDelayed(new Runnable() {
+                @Override public void run() {
+                    if (alltextkr.getText().toString().equals("")) {
+                        mGoogleThread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                textJa = HummingUtils.translateText(alltext.getText().toString(), "en", "ja");
+                                textKo = HummingUtils.translateText(textJa, "ja", "ko");
+                                mHandler2.postDelayed(textExecutor, 100);
+                                putDataKo();
+                            }
+                        });
+                        mGoogleThread.start();
+                    }
+                }
+            }, 200);
+            Handler handler11 = new Handler();
+            handler11.postDelayed(new Runnable() {
+                @Override public void run() {
+                    if(speakko.getText().toString().equals("")) {
+                        getSpeakKo();
+                    }
+                }
+            }, 200);
+        }
     }
 
     /*private void tick() {

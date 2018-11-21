@@ -19,7 +19,7 @@
             app:controller_layout_id="@layout/exo_playback_control_view"/>
     </FrameLayout>
 
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -46,5 +46,5 @@
                     android:id="@+id/alltextkr"
                     style="@style/text_player_ko" />
         </LinearLayout>
-    </LinearLayout>
+    </LinearLayout>-->
 </FrameLayout>

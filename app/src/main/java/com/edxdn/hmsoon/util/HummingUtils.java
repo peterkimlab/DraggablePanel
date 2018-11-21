@@ -10,7 +10,9 @@ import android.text.TextUtils;
 import android.widget.TextView;
 import com.edxdn.hmsoon.api.Datums;
 import com.edxdn.hmsoon.application.MyCustomApplication;
-
+import com.google.cloud.translate.Translate;
+import com.google.cloud.translate.TranslateOptions;
+import com.google.cloud.translate.Translation;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -88,7 +90,7 @@ public class HummingUtils {
         return TextUtils.isEmpty(fileExtension) ? null : fileExtension;
     }
 
-    /*public static String translateText (String text, String baseLang, String targetLang){
+    public static String translateText (String text, String baseLang, String targetLang){
         TranslateOptions options = TranslateOptions.newBuilder().setApiKey("AIzaSyAhAECrmHzCWbZlg2P60l_2vOsxakLP5HQ") .build();
         Translate translate = options.getService();
         //Translate translate = TranslateOptions.getDefaultInstance().getService();
@@ -101,7 +103,7 @@ public class HummingUtils {
 
 
         return translation.getTranslatedText();
-    }*/
+    }
 
     public static void requestPermission(Activity activity, String permission) {
         if (ContextCompat.checkSelfPermission(activity, permission)

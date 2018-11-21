@@ -11,14 +11,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import com.exam.english.R;
 import com.github.pedrovgs.DraggablePanel;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -50,14 +48,10 @@ import com.edxdn.hmsoon.api.APIClient;
 import com.edxdn.hmsoon.api.APIInterface;
 import com.edxdn.hmsoon.api.Datums;
 import com.edxdn.hmsoon.api.PostResource;
-import com.edxdn.hmsoon.api.SearchResource;
 import com.edxdn.hmsoon.ui.main.MainActivity;
 import com.edxdn.hmsoon.util.HummingUtils;
-import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -70,8 +64,6 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
     private View mVideoLayout;
     private int cachedHeight;
     private DraggablePanel draggableView;
-    private TextView alltext, alltextkr, speakko;
-
     private int nowPlayCnt = 0;
     private int nowPlayListNo = -1;
     private String nowPlayListType = "relation";
@@ -92,30 +84,11 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
     private String videoIds = "";
     private String youtubeid = "";
     boolean runProgress = true;
-
     private ImageView favorite;
     private APIInterface apiInterface;
-
     private Handler mHandler2 = new Handler();
-    public Thread mGoogleThread = null;
-
-    String textJa = "";
-    String textKo = "";
     ImageView downButton;
     Datums baseSentence;
-
-    private Runnable textExecutor = new Runnable() {
-        @Override
-        public void run() {
-            Handler handlers2 = new Handler();
-            handlers2.postDelayed(new Runnable() {
-                @Override public void run() {
-                    alltextkr.setText(Html.fromHtml(textKo));
-                    alltextkr.setVisibility(View.VISIBLE);
-                }
-            }, 100);
-        }
-    };
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -135,10 +108,6 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
 
         initExoPlayer(view);
 
-        alltext = (TextView) view.findViewById(R.id.alltext);
-        alltextkr = (TextView) view.findViewById(R.id.alltextkr);
-        speakko = (TextView) view.findViewById(R.id.speakko);
-
         mVideoLayout = view.findViewById(R.id.video_layout);
         setVideoAreaSize();
 
@@ -154,90 +123,6 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
             favorite.setTag("favorite_off");
             favorite.setImageResource(R.drawable.ic_action_favorite);
         }
-    }
-
-    public void putDataKo() {
-
-        String textKo22 = textKo;
-        String textJa22 = textJa;
-        String speakkr22 = speakko.getText().toString();
-        try {
-            textKo22 = URLEncoder.encode(textKo22, "UTF-8");
-            textJa22 = URLEncoder.encode(textJa22, "UTF-8");
-            speakkr22 = URLEncoder.encode(speakkr22, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        Call<PostResource> call = apiInterface.putSentenceKo(videoIds, textKo22, textJa22, speakkr22);
-        call.enqueue(new Callback<PostResource>() {
-            @Override
-            public void onResponse(Call<PostResource> call, Response<PostResource> response) {
-                Log.e("test", "==="+videoIds+" ");
-            }
-            @Override
-            public void onFailure(Call<PostResource> call, Throwable t) {
-                Log.d("test","================================================2"+t.getMessage());
-                call.cancel();
-            }
-        });
-    }
-
-    public void putDataKoSpeakkr() {
-
-        String textKo22 = "";
-        String textJa22 = "";
-        String speakkr22 = speakko.getText().toString();
-        try {
-            speakkr22 = URLEncoder.encode(speakkr22, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        Call<PostResource> call = apiInterface.putSentenceKo(videoIds, textKo22, textJa22, speakkr22);
-        call.enqueue(new Callback<PostResource>() {
-            @Override
-            public void onResponse(Call<PostResource> call, Response<PostResource> response) {
-                Log.e("test", "==="+videoIds+" ");
-            }
-            @Override
-            public void onFailure(Call<PostResource> call, Throwable t) {
-                Log.d("test","================================================2"+t.getMessage());
-                call.cancel();
-            }
-        });
-    }
-
-    public void getSpeakKo() {
-
-        Call<SearchResource> call = apiInterface.getSpeak(alltext.getText().toString());
-        call.enqueue(new Callback<SearchResource>() {
-            @Override
-            public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
-                SearchResource resource = response.body();
-                String ens = alltext.getText().toString().toLowerCase();
-                if (resource != null && resource.hits != null) {
-                    for (int i = 0; i < resource.hits.hits.size(); i++) {
-                        String e = resource.hits.hits.get(i).source.get(HummingUtils.ElasticField.TEXT_EN).toString().toLowerCase();
-                        if(ens.toLowerCase().contains(e)){
-                            String k = resource.hits.hits.get(i).source.get(HummingUtils.ElasticField.SPEAK_KO).toString();
-                            ens = ens.toLowerCase().replaceAll(e, k);
-                        }
-                    }
-                }
-                try {
-                    speakko.setText(URLDecoder.decode(ens, "UTF-8"));
-                    speakko.setVisibility(View.VISIBLE);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                putDataKoSpeakkr();
-            }
-            @Override
-            public void onFailure(Call<SearchResource> call, Throwable t) {
-                Log.d("test","================================================2"+t.getMessage());
-                call.cancel();
-            }
-        });
     }
 
     public void initExoPlayer(View view) {
@@ -568,57 +453,13 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
         }
     }
 
-    public String getAllText(String type){
-        if(type.equals("allText")){
-            return alltext.getText().toString();
-        }else if(type.equals("allTextKr")){
-            return alltextkr.getText().toString();
-        }
-        return alltext.getText().toString();
-    }
 
-    public void showText() {
-        Handler handlers = new Handler();
-        handlers.postDelayed(new Runnable() {
-            @Override public void run() {
-                alltext.setVisibility(View.VISIBLE);
-                alltextkr.setVisibility(View.VISIBLE);
-                speakko.setVisibility(View.VISIBLE);
-            }
-        }, 0);
 
-    }
-    public void showHideText() {
-        if (alltext.getVisibility() != View.VISIBLE) {
-            alltext.setVisibility(View.VISIBLE);
-        } else {
-            alltext.setVisibility(View.GONE);
-        }
-    }
 
-    public void showHideTextKr() {
-        if (alltextkr.getVisibility() != View.VISIBLE) {
-            alltextkr.setVisibility(View.VISIBLE);
-        } else {
-            alltextkr.setVisibility(View.GONE);
-        }
-    }
-
-    public void showHideTextSpeak() {
-        if(speakko.getVisibility() != View.VISIBLE){
-            speakko.setVisibility(View.VISIBLE);
-        }else{
-            speakko.setVisibility(View.GONE);
-        }
-    }
-
-    public String getPopupText(){
-        return alltext.getText().toString();
-    }
 
     public void onMinimized(){
         buttonHide();
-        textHide();
+        //textHide();
         //removeProgress();
     }
 
@@ -627,7 +468,7 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
 
     public void onMaximized(){
         buttonShow();
-        showText();
+        //showText();
     }
 
     public void onResumeFragment(){
@@ -741,18 +582,6 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
 
     }
 
-    public void textHide(){
-        Handler handlers = new Handler();
-        handlers.postDelayed(new Runnable() {
-            @Override public void run() {
-                alltext.setVisibility(View.GONE);
-                alltextkr.setVisibility(View.GONE);
-                speakko.setVisibility(View.GONE);
-            }
-        }, 0);
-
-    }
-
     public void pauseVideo() {
         //videoViewMedia.pause();
     }
@@ -761,57 +590,7 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
         this.playSpeed = playSpeed;
     }
 
-    public void setAlltext(String alltextParam, String alltextKrParam,  String speakkoParam){
-        try {
-            alltextkr.setText(Html.fromHtml(URLDecoder.decode(alltextKrParam, "UTF-8")));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        alltext.setText(alltextParam);
-        speakko.setText(speakkoParam);
 
-        try {
-            speakko.setText(URLDecoder.decode(speakkoParam, "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        if (alltextParam.trim().equals("I'm out of here.")) {
-            Handler handler11 = new Handler();
-            handler11.postDelayed(new Runnable() {
-                @Override public void run() {
-                    speakko.setText("아 마러 히r");//I'm outta here.
-                    alltextkr.setText("난 이만 가 볼게");
-                }
-            }, 200);
-        } else {
-            Handler handler2 = new Handler();
-            handler2.postDelayed(new Runnable() {
-                @Override public void run() {
-                    if(alltextkr.getText().toString().equals("")) {
-                        mGoogleThread = new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                //textJa = HummingUtils.translateText(alltext.getText().toString(), "en", "ja");
-                                //textKo = HummingUtils.translateText(textJa, "ja", "ko");
-                                mHandler2.postDelayed(textExecutor, 100);
-                                putDataKo();
-                            }
-                        });
-                        mGoogleThread.start();
-                    }
-                }
-            }, 200);
-            Handler handler11 = new Handler();
-            handler11.postDelayed(new Runnable() {
-                @Override public void run() {
-                    if(speakko.getText().toString().equals("")) {
-                        getSpeakKo();
-                    }
-                }
-            }, 200);
-        }
-    }
 
     public void setNowPlayListNo(int nowPlayListNo){
         this.nowPlayListNo = nowPlayListNo;

@@ -250,6 +250,7 @@ public class MainActivity extends AppCompatActivity {
         draggableView.setFragmentManager(MainActivity.fragmentManager);
         videoFragment = new VideoFragment();
         videoFragment.setView(draggableView);
+        //videoListFragment = VideoListFragment.newInstance();
         videoListFragment = VideoListFragment.newInstance();
         draggableView.setTopFragment(videoFragment);
         draggableView.setBottomFragment(videoListFragment);
@@ -438,7 +439,7 @@ public class MainActivity extends AppCompatActivity {
             // video Url 설정
             videoFragment.setUrl(HummingUtils.IMAGE_PATH + datums.source.get(HummingUtils.ElasticField.VIDEO_URL), datums.source.get(HummingUtils.ElasticField.IDS).toString(), datums.source.get(HummingUtils.ElasticField.YOUTUBE_ID).toString());
             // text 설정
-            videoFragment.setAlltext(datums.source.get(HummingUtils.ElasticField.TEXT_EN).toString(), datums.source.get(HummingUtils.ElasticField.TEXT_LO).toString(), "");
+            videoListFragment.setAlltext(datums.source.get(HummingUtils.ElasticField.TEXT_EN).toString(), datums.source.get(HummingUtils.ElasticField.TEXT_LO).toString(), "");
             //videoListFragment.initPlayer();
             videoFragment.setBaseSentence(datums);
             MainActivity.SEARCH_POPUP_VALUE = datums.source.get(HummingUtils.ElasticField.TEXT_EN).toString();
@@ -550,7 +551,7 @@ public class MainActivity extends AppCompatActivity {
             @Override public void run() {
 
                 videoFragment.setUrl(HummingUtils.IMAGE_PATH+datums.source.get(HummingUtils.ElasticField.VIDEO_URL), datums.source.get(HummingUtils.ElasticField.IDS).toString(), datums.source.get(HummingUtils.ElasticField.YOUTUBE_ID).toString());
-                videoFragment.setAlltext(datums.source.get(HummingUtils.ElasticField.TEXT_EN).toString(), datums.source.get(HummingUtils.ElasticField.TEXT_LO).toString(), "");
+                videoListFragment.setAlltext(datums.source.get(HummingUtils.ElasticField.TEXT_EN).toString(), datums.source.get(HummingUtils.ElasticField.TEXT_LO).toString(), "");
                 videoFragment.setNowPlayListNo(nowPlayListNo);
                 MainActivity.SEARCH_POPUP_VALUE = datums.source.get(HummingUtils.ElasticField.TEXT_EN).toString();
                 MainActivity.SEARCH_IDS_VALUE = datums.source.get(HummingUtils.ElasticField.IDS).toString();

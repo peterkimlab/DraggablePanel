@@ -230,16 +230,15 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
                         android:orientation="vertical">
-                        <Button
-                            android:id="@+id/text"
+                        <ImageButton
+                            android:id="@+id/korengBtn"
                             android:layout_width="50dp"
                             android:layout_height="36dp"
                             android:layout_marginBottom="5dp"
                             android:background="@drawable/koreng"/>
-                        <Button
-                            android:id="@+id/texts"
+                        <ImageButton
+                            android:id="@+id/announceBtn"
                             android:layout_width="50dp"
                             android:layout_height="36dp"
                             android:background="@drawable/icon_announce"/>
@@ -247,23 +246,27 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
                         android:orientation="vertical">
                         <TextView
+                            android:id="@+id/alltext"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20sp"
+                            android:textSize="18sp"
                             android:textColor="@color/orange_app_identity_color"
                             android:text="Quick question"/>
                         <TextView
+                            android:id="@+id/alltextkr"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20sp"
+                            android:textSize="18sp"
                             android:textColor="@color/white"
                             android:text="간단한 질문"/>
                         <TextView
+                            android:id="@+id/speakko"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20sp"
+                            android:textSize="18sp"
                             android:textColor="@color/gray_youtube_announce_text"
                             android:text="퀵퀘스천"/>
                     </LinearLayout>
