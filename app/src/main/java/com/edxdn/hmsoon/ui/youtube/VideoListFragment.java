@@ -36,6 +36,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.edxdn.hmsoon.ui.record.AndroidAudioRecorder;
 import com.edxdn.hmsoon.ui.record.model.AudioChannel;
 import com.edxdn.hmsoon.ui.record.model.AudioSampleRate;
@@ -215,21 +217,21 @@ public class VideoListFragment extends Fragment {
         textButton = (Button) view.findViewById(R.id.text);
         textButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View p0) {
+            public void onClick(View view) {
                 mainActivity.getVideoFragment().showHideText();
             }
         });
         texttButton = (Button) view.findViewById(R.id.textt);
         texttButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View p0) {
+            public void onClick(View view) {
                 mainActivity.getVideoFragment().showHideTextKr();
             }
         });
         textsButton = (Button) view.findViewById(R.id.texts);
         textsButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View p0) {
+            public void onClick(View view) {
                 mainActivity.getVideoFragment().showHideTextSpeak();
             }
         });
@@ -237,7 +239,7 @@ public class VideoListFragment extends Fragment {
         smallTexta = (ImageButton) view.findViewById(R.id.small_texta);
         smallTexta.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View p0) {
+            public void onClick(View view) {
                 mainActivity.getVideoFragment().showHideText();
             }
         });
@@ -380,9 +382,11 @@ public class VideoListFragment extends Fragment {
                 if (repeat.getTag().toString().equals("all")) {
                     repeat.setTag("one");
                     repeat.setImageResource(R.drawable.icon_replay_one);
+                    Toast.makeText(getContext().getApplicationContext(), "같은 영상이 반복 됩니다.", Toast.LENGTH_LONG).show();
                 } else if (repeat.getTag().toString().equals("one")) {
                     repeat.setTag("all");
                     repeat.setImageResource(R.drawable.icon_replay_active);
+                    Toast.makeText(getContext().getApplicationContext(), "유사 패턴 영상이 반복 됩니다.", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -394,7 +398,8 @@ public class VideoListFragment extends Fragment {
                 if(shuffle.getTag().toString().equals("off")){
                     shuffle.setTag("on");
                     shuffle.setImageResource(R.drawable.icon_shuffle_active);
-                }else{
+                    Toast.makeText(getContext().getApplicationContext(), "랜덤 영상이 반복 됩니다.", Toast.LENGTH_LONG).show();
+                } else {
                     shuffle.setTag("off");
                     shuffle.setImageResource(R.drawable.icon_shuffle);
 
@@ -1003,15 +1008,6 @@ public class VideoListFragment extends Fragment {
         RelationFragment fm = (RelationFragment)mAdapterViewPager.getFragment(0);
         List<Datums> datumList = fm.getPlayList(nowPosition);
 
-        /*
-        if(mainActivity.getVideoFragment().getNowPlayListType().equals("relation")){
-            RelationFragment fm = (RelationFragment)mAdapterViewPager.getFragment(0);
-            datumList = fm.getPlayList(nowPosition);
-        }else{
-            EpisodeFragment fm = (EpisodeFragment)mAdapterViewPager.getFragment(1);
-            datumList = fm.getPlayList(nowPosition);
-        }
-        return null;*/
         return datumList;
     }
 

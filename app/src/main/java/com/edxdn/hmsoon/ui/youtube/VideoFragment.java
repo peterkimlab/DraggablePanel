@@ -301,7 +301,6 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
 
         simpleExoPlayerView.setUseController(true);
         simpleExoPlayerView.requestFocus();
-//        simpleExoPlayerView.hideController();
 
         simpleExoPlayerView.setPlayer(player);
         simpleExoPlayerView.setDefaultArtwork(null);
