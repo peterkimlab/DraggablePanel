@@ -207,6 +207,9 @@
     <color name="gray_youtube_progress_bar">#dddddd</color>
     <color name="gray_youtube_announce_text">#aaaaaa</color>
 
+    //Music
+    <color name="black_youtube_music_background">#222222</color>
+
     //Conversation
     <color name="orange_conversation_me">#ffc15c</color>
     <color name="orange_conversation_you">#cccccc</color>

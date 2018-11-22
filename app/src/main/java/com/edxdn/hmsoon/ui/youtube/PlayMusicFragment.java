@@ -252,12 +252,8 @@ public class PlayMusicFragment extends Fragment implements MainActivity.onKeyBac
             @SuppressLint("MissingPermission")
             @Override
             public void onClick(View v) {
-
                 //youTubePlayer.pause();
                 watchYoutubeVideo(getActivity(), MyCustomApplication.getMainInstance().SEARCH_YOUTUBE_VALUE);
-
-
-
             }
         });
 
@@ -325,12 +321,12 @@ public class PlayMusicFragment extends Fragment implements MainActivity.onKeyBac
                 if (textlayout.getVisibility() != View.VISIBLE) {
                     textlayout.setVisibility(View.VISIBLE);
                     bottom_layout.setVisibility(View.VISIBLE);
-                    small_video_down.setImageResource(R.drawable.ic_action_up);
+                    small_video_down.setImageResource(R.drawable.up);
 
                 } else {
                     textlayout.setVisibility(View.GONE);
                     bottom_layout.setVisibility(View.GONE);
-                    small_video_down.setImageResource(R.drawable.ic_action_arrow_down);
+                    small_video_down.setImageResource(R.drawable.down);
                 }
             }
         });
@@ -342,10 +338,6 @@ public class PlayMusicFragment extends Fragment implements MainActivity.onKeyBac
                 getData(1);
             }
         }, 0);
-
-
-
-
         return view;
     }
 
