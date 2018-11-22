@@ -101,7 +101,6 @@ public class PlayMusicFragment extends Fragment implements MainActivity.onKeyBac
         //((AppCompatActivity) getActivity()).getSupportActionBar().hide();
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -111,7 +110,7 @@ public class PlayMusicFragment extends Fragment implements MainActivity.onKeyBac
         datumList = new ArrayList<>();
 
         youTubePlayerView = view.findViewById(R.id.youtube_player_view);
-        //initYouTubePlayerView();
+        initYouTubePlayerView();
 
         SpacesItemDecoration decoration = new SpacesItemDecoration(5);
 
@@ -126,6 +125,7 @@ public class PlayMusicFragment extends Fragment implements MainActivity.onKeyBac
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         //layoutManager.scrollToPosition(currPos);
         playlisRecyclerView.setLayoutManager(layoutManager);
+
         es = new EndlessRecyclerOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int current_page) {
@@ -184,7 +184,6 @@ public class PlayMusicFragment extends Fragment implements MainActivity.onKeyBac
         songProgress = (ProgressBar) view.findViewById(R.id.songProgress);
         songProgress.setMax(100);
         songProgress.setProgressWithAnim(0);
-
 
         speakko = view.findViewById(R.id.speakko);
         alltextkr = view.findViewById(R.id.alltextkr);
@@ -386,7 +385,7 @@ public class PlayMusicFragment extends Fragment implements MainActivity.onKeyBac
         });
     }
 
-    /*private void initYouTubePlayerView() {
+    private void initYouTubePlayerView() {
         initPlayerMenu();
 
         getLifecycle().addObserver(youTubePlayerView);
@@ -417,12 +416,12 @@ public class PlayMusicFragment extends Fragment implements MainActivity.onKeyBac
 
                 @Override
                 public void onStateChange(int state) {
-                     *//*-1 –시작되지 않음
+                    /*1 –시작되지 않음
                     0 – 종료
                     1 – 재생 중
                     2 – 일시중지
                     3 – 버퍼링
-                    5 – 동영상 신호*//*
+                    5 – 동영상 신호*/
                     switch (state){
                         case -1 :
                             break;
@@ -443,9 +442,7 @@ public class PlayMusicFragment extends Fragment implements MainActivity.onKeyBac
                         case 5 :
                             break;
                     }
-
                     super.onStateChange(state);
-
                 }
 
                 @Override
@@ -492,17 +489,16 @@ public class PlayMusicFragment extends Fragment implements MainActivity.onKeyBac
                 }
             });
         }, true);
-    }*/
+    }
 
-    /*public void updateProgress(double pos) {
+    public void updateProgress(double pos) {
         songProgress.setProgressWithAnim(new BigDecimal(pos).setScale(0, BigDecimal.ROUND_CEILING).intValue());
 
         Handler handlers2 = new Handler();
         handlers2.postDelayed(new Runnable() {
             @Override
             public void run() {
-
-                if(repeatFlg){
+                if (repeatFlg) {
                     Datums datums = datumList.get(repeatPosition);
                     BigDecimal s = new BigDecimal(datums.source.get(HummingUtils.ElasticField.STIME).toString());
                     BigDecimal e = new BigDecimal(datums.source.get(HummingUtils.ElasticField.ETIME).toString());
@@ -511,7 +507,7 @@ public class PlayMusicFragment extends Fragment implements MainActivity.onKeyBac
                         youTubePlayer.seekTo(s.intValue());
                     }
 
-                }else{
+                } else {
                     int startIdx = nowPosition;
                     for (int i = startIdx; i < datumList.size(); i++) {
                         Datums datums = datumList.get(i);
@@ -525,9 +521,9 @@ public class PlayMusicFragment extends Fragment implements MainActivity.onKeyBac
                                 mAdapter.setSeletedPosition(idx);
                                 mAdapter.notifyItemChanged(idx);
                                 Datums datumsNow = datumList.get(idx);
-                                alltext.setText(HummingUtils.getSentence(datumsNow, playerMusicActivity));
-                                alltextkr.setText(HummingUtils.getSentenceLo(datumsNow, playerMusicActivity));
-                                speakko.setText(HummingUtils.getSpeakLo(datumsNow, playerMusicActivity));
+                                //alltext.setText(HummingUtils.getSentence(datumsNow, playerMusicActivity));
+                                //alltextkr.setText(HummingUtils.getSentenceLo(datumsNow, playerMusicActivity));
+                                //speakko.setText(HummingUtils.getSpeakLo(datumsNow, playerMusicActivity));
 
                                 if (runPositionProgress) {
                                     if(idx != 0){
@@ -546,7 +542,7 @@ public class PlayMusicFragment extends Fragment implements MainActivity.onKeyBac
             }
         }, 50);
 
-    }*/
+    }
 
     public void maxProgress(int max) {
         songProgress.cancelAnimation();
