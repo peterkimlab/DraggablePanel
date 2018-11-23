@@ -29,11 +29,16 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:background="@color/white"/>
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/your_play_list"
-                    android:layout_marginTop="40dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/youtube_music_app_bar_height"
                     android:orientation="vertical"
                     android:scrollbars="none" />
                 <FrameLayout
@@ -47,7 +52,6 @@
                     android:id="@+id/textlayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/black_youtube_background"
                     android:layout_marginTop="50dp"
                     android:layout_marginBottom="80dp"
                     android:clickable="true"
@@ -102,10 +106,6 @@
                             android:layout_weight="1"
                             android:src="@drawable/icon_shuffle" />
                     </LinearLayout>
-                    <!--<View
-                        android:layout_width="match_parent"
-                        android:layout_height="10dp"
-                        android:background="@color/red" />-->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -209,7 +209,7 @@
                 <FrameLayout
                     android:id="@+id/bottomBarFrameLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="@dimen/youtube_music_app_bar_height"
                     android:layout_weight="0"
                     android:layout_gravity="bottom"
                     android:background="@color/black">
