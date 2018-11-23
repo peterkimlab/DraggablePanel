@@ -16,6 +16,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +68,7 @@ public class PlayMusicFragment extends Fragment implements MainActivity.onKeyBac
     private static Handler songProgressHandler;
     //PlayerMusicActivity playerMusicActivity;
     LinearLayout textlayout;
-    FrameLayout bottom_layout;
+    FrameLayout bottom_layout, bottomBarFrameLayout;
 
     LinearLayoutManager layoutManager;
 
@@ -200,6 +201,7 @@ public class PlayMusicFragment extends Fragment implements MainActivity.onKeyBac
         small_video_down = view.findViewById(R.id.small_video_down);
         textlayout = view.findViewById(R.id.textlayout);
         bottom_layout = view.findViewById(R.id.bottom_layout);
+        bottomBarFrameLayout = view.findViewById(R.id.bottomBarFrameLayout);
 
         /*text.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -323,10 +325,18 @@ public class PlayMusicFragment extends Fragment implements MainActivity.onKeyBac
                     bottom_layout.setVisibility(View.VISIBLE);
                     small_video_down.setImageResource(R.drawable.up);
 
+                    FrameLayout.LayoutParams param = (FrameLayout.LayoutParams) bottomBarFrameLayout.getLayoutParams();
+                    param.gravity = Gravity.BOTTOM;
+                    bottomBarFrameLayout.setLayoutParams(param);
+
                 } else {
                     textlayout.setVisibility(View.GONE);
                     bottom_layout.setVisibility(View.GONE);
                     small_video_down.setImageResource(R.drawable.down);
+
+                    FrameLayout.LayoutParams param = (FrameLayout.LayoutParams) bottomBarFrameLayout.getLayoutParams();
+                    param.gravity = Gravity.TOP;
+                    bottomBarFrameLayout.setLayoutParams(param);
                 }
             }
         });
