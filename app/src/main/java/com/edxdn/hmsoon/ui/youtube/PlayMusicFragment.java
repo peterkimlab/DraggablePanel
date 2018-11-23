@@ -75,10 +75,10 @@ public class PlayMusicFragment extends Fragment implements MainActivity.onKeyBac
     TextView alltextkr;
     TextView alltext;
 
-    private Button text, textt, texts;
+    //private Button text, textt, texts;
     private TextView deepdive, youtube;
-    private ImageButton repeat, rewind, forward;
-    private ImageView small_toggle, small_video_down;
+    private ImageView repeat, rewind, forward;
+    private ImageView play_pause_toggle, small_video_down;
 
     int nowPosition = 0;
     boolean repeatFlg = false;
@@ -188,20 +188,20 @@ public class PlayMusicFragment extends Fragment implements MainActivity.onKeyBac
         speakko = view.findViewById(R.id.speakko);
         alltextkr = view.findViewById(R.id.alltextkr);
         alltext = view.findViewById(R.id.alltext);
-        text = view.findViewById(R.id.text);
-        textt = view.findViewById(R.id.textt);
-        texts = view.findViewById(R.id.texts);
+        //text = view.findViewById(R.id.text);
+        //textt = view.findViewById(R.id.textt);
+        //texts = view.findViewById(R.id.texts);
         deepdive = view.findViewById(R.id.deepdive);
         youtube = view.findViewById(R.id.youtube);
         repeat = view.findViewById(R.id.repeat);
         rewind = view.findViewById(R.id.rewind);
         forward = view.findViewById(R.id.forward);
-        small_toggle = view.findViewById(R.id.small_toggle);
+        play_pause_toggle = view.findViewById(R.id.play_pause_toggle);
         small_video_down = view.findViewById(R.id.small_video_down);
         textlayout = view.findViewById(R.id.textlayout);
         bottom_layout = view.findViewById(R.id.bottom_layout);
 
-        text.setOnClickListener(new View.OnClickListener() {
+        /*text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (alltext.getVisibility() != View.VISIBLE) {
@@ -221,9 +221,9 @@ public class PlayMusicFragment extends Fragment implements MainActivity.onKeyBac
                     alltextkr.setVisibility(View.GONE);
                 }
             }
-        });
+        });*/
 
-        texts.setOnClickListener(new View.OnClickListener() {
+        /*texts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (speakko.getVisibility() != View.VISIBLE) {
@@ -232,7 +232,7 @@ public class PlayMusicFragment extends Fragment implements MainActivity.onKeyBac
                     speakko.setVisibility(View.GONE);
                 }
             }
-        });
+        });*/
 
         deepdive.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("MissingPermission")
@@ -300,16 +300,16 @@ public class PlayMusicFragment extends Fragment implements MainActivity.onKeyBac
             }
         });
 
-        small_toggle.setOnClickListener(new View.OnClickListener() {
+        play_pause_toggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(playing){
                     youTubePlayer.pause();
-                    small_toggle.setImageResource(R.drawable.ic_action_play);
+                    play_pause_toggle.setImageResource(R.drawable.player_play);
                     playing = false;
                 }else{
                     youTubePlayer.play();
-                    small_toggle.setImageResource(R.drawable.ic_action_pause);
+                    play_pause_toggle.setImageResource(R.drawable.ic_action_pause);
                     playing = true;
                 }
             }
@@ -419,15 +419,15 @@ public class PlayMusicFragment extends Fragment implements MainActivity.onKeyBac
                             break;
                         case 0 :
                             playing = false;
-                            small_toggle.setImageResource(R.drawable.ic_action_play);
+                            play_pause_toggle.setImageResource(R.drawable.player_play);
                             break;
                         case 1 :
                             playing = true;
-                            small_toggle.setImageResource(R.drawable.ic_action_pause);
+                            play_pause_toggle.setImageResource(R.drawable.ic_action_pause);
                             break;
                         case 2 :
                             playing = false;
-                            small_toggle.setImageResource(R.drawable.ic_action_play);
+                            play_pause_toggle.setImageResource(R.drawable.player_play);
                             break;
                         case 3 :
                             break;
@@ -604,6 +604,17 @@ public class PlayMusicFragment extends Fragment implements MainActivity.onKeyBac
         if(youTubePlayer != null){
             youTubePlayer.pause();
         }
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((MainActivity)getContext()).getBottomNavigation().setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ((MainActivity)getContext()).getBottomNavigation().setVisibility(View.VISIBLE);
     }
 }
