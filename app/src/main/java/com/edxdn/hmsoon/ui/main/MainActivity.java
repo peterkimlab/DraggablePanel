@@ -910,4 +910,8 @@ public class MainActivity extends AppCompatActivity {
         openPage("music", datums.source.get(HummingUtils.ElasticField.TITLE).toString());
     }
 
+    public BottomNavigationView getBottomNavigation() {
+        return bottomNavigation;
+    }
+
 }

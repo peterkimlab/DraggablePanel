@@ -45,7 +45,7 @@ public interface APIInterface {
     Call<SearchResource> getWatched(@Query("page") String page, @Query("email") String email);
 
     @POST("/search/favorite")
-    Call<PostResource> postFavorite(@Query("email") String email, @Query("ids") String ids);
+    Call<PostResource> postFavorite(@Query("email") String email, @Query("ids") String ids); // 패이보릿 목록 서버에 저장
 
     @PUT("/search/favorite")
     Call<PostResource> putFavorite(@Query("email") String email, @Query("ids") String ids);

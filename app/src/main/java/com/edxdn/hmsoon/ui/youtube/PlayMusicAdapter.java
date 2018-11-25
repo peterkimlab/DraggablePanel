@@ -45,8 +45,8 @@ public class PlayMusicAdapter extends RecyclerView.Adapter<PlayMusicAdapter.Play
         this.seletedPosition = seletedPosition;
     }
 
-    public int getSeletedPosition(){
-        if(seletedPosition == null){
+    public int getSeletedPosition() {
+        if(seletedPosition == null) {
             return 0;
         }
         return seletedPosition;
@@ -73,7 +73,7 @@ public class PlayMusicAdapter extends RecyclerView.Adapter<PlayMusicAdapter.Play
         }
 
         holder.sentence.setText(HummingUtils.getSentenceByMode(playlistObject, context));
-        holder.vtitle.setText(HummingUtils.getTitleByMode(playlistObject, context));
+        //holder.vtitle.setText(HummingUtils.getTitleByMode(playlistObject, context));
         holder.time.setText(HummingUtils.getTime(playlistObject, context));
         if (HummingUtils.isEmpty(holder.time)) {
             holder.time.setVisibility(View.GONE);
@@ -102,7 +102,7 @@ public class PlayMusicAdapter extends RecyclerView.Adapter<PlayMusicAdapter.Play
     public class PlayMusicHolder extends RecyclerView.ViewHolder{
 
         public TextView sentence;
-        public TextView vtitle;
+        //public TextView vtitle;
         public TextView time;
         public TextView orderNo;
         public ImageView thumbnail;
@@ -113,7 +113,7 @@ public class PlayMusicAdapter extends RecyclerView.Adapter<PlayMusicAdapter.Play
             super(itemView);
 
             sentence = (TextView)itemView.findViewById(R.id.sentence);
-            vtitle = (TextView)itemView.findViewById(R.id.vtitle);
+            //vtitle = (TextView)itemView.findViewById(R.id.vtitle);
             time = (TextView)itemView.findViewById(R.id.time);
             orderNo = (TextView)itemView.findViewById(R.id.orderNo);
             thumbnail = (ImageView)itemView.findViewById(R.id.thumbnail);

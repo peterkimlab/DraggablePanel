@@ -79,7 +79,7 @@ public class MusicFragmentDataAdapter extends RecyclerView.Adapter<RecyclerView.
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ((MainActivity)mContext).setMusicVideoUrl(mDataList.get(i));
+                        ((MainActivity)mContext).setVideoUrl(mDataList.get(i));
                     }
                 });
                 break;
@@ -93,7 +93,7 @@ public class MusicFragmentDataAdapter extends RecyclerView.Adapter<RecyclerView.
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ((MainActivity)mContext).setMusicVideoUrl(mDataList.get(i));
+                        ((MainActivity)mContext).setVideoUrl(mDataList.get(i));
                     }
                 });
                 break;
@@ -121,7 +121,7 @@ public class MusicFragmentDataAdapter extends RecyclerView.Adapter<RecyclerView.
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ((MainActivity)mContext).setMusicVideoUrl(mDataList.get(i));
+                        ((MainActivity)mContext).setVideoUrl(mDataList.get(i));
                     }
                 });
                 break;
