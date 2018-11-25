@@ -60,10 +60,10 @@ public interface APIInterface {
     Call<SearchResource> getRanking(@Query("page") String page, @Query("rcode") String rcode);
 
     @GET("/search/popular")
-    Call<SearchResource> getPopular(@Query("page") String page, @Query("sentence") String sentence, @Query("sort") String sort);
+    Single<SearchResource> getPopular(@Query("page") String page, @Query("sentence") String sentence, @Query("sort") String sort);
 
     @GET("/search/contents")
-    Call<SearchResource> getContents(@Query("page") String page, @Query("vtype") String vtype);
+    Single<SearchResource> getContents(@Query("page") String page, @Query("vtype") String vtype);
 
     @PUT("/search/sentenceko")
     Call<PostResource> putSentenceKo(@Query("ids") String ids, @Query("textko") String textko, @Query("textjp") String textjp, @Query("speakko") String speakko);

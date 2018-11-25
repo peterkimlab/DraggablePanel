@@ -135,7 +135,7 @@ public class ContentsFragment extends Fragment implements MainActivity.onKeyBack
     }
 
     public void getData(int current_page, String sentence) {
-        Call<SearchResource> call = apiInterface.getContents(current_page+"", "youtube_mothergoose");
+        /*Call<SearchResource> call = apiInterface.getContents(current_page+"", "youtube_mothergoose");
         call.enqueue(new Callback<SearchResource>() {
             @Override
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
@@ -149,7 +149,7 @@ public class ContentsFragment extends Fragment implements MainActivity.onKeyBack
                 Log.e(TAG,t.getMessage());
                 call.cancel();
             }
-        });
+        });*/
     }
 
     @Override
