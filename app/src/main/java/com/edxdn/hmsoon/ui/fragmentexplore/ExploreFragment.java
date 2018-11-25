@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,17 @@ import com.edxdn.hmsoon.api.APIInterface;
 import com.edxdn.hmsoon.api.Datums;
 import com.edxdn.hmsoon.api.SearchResource;
 import com.edxdn.hmsoon.ui.data.DataTypeMusicFragment;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observables.ConnectableObservable;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,6 +39,9 @@ public class ExploreFragment extends Fragment {
     private List<Datums> sentenceList, patternList, popularList, chatList;
     private HashMap<String, List<Datums>> dataset;
     private APIInterface apiInterface;
+
+    private CompositeDisposable disposable = new CompositeDisposable();
+    private static final String TAG = ExploreFragment.class.getSimpleName();
 
     public static ExploreFragment newInstance() {
         return new ExploreFragment();
@@ -57,6 +68,36 @@ public class ExploreFragment extends Fragment {
         binding.rv.setLayoutManager(layoutManager);
         binding.rv.setAdapter(mAdapter);
 
+        ConnectableObservable<SearchResource> searchObservable = getDataPopularSentences(1, "").replay();
+
+        disposable.add(
+                searchObservable
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(new DisposableObserver<SearchResource>() {
+
+                        @Override
+                        public void onNext(SearchResource searchResource) {
+                            if (searchResource != null && searchResource.hits != null) {
+                                popularList.addAll(searchResource.hits.hits);
+                                dataset.put(DataTypeMusicFragment.EXPLORE_POPULAR_TYPE, popularList);
+                                mAdapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.e(TAG, "showError: " + e.getMessage());
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    }));
+
+        searchObservable.connect();
+
         getDataRetrofit();
 
         return binding.getRoot();
@@ -77,12 +118,12 @@ public class ExploreFragment extends Fragment {
             }
         }, 100);
 
-        Handler getDataPopularSentencesHandler = new Handler();
+        /*Handler getDataPopularSentencesHandler = new Handler();
         getDataPopularSentencesHandler.postDelayed(new Runnable() {
             @Override public void run() {
                 getDataPopularSentences(1, "");
             }
-        }, 500);
+        }, 500);*/
 
         Handler getDataChatHandler = new Handler();
         getDataChatHandler.postDelayed(new Runnable() {
@@ -95,6 +136,7 @@ public class ExploreFragment extends Fragment {
 
     // 추천문장
     public void getDataSentence(int current_page, String pattern) {
+
         Call<SearchResource> call = apiInterface.getPatterns(current_page+"", pattern);
         call.enqueue(new Callback<SearchResource>() {
             @Override
@@ -136,9 +178,14 @@ public class ExploreFragment extends Fragment {
     }
 
     //인기영상
-    public void getDataPopularSentences(int current_page, String sort) {
+    public Observable<SearchResource> getDataPopularSentences(int current_page, String sort) {
+        return apiInterface.getSentences(current_page + "", "", "","")
+                .toObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
         //Call<SearchResource> call = apiInterface.getPopular(current_page+"", "", sort);
-        Call<SearchResource> call = apiInterface.getSentences(current_page + "", "", sort, "");
+        /*Call<SearchResource> call = apiInterface.getSentences(current_page + "", "", sort, "");
         call.enqueue(new Callback<SearchResource>() {
             @Override
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
@@ -153,7 +200,7 @@ public class ExploreFragment extends Fragment {
             public void onFailure(Call<SearchResource> call, Throwable t) {
                 call.cancel();
             }
-        });
+        });*/
     }
 
     //채팅
@@ -177,4 +224,8 @@ public class ExploreFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }

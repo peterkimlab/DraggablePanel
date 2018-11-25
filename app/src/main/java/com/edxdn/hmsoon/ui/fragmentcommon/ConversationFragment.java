@@ -266,12 +266,12 @@ public class ConversationFragment extends Fragment implements MainActivity.onKey
             mainActivity.setVideoUrl(sentenceListMap.get(sentence).get(ids));
             sentenceListIndex.put(sentence, ids++);
         } else {
-            getDataSentence(1, sentence, textko, speakko);
+            //getDataSentence(1, sentence, textko, speakko);
         }
     }
 
     public void getDataSentence(int current_page, final String sentence, final String textko, final String speakko) {
-        Call<SearchResource> call = apiInterface.getSentences(current_page+"", sentence, "", "");
+        /*Call<SearchResource> call = apiInterface.getSentences(current_page+"", sentence, "", "");
         call.enqueue(new Callback<SearchResource>() {
             @Override
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
@@ -293,7 +293,7 @@ public class ConversationFragment extends Fragment implements MainActivity.onKey
                 Log.d("test","================================================2"+t.getMessage());
                 call.cancel();
             }
-        });
+        });*/
     }
 
     @Override

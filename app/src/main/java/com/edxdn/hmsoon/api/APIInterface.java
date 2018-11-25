@@ -2,6 +2,9 @@ package com.edxdn.hmsoon.api;
 
 import com.edxdn.hmsoon.entities.HummingSoonConfig;
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.Single;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -18,7 +21,7 @@ public interface APIInterface {
     Call<HummingSoonConfig> doGetConfig();
 
     @GET("/search/sentence")
-    Call<SearchResource> getSentences(@Query("page") String page, @Query("sentence") String sentence, @Query("sort") String sort, @Query("genre") String genre);
+    Single<SearchResource> getSentences(@Query("page") String page, @Query("sentence") String sentence, @Query("sort") String sort, @Query("genre") String genre);
 
     @GET("/search/pattern")
     Call<SearchResource> getPatterns(@Query("page") String page, @Query("pattern") String pattern);

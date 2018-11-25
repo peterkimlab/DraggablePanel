@@ -71,7 +71,7 @@ public class PatternFragment extends Fragment implements MainActivity.onKeyBackP
         playlisRecyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int current_page) {
-                getData(current_page+1, "");
+                //getData(current_page+1, "");
             }
 
             @Override
@@ -110,7 +110,7 @@ public class PatternFragment extends Fragment implements MainActivity.onKeyBackP
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override public void run() {
-                getData(1, "");
+                //getData(1, "");
             }
         }, 100);
 
@@ -130,7 +130,7 @@ public class PatternFragment extends Fragment implements MainActivity.onKeyBackP
     }
 
     public void getData(int current_page, String pattern) {
-        Call<SearchResource> call = apiInterface.getPatterns(current_page+"", pattern);
+        /*Call<SearchResource> call = apiInterface.getPatterns(current_page+"", pattern);
         call.enqueue(new Callback<SearchResource>() {
             @Override
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
@@ -144,7 +144,7 @@ public class PatternFragment extends Fragment implements MainActivity.onKeyBackP
                 Log.e(TAG,t.getMessage());
                 call.cancel();
             }
-        });
+        });*/
     }
 
     @Override
