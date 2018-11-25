@@ -24,7 +24,7 @@ public interface APIInterface {
     Single<SearchResource> getSentences(@Query("page") String page, @Query("sentence") String sentence, @Query("sort") String sort, @Query("genre") String genre);
 
     @GET("/search/pattern")
-    Call<SearchResource> getPatterns(@Query("page") String page, @Query("pattern") String pattern);
+    Single<SearchResource> getPatterns(@Query("page") String page, @Query("pattern") String pattern);
 
     @GET("/search/word")
     Call<SearchResource> getWords(@Query("page") String page, @Query("word") String word);
@@ -33,7 +33,7 @@ public interface APIInterface {
     Call<SearchResource> getGenres(@Query("page") String page, @Query("genres") String genres);
 
     @GET("/search/interests")
-    Call<SearchResource> getInterests(@Query("page") String page, @Query("interest") String interest);
+    Single<SearchResource> getInterests(@Query("page") String page, @Query("interest") String interest);
 
     @GET("/search/interest")
     Call<SearchResource> getInterest(@Query("page") String page, @Query("icode") String icode);

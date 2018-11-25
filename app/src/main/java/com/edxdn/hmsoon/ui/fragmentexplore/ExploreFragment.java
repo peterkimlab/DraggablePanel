@@ -68,164 +68,141 @@ public class ExploreFragment extends Fragment {
         binding.rv.setLayoutManager(layoutManager);
         binding.rv.setAdapter(mAdapter);
 
-        ConnectableObservable<SearchResource> searchObservable = getDataPopularSentences(1, "").replay();
-
-        disposable.add(
-                searchObservable
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(new DisposableObserver<SearchResource>() {
-
-                        @Override
-                        public void onNext(SearchResource searchResource) {
-                            if (searchResource != null && searchResource.hits != null) {
-                                popularList.addAll(searchResource.hits.hits);
-                                dataset.put(DataTypeMusicFragment.EXPLORE_POPULAR_TYPE, popularList);
-                                mAdapter.notifyDataSetChanged();
-                            }
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.e(TAG, "showError: " + e.getMessage());
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    }));
-
-        searchObservable.connect();
-
         getDataRetrofit();
 
         return binding.getRoot();
     }
 
     private void getDataRetrofit() {
-        Handler getDataSentenceHandler = new Handler();
-        getDataSentenceHandler.postDelayed(new Runnable() {
-            @Override public void run() {
-                getDataSentence(1, "");
-            }
-        }, 0);
-
-        Handler getDataPatternHandler = new Handler();
-        getDataPatternHandler.postDelayed(new Runnable() {
-            @Override public void run() {
-                getDataPattern(1, "");
-            }
-        }, 100);
-
-        /*Handler getDataPopularSentencesHandler = new Handler();
-        getDataPopularSentencesHandler.postDelayed(new Runnable() {
-            @Override public void run() {
-                getDataPopularSentences(1, "");
-            }
-        }, 500);*/
-
-        Handler getDataChatHandler = new Handler();
-        getDataChatHandler.postDelayed(new Runnable() {
-            @Override public void run() {
-                getDataChat(1, "");
-            }
-        }, 1000);
-
+        getDataSentence(1, "");
+        getDataPattern(1, "");
+        getDataPopularSentences(1, "");
+        getDataChat(1, "");
     }
 
     // 추천문장
     public void getDataSentence(int current_page, String pattern) {
+        disposable.add(
+                apiInterface.getPatterns(current_page + "", "")
+                        .toObservable()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableObserver<SearchResource>() {
+                            @Override
+                            public void onNext(SearchResource searchResource) {
+                                if (searchResource != null && searchResource.hits != null) {
+                                    sentenceList.addAll(searchResource.hits.hits);
+                                    dataset.put(DataTypeMusicFragment.EXPLORE_SENTENCE_TYPE, sentenceList);
+                                    mAdapter.notifyDataSetChanged();
+                                }
+                            }
 
-        Call<SearchResource> call = apiInterface.getPatterns(current_page+"", pattern);
-        call.enqueue(new Callback<SearchResource>() {
-            @Override
-            public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
-                SearchResource resource = response.body();
-                if (resource != null && resource.hits != null) {
-                    sentenceList.addAll(resource.hits.hits);
-                }
-                dataset.put(DataTypeMusicFragment.EXPLORE_SENTENCE_TYPE, sentenceList);
-                mAdapter.notifyDataSetChanged();
-            }
+                            @Override
+                            public void onError(Throwable e) {
 
-            @Override
-            public void onFailure(Call<SearchResource> call, Throwable t) {
-                call.cancel();
-            }
-        });
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                Log.e(TAG, "onComplete: " + "getDataSentence");
+                            }
+                        })
+        );
     }
 
     // 추천패턴
     public void getDataPattern(int current_page, String pattern) {
-        Call<SearchResource> call = apiInterface.getPatterns(current_page + "", pattern);
-        call.enqueue(new Callback<SearchResource>() {
-            @Override
-            public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
-                SearchResource resource = response.body();
-                if (resource != null && resource.hits != null) {
-                    patternList.addAll(resource.hits.hits);
-                }
-                dataset.put(DataTypeMusicFragment.EXPLORE_PATTERN_TYPE, patternList);
-                mAdapter.notifyDataSetChanged();
-            }
+        disposable.add(
+                apiInterface.getPatterns(current_page + "", "")
+                        .toObservable()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableObserver<SearchResource>() {
+                            @Override
+                            public void onNext(SearchResource searchResource) {
+                                if (searchResource != null && searchResource.hits != null) {
+                                    patternList.addAll(searchResource.hits.hits);
+                                    dataset.put(DataTypeMusicFragment.EXPLORE_PATTERN_TYPE, patternList);
+                                    mAdapter.notifyDataSetChanged();
+                                }
+                            }
 
-            @Override
-            public void onFailure(Call<SearchResource> call, Throwable t) {
-                call.cancel();
-            }
-        });
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                Log.e(TAG, "onComplete: " + "getDataPattern");
+                            }
+                        })
+        );
     }
 
     //인기영상
-    public Observable<SearchResource> getDataPopularSentences(int current_page, String sort) {
-        return apiInterface.getSentences(current_page + "", "", "","")
-                .toObservable()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+    public void getDataPopularSentences(int current_page, String sort) {
+        disposable.add(
+                apiInterface.getSentences(current_page + "", "", "","")
+                        .toObservable()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableObserver<SearchResource>() {
+                            @Override
+                            public void onNext(SearchResource searchResource) {
+                                if (searchResource != null && searchResource.hits != null) {
+                                    popularList.addAll(searchResource.hits.hits);
+                                    dataset.put(DataTypeMusicFragment.EXPLORE_POPULAR_TYPE, popularList);
+                                    mAdapter.notifyDataSetChanged();
+                                }
+                            }
 
-        //Call<SearchResource> call = apiInterface.getPopular(current_page+"", "", sort);
-        /*Call<SearchResource> call = apiInterface.getSentences(current_page + "", "", sort, "");
-        call.enqueue(new Callback<SearchResource>() {
-            @Override
-            public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
-                SearchResource resource = response.body();
-                if (resource != null && resource.hits != null) {
-                    popularList.addAll(resource.hits.hits);
-                }
-                dataset.put(DataTypeMusicFragment.EXPLORE_POPULAR_TYPE, popularList);
-                mAdapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onFailure(Call<SearchResource> call, Throwable t) {
-                call.cancel();
-            }
-        });*/
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                Log.e(TAG, "onComplete: " + "getDataPopularSentences");
+                            }
+                        })
+        );
     }
 
     //채팅
     public void getDataChat(int current_page, String interest) {
-        Call<SearchResource> call = apiInterface.getInterests(current_page + "", "");
-        call.enqueue(new Callback<SearchResource>() {
-            @Override
-            public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
-                SearchResource resource = response.body();
-                if(resource != null && resource.hits != null){
-                    chatList.addAll(resource.hits.hits);
-                }
-                dataset.put(DataTypeMusicFragment.EXPLORE_CHAT_TYPE, chatList);
-                mAdapter.notifyDataSetChanged();
-            }
+        disposable.add(
+                apiInterface.getInterests(current_page + "", "")
+                        .toObservable()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableObserver<SearchResource>() {
+                            @Override
+                            public void onNext(SearchResource searchResource) {
+                                if (searchResource != null && searchResource.hits != null) {
+                                    chatList.addAll(searchResource.hits.hits);
+                                    dataset.put(DataTypeMusicFragment.EXPLORE_CHAT_TYPE, chatList);
+                                    mAdapter.notifyDataSetChanged();
+                                }
+                            }
 
-            @Override
-            public void onFailure(Call<SearchResource> call, Throwable t) {
-                call.cancel();
-            }
-        });
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                Log.e(TAG, "onComplete: " + "getDataChat");
+                            }
+                        })
+        );
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        //disposable.dispose();
     }
 }
