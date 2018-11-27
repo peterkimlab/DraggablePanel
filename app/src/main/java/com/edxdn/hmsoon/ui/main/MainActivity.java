@@ -11,6 +11,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -37,7 +38,7 @@ import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.edxdn.hmsoon.api.Datums;
 import com.edxdn.hmsoon.application.MyCustomApplication;
 import com.edxdn.hmsoon.ui.adapter.BackPressCloseHandler;
-import com.edxdn.hmsoon.ui.adapter.MainViewPagerAdapter;
+import com.edxdn.hmsoon.ui.adapter.ViewPagerAdapter;
 import com.edxdn.hmsoon.ui.fragmentcommon.MoreFragment;
 import com.edxdn.hmsoon.ui.fragmentcommon.PatternFragment;
 import com.edxdn.hmsoon.ui.fragmentexplore.ExploreFragment;
@@ -56,7 +57,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MainViewPagerAdapter mainViewPagerAdapter;
+    private ViewPagerAdapter mainViewPagerAdapter;
 
     private int isSpeakLo = 0;
 
@@ -138,6 +139,8 @@ public class MainActivity extends AppCompatActivity {
 
     private List<Datums> favoriteList;
 
+    private ViewPager viewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,6 +157,9 @@ public class MainActivity extends AppCompatActivity {
         application.setMainInstance(this);
 
         setContentView(R.layout.activity_main);
+
+
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         HummingUtils.requestPermission(this, Manifest.permission.RECORD_AUDIO);
         HummingUtils.requestPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -222,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        replaceFragment();
+        //replaceFragment();
 
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -230,19 +236,19 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.explore:
                         navItemIndex = EXPLORE_FRAGMENT;
-                        replaceFragment();
+                        viewPager.setCurrentItem(0);
                         return true;
                     case R.id.musicFragment:
                         navItemIndex = MUSIC_FRAGMENT;
-                        replaceFragment();
+                        viewPager.setCurrentItem(1);
                         return true;
                     case R.id.search:
                         navItemIndex = SEARCH_FRAGMENT;
-                        replaceFragment();
+                        viewPager.setCurrentItem(2);
                         return true;
                     case R.id.mypage:
                         navItemIndex = MYPAGE_FRAGMENT;
-                        replaceFragment();
+                        viewPager.setCurrentItem(3);
                         return true;
                     default:
                         replaceFragment();
@@ -250,6 +256,35 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                bottomNavigation.getMenu().getItem(position).setChecked(true);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        setupViewPager(viewPager);
+
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(mExplorefragment);
+        adapter.addFragment(mMusicfragment);
+        adapter.addFragment(mSearchfragment);
+        adapter.addFragment(mMypagefragment);
+        viewPager.setAdapter(adapter);
     }
 
     public void draggbleView() {
@@ -697,58 +732,44 @@ public class MainActivity extends AppCompatActivity {
         if (type.equals("type1") && sentence.equals("sentence")) {
             navItemIndex = 11;
             CURRENT_TAG = TAG_MOVIES;
-            CURRENT_TITLE = "문장";
         } else if (type.equals("type1") && sentence.equals("pattern")) {
             navItemIndex = 2;
             CURRENT_TAG = TAG_MOVIES;
-            CURRENT_TITLE = "패턴";
         } else if (type.equals("latestReleases")) {
             navItemIndex = 2;
             CURRENT_TAG = TAG_MOVIES;
-            CURRENT_TITLE = "Latest Releases";
         } else if (type.equals("sentences")) {
             SEARCH_PAGE_VALUE = sentence;
             navItemIndex = 2;
             CURRENT_TAG = TAG_MOVIES;
-            CURRENT_TITLE = "Sentences";
             if (!sentence.equals("")) {
-                CURRENT_TITLE = sentence;
             }
         } else if (type.equals("patterns")) {
             navItemIndex = 12;
             CURRENT_TAG = TAG_MOVIES;
-            CURRENT_TITLE = "Patterns";
         } else if(type.equals("genres")) {
             navItemIndex = 14;
             CURRENT_TAG = TAG_MOVIES;
-            CURRENT_TITLE = "Genres";
             if (!sentence.equals("")) {
-                CURRENT_TITLE = sentence;
             }
         } else if(type.equals("words")) {
             navItemIndex = 13;
             CURRENT_TAG = TAG_MOVIES;
-            CURRENT_TITLE = "Words";
         } else if(type.equals("popular")) {
             navItemIndex = 11;
             CURRENT_TAG = TAG_MOVIES;
-            CURRENT_TITLE = "popular";
         } else if(type.equals("favorite")) {
             navItemIndex = 17;
             CURRENT_TAG = TAG_MOVIES;
-            CURRENT_TITLE = "favorite";
         } else if(type.equals("watched")) {
             navItemIndex = 18;
             CURRENT_TAG = TAG_MOVIES;
-            CURRENT_TITLE = "watched";
         } else if(type.equals("music")) {
             navItemIndex = 19;
             CURRENT_TAG = TAG_MOVIES;
-            CURRENT_TITLE = sentence;
         } else if(type.equals("mothergoose")) {
             navItemIndex = 20;
             CURRENT_TAG = TAG_MOVIES;
-            CURRENT_TITLE = getString(R.string.discover_mothergoose);
         }
         replaceFragment();
     }

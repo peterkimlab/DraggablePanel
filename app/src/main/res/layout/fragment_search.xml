@@ -3,29 +3,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="@dimen/standard_layout_margin">
+    android:background="@color/white">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <com.edxdn.hmsoon.util.ClearEditText
-            android:id="@+id/tvSearch"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/standard_layout_margin">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/explore_main_title_layout_margin_top"
-            android:textStyle="bold"
-            android:textSize="22sp"
-            android:textColor="@color/black"
-            android:background="@android:color/transparent"/>
+            android:orientation="horizontal">
+            <com.edxdn.hmsoon.util.ClearEditText
+                android:id="@+id/tvSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/explore_main_title_layout_margin_top"
+                android:textStyle="bold"
+                android:textSize="22sp"
+                android:textColor="@color/black"
+                android:background="@android:color/transparent"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000000"
+            android:layout_marginTop="5dp"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/your_play_list"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#000000"
-        android:layout_marginTop="5dp"/>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/your_play_list"
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 </LinearLayout>
