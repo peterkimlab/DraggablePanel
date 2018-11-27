@@ -110,8 +110,6 @@ public class MusicFragmentAdapter extends RecyclerView.Adapter<RecyclerView.View
                         MyCustomApplication.getMainInstance().onClickItems("sentences", "");
                     }
                 });
-
-
                 break;
             case RECENT_TYPE:
                 dataList = dataset.get(DataTypeMusicFragment.MUSIC_RECENT_TYPE);

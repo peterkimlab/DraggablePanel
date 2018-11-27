@@ -693,7 +693,7 @@ public class MainActivity extends AppCompatActivity {
         appBarLayout.setVisibility(View.VISIBLE);
     }
 
-    public void onClickItems(String type, String sentence){
+    public void onClickItems(String type, String sentence) {
         if (type.equals("type1") && sentence.equals("sentence")) {
             openPage("type1", sentence);
         } else if (type.equals("type1") && sentence.equals("pattern")) {
@@ -742,11 +742,14 @@ public class MainActivity extends AppCompatActivity {
             SEARCH_PAGE_VALUE = sentence;
             navItemIndex = 2;
             CURRENT_TAG = TAG_MOVIES;
+            CURRENT_TITLE = "Sentences";
             if (!sentence.equals("")) {
+                CURRENT_TITLE = sentence;
             }
         } else if (type.equals("patterns")) {
             navItemIndex = 12;
             CURRENT_TAG = TAG_MOVIES;
+            CURRENT_TITLE = "Patterns";
         } else if(type.equals("genres")) {
             navItemIndex = 14;
             CURRENT_TAG = TAG_MOVIES;

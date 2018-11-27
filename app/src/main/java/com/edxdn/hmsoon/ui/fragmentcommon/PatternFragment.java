@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.edxdn.hmsoon.ui.data.DataTypeMusicFragment;
 import com.exam.english.R;
 import com.edxdn.hmsoon.api.APIClient;
 import com.edxdn.hmsoon.api.APIInterface;
@@ -25,6 +27,11 @@ import com.edxdn.hmsoon.ui.main.MainActivity;
 import com.edxdn.hmsoon.util.HummingUtils;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,6 +47,7 @@ public class PatternFragment extends Fragment implements MainActivity.onKeyBackP
     private PatternAdapter mAdapter;
     private Handler mHandler;
     private MainActivity mainActivity;
+    private CompositeDisposable disposable = new CompositeDisposable();
 
     public PatternFragment() {
     }
@@ -97,8 +105,8 @@ public class PatternFragment extends Fragment implements MainActivity.onKeyBackP
 
         mainActivity = (MainActivity) getActivity();
 
-        mHandler = new Handler(){
-            public void handleMessage(Message msg){
+        mHandler = new Handler() {
+            public void handleMessage(Message msg) {
                 Datums datums = datumList.get(msg.what);
                 MyCustomApplication.getMainInstance().onClickItems("sentences", datums.source.get(HummingUtils.ElasticField.PATTERN).toString());
             }
@@ -110,7 +118,7 @@ public class PatternFragment extends Fragment implements MainActivity.onKeyBackP
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override public void run() {
-                //getData(1, "");
+                getData(1, "");
             }
         }, 100);
 
@@ -130,7 +138,32 @@ public class PatternFragment extends Fragment implements MainActivity.onKeyBackP
     }
 
     public void getData(int current_page, String pattern) {
-        /*Call<SearchResource> call = apiInterface.getPatterns(current_page+"", pattern);
+        disposable.add(
+                apiInterface.getPatterns(current_page + "", "")
+                        .toObservable()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableObserver<SearchResource>() {
+                            @Override
+                            public void onNext(SearchResource searchResource) {
+                                if (searchResource != null && searchResource.hits != null) {
+                                    datumList.addAll(searchResource.hits.hits);
+                                    mAdapter.notifyDataSetChanged();
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                Log.e(TAG, "onComplete: " + "getDataSentence");
+                            }
+                        })
+        );
+        /*Call<SearchResource> call = apiInterface.getPatterns(current_page + "", pattern);
         call.enqueue(new Callback<SearchResource>() {
             @Override
             public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
