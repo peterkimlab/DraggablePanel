@@ -132,22 +132,22 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
 
         PlayerControlView controlView = simpleExoPlayerView.findViewById(R.id.exo_controller);
 
-        /*ImageView youtubeButton = controlView.findViewById(R.id.youtubeButton);
-         youtubeButton.setOnClickListener(new View.OnClickListener() {
+        ImageView youtubeButton = controlView.findViewById(R.id.youtubeButton);
+        youtubeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 watchYoutubeVideo(getActivity(), youtubeid);
             }
-        });*/
+        });
 
-        /*downButton = controlView.findViewById(R.id.small_video_down);
+        downButton = controlView.findViewById(R.id.small_video_down);
         downButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 draggableView.minimize();
             }
-        });*/
-        /*
+        });
+
         ImageView share = controlView.findViewById(R.id.share);
         share.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,7 +172,7 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
                     //putFavorite();
                 }
             }
-        });*/
+        });
 
         DefaultBandwidthMeter bandwidthMeterA = new DefaultBandwidthMeter();
         //BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();

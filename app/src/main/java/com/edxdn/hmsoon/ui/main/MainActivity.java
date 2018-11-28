@@ -63,8 +63,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ViewPagerAdapter mainViewPagerAdapter;
-
     private int isSpeakLo = 0;
 
     //YouTube
