@@ -1,7 +1,12 @@
 package com.edxdn.hmsoon.ui.main;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +19,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -168,9 +174,9 @@ public class MainActivity extends AppCompatActivity {
         draggable_panel = (DraggablePanel) findViewById(R.id.draggable_panel);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         appBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
-        toolbarlayout = (LinearLayout) findViewById(R.id.toolbarlayout);
+        //toolbarlayout = (LinearLayout) findViewById(R.id.toolbarlayout);
         toolbarlayout2 = (LinearLayout) findViewById(R.id.toolbarlayout2);
-        searchText = (TextView) findViewById(R.id.searchText);
+        //searchText = (TextView) findViewById(R.id.searchText);
         searchText2 = (TextView) findViewById(R.id.searchText2);
 
         BottomNavigationNotShiftHelper.disableShiftMode(bottomNavigation);
@@ -207,7 +213,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onBackStackChanged() {
                 if (!CURRENT_TAG.equals(TAG_HOME)) {
+                    Drawable drawable= getResources().getDrawable(R.drawable.icon_back);
+                    Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+                    Drawable newdrawable = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, (int) convertDpToPixel(11, MainActivity.this), (int) convertDpToPixel(20, MainActivity.this), true));
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                    getSupportActionBar().setHomeAsUpIndicator(newdrawable);
                     getSupportActionBar().setDisplayShowHomeEnabled(true);
                     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                         @Override
@@ -215,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
                             onBackPressed();
                         }
                     });
-                    toolbarlayout.setVisibility(View.GONE);
+                    //toolbarlayout.setVisibility(View.GONE);
                     toolbarlayout2.setVisibility(View.VISIBLE);
                     searchText2.setText(CURRENT_TITLE);
                 } /*else {
@@ -940,6 +950,14 @@ public class MainActivity extends AppCompatActivity {
 
     public BottomNavigationView getBottomNavigation() {
         return bottomNavigation;
+    }
+
+    public static float convertDpToPixel(float dp, Context context){
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        float px = dp * (metrics.densityDpi / 160f);
+
+        return (int)px;
     }
 
 }
