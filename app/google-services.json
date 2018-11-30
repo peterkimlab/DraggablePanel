@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "990959337734",
+    "firebase_url": "https://hummingsoon-bad7e.firebaseio.com",
+    "project_id": "hummingsoon-bad7e",
+    "storage_bucket": "hummingsoon-bad7e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:990959337734:android:f6aeb4ec7d739a62",
+        "android_client_info": {
+          "package_name": "com.edxdn.hmsoon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "990959337734-8fsvqde1jpsusaqpcgutbt678rcgvgdj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.edxdn.hmsoon",
+            "certificate_hash": "d606d36e1b1a8078e5e44ef5c7c90a3d1ca20b33"
+          }
+        },
+        {
+          "client_id": "990959337734-16sg2nf0vg4jmmol3pfp0nmfgphng06g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDigdzMSLEyUvfkKEnAfGZZhx8vwVtj00U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "990959337734-16sg2nf0vg4jmmol3pfp0nmfgphng06g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
