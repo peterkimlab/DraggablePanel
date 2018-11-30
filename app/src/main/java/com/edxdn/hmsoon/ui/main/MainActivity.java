@@ -23,6 +23,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
@@ -35,7 +36,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.edxdn.hmsoon.ui.fragmentcommon.ContentsFragment;
 import com.edxdn.hmsoon.ui.fragmentcommon.ConversationFragment;
 import com.edxdn.hmsoon.ui.youtube.PlayMusicFragment;
-import com.exam.english.R;
+import com.edxdn.hmsoon.R;
 import com.github.pedrovgs.DraggableListener;
 import com.github.pedrovgs.DraggablePanel;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -57,6 +58,8 @@ import com.edxdn.hmsoon.ui.youtube.MoviePosterFragment;
 import com.edxdn.hmsoon.ui.youtube.VideoFragment;
 import com.edxdn.hmsoon.ui.youtube.VideoListFragment;
 import com.edxdn.hmsoon.util.HummingUtils;
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -142,15 +145,13 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_SEARCH = 400;
 
     private List<Datums> favoriteList;
-
     private ViewPager viewPager;
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Intent intent = new Intent(this, SplashActivity.class);
-        startActivity(intent);
 
         mExplorefragment = new ExploreFragment().newInstance();
         mMusicfragment = new MusicFragment().newInstance();
@@ -160,8 +161,14 @@ public class MainActivity extends AppCompatActivity {
         MyCustomApplication application = (MyCustomApplication)getApplication();
         application.setMainInstance(this);
 
-        setContentView(R.layout.activity_main);
+        mAuth = FirebaseAuth.getInstance();
 
+        if (mAuth.getCurrentUser() != null) {
+            Intent intent = new Intent(this, SplashActivity.class);
+            startActivity(intent);
+        }
+
+        setContentView(R.layout.activity_main);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 

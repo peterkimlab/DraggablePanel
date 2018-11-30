@@ -18,7 +18,7 @@ import com.edxdn.hmsoon.application.MyCustomApplication;
 import com.edxdn.hmsoon.ui.adapter.SpacesItemDecoration;
 import com.edxdn.hmsoon.ui.data.ExploreFragmentItemModel;
 import com.edxdn.hmsoon.ui.fragmentexplore.ExploreFragmentAdapter;
-import com.exam.english.R;
+import com.edxdn.hmsoon.R;
 import com.edxdn.hmsoon.api.Datums;
 import com.edxdn.hmsoon.ui.data.DataTypeMusicFragment;
 import com.edxdn.hmsoon.util.HummingUtils;

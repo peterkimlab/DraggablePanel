@@ -17,7 +17,7 @@ import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import com.exam.english.R;
+import com.edxdn.hmsoon.R;
 import com.github.pedrovgs.DraggablePanel;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;

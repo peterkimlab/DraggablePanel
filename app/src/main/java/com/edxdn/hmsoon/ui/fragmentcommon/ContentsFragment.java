@@ -9,25 +9,21 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.edxdn.hmsoon.R;
 import com.edxdn.hmsoon.api.APIClient;
 import com.edxdn.hmsoon.api.APIInterface;
 import com.edxdn.hmsoon.api.Datums;
-import com.edxdn.hmsoon.api.SearchResource;
 import com.edxdn.hmsoon.application.MyCustomApplication;
 import com.edxdn.hmsoon.ui.adapter.EndlessRecyclerOnScrollListener;
 import com.edxdn.hmsoon.ui.adapter.RecyclerItemClickListener;
 import com.edxdn.hmsoon.ui.adapter.SpacesItemDecoration;
 import com.edxdn.hmsoon.ui.main.MainActivity;
-import com.exam.english.R;
 import java.util.ArrayList;
 import java.util.List;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 @SuppressLint("ValidFragment")
 public class ContentsFragment extends Fragment implements MainActivity.onKeyBackPressedListener {

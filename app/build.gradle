@@ -5,7 +5,7 @@ android {
     flavorDimensions "minSdkVersion"
 
     defaultConfig {
-        applicationId "com.exam.english"
+        applicationId "com.edxdn.hmsoon"
         minSdkVersion 17
         targetSdkVersion 27
         versionCode 1
@@ -129,4 +129,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    //Auth
+    implementation 'com.google.firebase:firebase-auth:16.0.3'
+    implementation 'com.google.android.gms:play-services-auth:16.0.0'
+    implementation 'com.shaishavgandhi:login-buttons:1.0.0'
+
 }
+apply plugin: 'com.google.gms.google-services'

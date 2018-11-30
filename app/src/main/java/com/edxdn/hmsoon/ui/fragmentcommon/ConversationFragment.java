@@ -21,7 +21,7 @@ import com.edxdn.hmsoon.api.SearchResource;
 import com.edxdn.hmsoon.ui.adapter.RecyclerItemClickListener;
 import com.edxdn.hmsoon.ui.main.MainActivity;
 import com.edxdn.hmsoon.util.HummingUtils;
-import com.exam.english.R;
+import com.edxdn.hmsoon.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

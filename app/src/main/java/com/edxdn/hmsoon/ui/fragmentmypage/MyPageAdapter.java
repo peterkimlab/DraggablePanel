@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.exam.english.R;
+import com.edxdn.hmsoon.R;
 import java.util.List;
 
 public class MyPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

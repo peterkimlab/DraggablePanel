@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.exam.english.R;
+import com.edxdn.hmsoon.R;
 import com.edxdn.hmsoon.api.Datums;
 import com.edxdn.hmsoon.application.MyCustomApplication;
 import com.edxdn.hmsoon.ui.adapter.SpacesItemDecoration;

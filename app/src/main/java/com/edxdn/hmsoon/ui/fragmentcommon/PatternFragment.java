@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.edxdn.hmsoon.ui.data.DataTypeMusicFragment;
-import com.exam.english.R;
+import com.edxdn.hmsoon.R;
 import com.edxdn.hmsoon.api.APIClient;
 import com.edxdn.hmsoon.api.APIInterface;
 import com.edxdn.hmsoon.api.Datums;

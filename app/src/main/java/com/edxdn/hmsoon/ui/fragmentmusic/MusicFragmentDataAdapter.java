@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.edxdn.hmsoon.ui.data.ExploreFragmentItemModel;
-import com.exam.english.R;
+import com.edxdn.hmsoon.R;
 import com.edxdn.hmsoon.api.Datums;
 import com.edxdn.hmsoon.ui.main.MainActivity;
 import java.util.ArrayList;

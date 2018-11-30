@@ -26,6 +26,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.edxdn.hmsoon.R;
 import com.edxdn.hmsoon.api.APIClient;
 import com.edxdn.hmsoon.api.APIInterface;
 import com.edxdn.hmsoon.api.Datums;
@@ -37,7 +39,6 @@ import com.edxdn.hmsoon.ui.adapter.RecyclerItemClickListener;
 import com.edxdn.hmsoon.ui.adapter.SpacesItemDecoration;
 import com.edxdn.hmsoon.ui.main.MainActivity;
 import com.edxdn.hmsoon.util.HummingUtils;
-import com.exam.english.R;
 import com.pierfrancescosoffritti.youtubeplayer.player.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerView;
 import java.math.BigDecimal;

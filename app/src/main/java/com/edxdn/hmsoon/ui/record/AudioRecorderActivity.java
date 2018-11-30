@@ -16,11 +16,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.cleveroad.audiovisualization.DbmHandler;
 import com.cleveroad.audiovisualization.GLAudioVisualizationView;
+import com.edxdn.hmsoon.R;
 import com.edxdn.hmsoon.ui.record.model.AudioChannel;
 import com.edxdn.hmsoon.ui.record.model.AudioSampleRate;
 import com.edxdn.hmsoon.ui.record.model.AudioSource;
-import com.exam.english.R;
-
 import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;

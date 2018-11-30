@@ -15,9 +15,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import com.edxdn.hmsoon.R;
 import com.edxdn.hmsoon.util.ClearEditText;
-import com.exam.english.R;
 import com.edxdn.hmsoon.api.APIClient;
 import com.edxdn.hmsoon.api.APIInterface;
 import com.edxdn.hmsoon.api.Datums;
@@ -212,10 +211,12 @@ public class SearchFragment extends Fragment implements MainActivity.onKeyBackPr
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        ((MainActivity)getActivity()).getBottomNavigation().setVisibility(View.GONE);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        ((MainActivity)getActivity()).getBottomNavigation().setVisibility(View.VISIBLE);
     }
 }

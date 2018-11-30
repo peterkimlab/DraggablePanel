@@ -2,7 +2,6 @@ package com.edxdn.hmsoon.ui.fragmentmusic;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,10 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.edxdn.hmsoon.ui.fragmentexplore.ExploreFragment;
-import com.exam.english.R;
-import com.exam.english.databinding.FragmentExploreBinding;
+import com.edxdn.hmsoon.R;
+import com.edxdn.hmsoon.databinding.FragmentExploreBinding;
 import com.edxdn.hmsoon.api.APIClient;
 import com.edxdn.hmsoon.api.APIInterface;
 import com.edxdn.hmsoon.api.Datums;
@@ -22,14 +19,10 @@ import com.edxdn.hmsoon.ui.data.DataTypeMusicFragment;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MusicFragment extends Fragment {
 

@@ -15,7 +15,7 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
-import com.exam.english.R;
+import com.edxdn.hmsoon.R;
 
 /*
  * Created by Coolalien on 6/28/2016.

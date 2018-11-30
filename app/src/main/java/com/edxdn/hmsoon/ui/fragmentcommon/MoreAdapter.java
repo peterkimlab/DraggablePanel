@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.exam.english.R;
+import com.edxdn.hmsoon.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.edxdn.hmsoon.api.Datums;

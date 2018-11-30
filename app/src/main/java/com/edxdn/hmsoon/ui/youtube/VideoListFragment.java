@@ -47,7 +47,7 @@ import com.edxdn.hmsoon.ui.record.AndroidAudioRecorder;
 import com.edxdn.hmsoon.ui.record.model.AudioChannel;
 import com.edxdn.hmsoon.ui.record.model.AudioSampleRate;
 import com.edxdn.hmsoon.ui.record.model.AudioSource;
-import com.exam.english.R;
+import com.edxdn.hmsoon.R;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.edxdn.hmsoon.api.Datums;
 import com.edxdn.hmsoon.ui.record.CustomSTT;

@@ -21,7 +21,7 @@ public class MyCustomApplication extends Application {
         return singleton;
     }
 
-    public static MainActivity getMainInstance(){
+    public static MainActivity getMainInstance() {
         return mainActivity;
     }
 

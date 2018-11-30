@@ -13,13 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.exam.english.R;
+import com.edxdn.hmsoon.R;
 import com.edxdn.hmsoon.api.APIClient;
 import com.edxdn.hmsoon.api.APIInterface;
 import com.edxdn.hmsoon.api.Datums;
 import com.edxdn.hmsoon.api.SearchResource;
 import com.edxdn.hmsoon.application.MyCustomApplication;
+import com.edxdn.hmsoon.ui.main.MainActivity;
 import com.edxdn.hmsoon.util.HummingUtils;
 import java.util.ArrayList;
 import java.util.List;
@@ -145,4 +145,5 @@ public class SearchBeforeHandFragment extends Fragment {
         Resources r = getContext().getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
+
 }

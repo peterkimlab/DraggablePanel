@@ -3,8 +3,7 @@ package com.edxdn.hmsoon.ui.main;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-
-import com.exam.english.R;
+import com.edxdn.hmsoon.R;
 
 public class SplashActivity extends AppCompatActivity {
 

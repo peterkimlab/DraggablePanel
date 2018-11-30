@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.edxdn.hmsoon.api.Datums;
 import com.edxdn.hmsoon.util.HummingUtils;
-import com.exam.english.R;
+import com.edxdn.hmsoon.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import java.util.List;

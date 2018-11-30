@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.exam.english.R;
+import com.edxdn.hmsoon.R;
 
 public class RelationHeaderViewHolder extends RecyclerView.ViewHolder{
 

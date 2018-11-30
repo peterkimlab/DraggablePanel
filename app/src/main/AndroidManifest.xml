@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme"
         android:name="com.edxdn.hmsoon.application.MyCustomApplication">
         <activity
-            android:name="com.edxdn.hmsoon.ui.main.MainActivity"
+            android:name="com.edxdn.hmsoon.ui.main.LoginActivity"
             android:label="허밍순">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,5 +24,6 @@
         </activity>
         <activity android:name="com.edxdn.hmsoon.ui.record.AudioRecorderActivity"/>
         <activity android:name="com.edxdn.hmsoon.ui.main.SplashActivity"/>
+        <activity android:name="com.edxdn.hmsoon.ui.main.MainActivity"/>
     </application>
 </manifest>
