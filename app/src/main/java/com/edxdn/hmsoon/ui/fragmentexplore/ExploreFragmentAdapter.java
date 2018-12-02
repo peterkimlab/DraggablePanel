@@ -36,8 +36,8 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public static final int SENTENCE_TYPE = 0;
     public static final int PATTERN_TYPE = 1;
     public static final int POPULAR_TYPE = 2;
-    //public static final int STUDIED_SENTENCE_TYPE = 3;
-    public static final int CHAT_TYPE = 3;
+    public static final int WATCHED_TYPE = 3;
+    public static final int CHAT_TYPE = 4;
 
     public ExploreFragmentAdapter(Context context, HashMap<String, List<Datums>> dataset) {
         this.context = context;
@@ -54,6 +54,8 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             case 2:
                 return POPULAR_TYPE;
             case 3:
+                return WATCHED_TYPE;
+            case 4:
                 return CHAT_TYPE;
         }
         return -1;
@@ -72,6 +74,9 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             case POPULAR_TYPE:
                 view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_standard, parent, false);
                 return new PopularViewHolder(view);
+            case WATCHED_TYPE:
+                view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_standard, parent, false);
+                return new WatchedViewHolder(view);
             case CHAT_TYPE:
                 view = LayoutInflater.from(context).inflate(R.layout.list_item_explore_standard, parent, false);
                 return new ChatViewHolder(view);
@@ -150,6 +155,22 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 }
                 ((PopularViewHolder) holder).itemMainTitle.setText("인기영상");
                 break;
+            case WATCHED_TYPE:
+                dataList = dataset.get(DataTypeMusicFragment.EXPLORE_WATCHED_TYPE);
+                if (dataList != null) {
+                    for (Datums datas : dataList) {
+                        singleItem.add(new ExploreFragmentItemModel(WATCHED_TYPE, HummingUtils.getTitle(datas, context), HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
+                    }
+                    ((WatchedViewHolder) holder).recycler_view_list.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(5), true));
+                    ((WatchedViewHolder) holder).recycler_view_list.setLayoutManager(new GridLayoutManager(context, 2));
+                    ((WatchedViewHolder) holder).recycler_view_list.setHasFixedSize(true);
+                    itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
+                    ((WatchedViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
+                    ((WatchedViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
+                    //((WatchedViewHolder) holder).itemMainTitle.setText("최근 학습한 문장");
+                }
+
+                break;
             case CHAT_TYPE:
                 dataList = dataset.get(DataTypeMusicFragment.EXPLORE_CHAT_TYPE);
                 if (dataList != null) {
@@ -210,6 +231,22 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         protected Button btnMore;
 
         public PopularViewHolder(View itemView) {
+            super(itemView);
+            this.itemMainTitle = (TextView) itemView.findViewById(R.id.itemMainTitle);
+            this.itemTitle = (TextView) itemView.findViewById(R.id.itemTitle);
+            this.recycler_view_list = (RecyclerView) itemView.findViewById(R.id.recycler_view_list);
+            this.btnMore= (Button) itemView.findViewById(R.id.btnMore);
+        }
+    }
+
+    public class WatchedViewHolder extends RecyclerView.ViewHolder {
+
+        protected TextView itemMainTitle;
+        protected TextView itemTitle;
+        protected RecyclerView recycler_view_list;
+        protected Button btnMore;
+
+        public WatchedViewHolder(View itemView) {
             super(itemView);
             this.itemMainTitle = (TextView) itemView.findViewById(R.id.itemMainTitle);
             this.itemTitle = (TextView) itemView.findViewById(R.id.itemTitle);

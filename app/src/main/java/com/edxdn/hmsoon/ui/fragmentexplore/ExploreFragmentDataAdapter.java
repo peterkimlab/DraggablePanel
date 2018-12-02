@@ -41,6 +41,8 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
             case 2:
                 return ExploreFragmentAdapter.POPULAR_TYPE;
             case 3:
+                return ExploreFragmentAdapter.WATCHED_TYPE;
+            case 4:
                 return ExploreFragmentAdapter.CHAT_TYPE;
             default:
                 return -1;
@@ -60,6 +62,9 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
             case ExploreFragmentAdapter.POPULAR_TYPE:
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_explore_video_started_type, null);
                 return new PopularItemRowHolder(view);
+            case ExploreFragmentAdapter.WATCHED_TYPE:
+                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_explore_video_started_type, null);
+                return new WatchedItemRowHolder(view);
             case ExploreFragmentAdapter.CHAT_TYPE:
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_explore_chat, null);
                 return new ChatItemRowHolder(view);
@@ -117,7 +122,19 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
                         ((MainActivity)mContext).setVideoUrl(mDataList.get(i));
                     }
                 });
+                break;
+            case ExploreFragmentAdapter.WATCHED_TYPE:
+                Glide.with(mContext)
+                        .load(singleItem.getItem_thumbnail())
+                        .into(((WatchedItemRowHolder) holder).itemImage);
+                ((WatchedItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
 
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ((MainActivity)mContext).setVideoUrl(mDataList.get(i));
+                    }
+                });
                 break;
             case ExploreFragmentAdapter.CHAT_TYPE:
                 ((ChatItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
@@ -136,7 +153,7 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public int getItemCount() {
 
-        if (itemsList.get(0).getvType() == ExploreFragmentAdapter.POPULAR_TYPE) {
+        if (itemsList != null && itemsList.size() != 0 && itemsList.get(0).getvType() == ExploreFragmentAdapter.POPULAR_TYPE) {
             return 4;
         }
 
@@ -167,6 +184,18 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
         TextView tvTime;
         TextView tvSentence;
         public PopularItemRowHolder(View view) {
+            super(view);
+            this.itemImage = (ImageView) view.findViewById(R.id.thumbnail);
+            this.tvTitle = (TextView) view.findViewById(R.id.vtitle);
+            this.tvSentence = (TextView) view.findViewById(R.id.sentence);
+        }
+    }
+    public static class WatchedItemRowHolder extends RecyclerView.ViewHolder {
+        TextView tvTitle;
+        ImageView itemImage;
+        TextView tvTime;
+        TextView tvSentence;
+        public WatchedItemRowHolder(View view) {
             super(view);
             this.itemImage = (ImageView) view.findViewById(R.id.thumbnail);
             this.tvTitle = (TextView) view.findViewById(R.id.vtitle);

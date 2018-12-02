@@ -2,7 +2,6 @@ package com.edxdn.hmsoon.ui.fragmentexplore;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,12 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.edxdn.hmsoon.R;
+import com.edxdn.hmsoon.application.MyCustomApplication;
 import com.edxdn.hmsoon.databinding.FragmentExploreBinding;
 import com.edxdn.hmsoon.api.APIClient;
 import com.edxdn.hmsoon.api.APIInterface;
 import com.edxdn.hmsoon.api.Datums;
 import com.edxdn.hmsoon.api.SearchResource;
 import com.edxdn.hmsoon.ui.data.DataTypeMusicFragment;
+import com.edxdn.hmsoon.ui.main.MainActivity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,12 +30,14 @@ public class ExploreFragment extends Fragment {
 
     private FragmentExploreBinding binding;
     private ExploreFragmentAdapter mAdapter;
-    private List<Datums> sentenceList, patternList, popularList, chatList;
+    private List<Datums> sentenceList, patternList, popularList, watchedList, chatList;
     private HashMap<String, List<Datums>> dataset;
     private APIInterface apiInterface;
 
     private CompositeDisposable disposable = new CompositeDisposable();
     private static final String TAG = ExploreFragment.class.getSimpleName();
+
+    private MainActivity mainActivity;
 
     public static ExploreFragment newInstance() {
         return new ExploreFragment();
@@ -52,6 +55,7 @@ public class ExploreFragment extends Fragment {
         sentenceList = new ArrayList<>();
         patternList = new ArrayList<>();
         popularList = new ArrayList<>();
+        watchedList = new ArrayList<>();
         chatList = new ArrayList<>();
 
         // 아덥터
@@ -70,6 +74,7 @@ public class ExploreFragment extends Fragment {
         getDataSentence(1, "");
         getDataPattern(1, "");
         getDataPopularSentences(1, "");
+        getDataWatchedSentences(1, "");
         getDataChat(1, "");
     }
 
@@ -146,6 +151,39 @@ public class ExploreFragment extends Fragment {
                                 if (searchResource != null && searchResource.hits != null) {
                                     popularList.addAll(searchResource.hits.hits);
                                     dataset.put(DataTypeMusicFragment.EXPLORE_POPULAR_TYPE, popularList);
+                                    mAdapter.notifyDataSetChanged();
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                Log.e(TAG, "onComplete: " + "getDataPopularSentences");
+                            }
+                        })
+        );
+    }
+
+    //최근 학습한 문장
+    public void getDataWatchedSentences(int current_page, String sort) {
+
+        String email = MyCustomApplication.getMainInstance().getEmailInfo();
+
+        disposable.add(
+                apiInterface.getWatched(current_page + "", email)
+                        .toObservable()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableObserver<SearchResource>() {
+                            @Override
+                            public void onNext(SearchResource searchResource) {
+                                if (searchResource != null && searchResource.hits != null) {
+                                    watchedList.addAll(searchResource.hits.hits);
+                                    dataset.put(DataTypeMusicFragment.EXPLORE_WATCHED_TYPE, watchedList);
                                     mAdapter.notifyDataSetChanged();
                                 }
                             }

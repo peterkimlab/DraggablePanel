@@ -68,6 +68,16 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
 
+        googleLogin.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+
     }
 
     @Override
@@ -84,6 +94,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             } else {
                 // Google Sign In failed, update UI appropriately
                 // ...
+                Toast.makeText(LoginActivity.this, "구글 로그인 실패 하였습니다.", Toast.LENGTH_SHORT).show();
+                finish();
             }
         }
     }
@@ -97,12 +109,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this, "구글 로그인 실패 하였습니다.", Toast.LENGTH_SHORT).show();
-                        } else {
+                        if (task.isSuccessful()) {
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "구글 로그인 실패 하였습니다.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

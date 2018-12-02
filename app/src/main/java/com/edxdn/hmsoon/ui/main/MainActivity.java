@@ -965,4 +965,13 @@ public class MainActivity extends AppCompatActivity {
         return (int)px;
     }
 
+    public String getEmailInfo() {
+        String email = "";
+
+        if (mAuth.getCurrentUser() != null) {
+            email = mAuth.getCurrentUser().getEmail();
+        }
+        return email;
+    }
+
 }

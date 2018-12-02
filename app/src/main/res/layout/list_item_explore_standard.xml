@@ -13,8 +13,7 @@
         android:layout_marginBottom="@dimen/explore_main_title_text_view_margin_bottom"
         android:textSize="30dp"
         android:textStyle="bold"
-        android:textColor="@color/black"
-        android:text="MAIN"/>
+        android:textColor="@color/black"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_list"
         android:layout_width="match_parent"
