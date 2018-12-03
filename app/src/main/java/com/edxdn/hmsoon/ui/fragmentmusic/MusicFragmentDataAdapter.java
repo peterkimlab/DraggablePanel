@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.edxdn.hmsoon.ui.data.ExploreFragmentItemModel;
 import com.edxdn.hmsoon.R;
 import com.edxdn.hmsoon.api.Datums;
+import com.edxdn.hmsoon.ui.fragmentexplore.ExploreFragmentDataAdapter;
 import com.edxdn.hmsoon.ui.main.MainActivity;
 import java.util.ArrayList;
 import java.util.List;
@@ -96,6 +97,7 @@ public class MusicFragmentDataAdapter extends RecyclerView.Adapter<RecyclerView.
                         ((MainActivity)mContext).setVideoUrl(mDataList.get(i));
                     }
                 });
+                ((MusicFragmentDataAdapter.RecentItemRowHolder) holder).tvTitle.setText(singleItem.getVtitle());
                 break;
             case MusicFragmentAdapter.MOTHER_GOOSE_TYPE:
                 Glide.with(mContext)
@@ -110,6 +112,7 @@ public class MusicFragmentDataAdapter extends RecyclerView.Adapter<RecyclerView.
                         ((MainActivity)mContext).setMusicVideoUrl(mDataList.get(i));
                     }
                 });
+                ((MusicFragmentDataAdapter.PopularItemRowHolder) holder).tvTitle.setText(singleItem.getVtitle());
                 break;
             case MusicFragmentAdapter.RECOMMEND_TYPE:
                 Glide.with(mContext)
@@ -124,6 +127,7 @@ public class MusicFragmentDataAdapter extends RecyclerView.Adapter<RecyclerView.
                         ((MainActivity)mContext).setVideoUrl(mDataList.get(i));
                     }
                 });
+                ((RecommendItemRowHolder) holder).tvTitle.setText(singleItem.getVtitle());
                 break;
         }
     }

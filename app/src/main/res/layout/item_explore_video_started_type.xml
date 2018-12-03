@@ -6,6 +6,7 @@
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/standard_image_bottom"
         android:layout_weight="0">
         <ImageView
             android:id="@+id/thumbnail"
@@ -16,7 +17,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
         android:layout_weight="1"
         android:orientation="vertical">
         <TextView
@@ -27,8 +27,7 @@
             android:layout_weight="0" />
         <TextView
             android:id="@+id/vtitle"
-            style="@style/text_title_en_black"
-            android:layout_weight="0"
-            android:visibility="gone"/>
+            style="@style/text_title_en_orange"
+            android:layout_weight="0"/>
     </LinearLayout>
 </LinearLayout>

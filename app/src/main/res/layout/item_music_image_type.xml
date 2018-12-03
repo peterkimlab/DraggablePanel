@@ -29,7 +29,7 @@
             android:layout_weight="0" />
         <TextView
             android:id="@+id/vtitle"
-            style="@style/text_title_en_black"
+            style="@style/text_title_en_orange"
             android:layout_weight="0"
             android:visibility="gone" />
     </LinearLayout>

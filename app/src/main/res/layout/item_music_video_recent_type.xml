@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -32,7 +31,7 @@
             android:layout_weight="0" />
         <TextView
             android:id="@+id/vtitle"
-            style="@style/text_title_en_black"
+            style="@style/text_title_en_orange"
             android:layout_weight="0"
             android:text="reck on"
             android:textColor="@color/orange_app_identity_color"

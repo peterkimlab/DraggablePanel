@@ -19,6 +19,8 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:textSize="13sp"
+            android:fontFamily="@font/notosanscjkkr_regular"
+            android:includeFontPadding="false"
             android:textColor="@color/white"
             android:layout_gravity="bottom"
             android:layout_marginLeft="5dp"

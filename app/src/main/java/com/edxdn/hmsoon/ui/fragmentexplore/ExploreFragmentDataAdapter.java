@@ -122,6 +122,7 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
                         ((MainActivity)mContext).setVideoUrl(mDataList.get(i));
                     }
                 });
+                ((PopularItemRowHolder) holder).tvTitle.setText(singleItem.getVtitle());
                 break;
             case ExploreFragmentAdapter.WATCHED_TYPE:
                 Glide.with(mContext)
@@ -146,7 +147,7 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
                         MyCustomApplication.getMainInstance().openInterestPage(1, mDataList.get(i));
                     }
                 });
-
+                //((ChatItemRowHolder) holder).tvTitle.setText(singleItem.getVtitle());
                 break;
         }
     }
@@ -205,12 +206,14 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
         }
     }
     public static class ChatItemRowHolder extends RecyclerView.ViewHolder {
+        TextView tvTitle;
         LinearLayout item_layout;
         TextView tvSentence;
         public ChatItemRowHolder(View view) {
             super(view);
             this.item_layout = (LinearLayout) view.findViewById(R.id.item_layout);
             this.tvSentence = (TextView) view.findViewById(R.id.sentence);
+            this.tvTitle = (TextView) view.findViewById(R.id.itemTitle);
         }
     }
 }

@@ -90,17 +90,17 @@
         <item name="android:fontFamily">@font/notosanscjkkr_regular</item>
         <item name="android:includeFontPadding">false</item>
         <item name="android:textColor">@color/black_youtube_background</item>
-        <item name="android:textSize">16dp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="text_title_en_black">
+    <style name="text_title_en_orange">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">left|center_vertical</item>
         <item name="android:fontFamily">@font/notosanscjkkr_regular</item>
         <item name="android:includeFontPadding">false</item>
         <item name="android:textColor">@color/orange_app_identity_color</item>
-        <item name="android:textSize">14dp</item>
+        <item name="android:textSize">13sp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:singleLine">true</item>
     </style>

@@ -189,10 +189,12 @@ public class PatternFragment extends Fragment implements MainActivity.onKeyBackP
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        ((MainActivity)getActivity()).getBottomNavigation().setVisibility(View.GONE);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        ((MainActivity)getActivity()).getBottomNavigation().setVisibility(View.VISIBLE);
     }
 }
