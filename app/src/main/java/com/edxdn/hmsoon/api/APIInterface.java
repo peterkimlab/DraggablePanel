@@ -41,6 +41,9 @@ public interface APIInterface {
     @GET("/search/favorite")
     Call<SearchResource> getFavorite(@Query("page") String page, @Query("email") String email);
 
+    @POST("/search/watched")
+    Call<PostResource> postWatched(@Query("email") String email, @Query("ids") String ids);
+
     @GET("/search/watched")
     Single<SearchResource> getWatched(@Query("page") String page, @Query("email") String email);
 

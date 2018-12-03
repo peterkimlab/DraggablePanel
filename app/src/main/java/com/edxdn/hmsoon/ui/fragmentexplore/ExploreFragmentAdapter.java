@@ -161,13 +161,13 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     for (Datums datas : dataList) {
                         singleItem.add(new ExploreFragmentItemModel(WATCHED_TYPE, HummingUtils.getTitle(datas, context), HummingUtils.IMAGE_PATH + datas.source.get(HummingUtils.ElasticField.THUMBNAIL_URL), HummingUtils.getTime(datas, context), HummingUtils.getSentenceByMode(datas, context)));
                     }
-                    ((WatchedViewHolder) holder).recycler_view_list.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(5), true));
-                    ((WatchedViewHolder) holder).recycler_view_list.setLayoutManager(new GridLayoutManager(context, 2));
+                    ((WatchedViewHolder) holder).recycler_view_list.addItemDecoration(decoration);
+                    ((WatchedViewHolder) holder).recycler_view_list.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
                     ((WatchedViewHolder) holder).recycler_view_list.setHasFixedSize(true);
                     itemListDataAdapter = new ExploreFragmentDataAdapter(context, singleItem, dataList);
                     ((WatchedViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
                     ((WatchedViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
-                    //((WatchedViewHolder) holder).itemMainTitle.setText("최근 학습한 문장");
+                    ((WatchedViewHolder) holder).itemMainTitle.setText("최근 학습한 문장");
                 }
 
                 break;

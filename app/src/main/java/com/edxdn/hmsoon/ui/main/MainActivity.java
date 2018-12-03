@@ -523,6 +523,7 @@ public class MainActivity extends AppCompatActivity {
                     //postClick(MainActivity.SEARCH_IDS_VALUE);
                 }
             }, 100);
+
         }
     }
 

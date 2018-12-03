@@ -84,12 +84,12 @@
     </style>
 
     <style name="text_sentence_en_black">
-        <item name="android:layout_width">148dp</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">left|center_vertical</item>
-        <item name="android:layout_marginTop">5dp</item>
-        <item name="android:fontFamily">@font/nanumbarunpenb</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/notosanscjkkr_regular</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/black_youtube_background</item>
         <item name="android:textSize">16dp</item>
     </style>
 
@@ -97,9 +97,10 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">left|center_vertical</item>
-        <item name="android:fontFamily">@font/fortescue_regular</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">16dp</item>
+        <item name="android:fontFamily">@font/notosanscjkkr_regular</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/orange_app_identity_color</item>
+        <item name="android:textSize">14dp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:singleLine">true</item>
     </style>

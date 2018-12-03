@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.edxdn.hmsoon.R;
+import com.edxdn.hmsoon.application.MyCustomApplication;
 import com.github.pedrovgs.DraggablePanel;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -165,11 +166,10 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
         favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(favorite.getTag().toString().equals("favorite_off")){
-                    //postFavorite();
-                }else if(favorite.getTag().toString().equals("favorite_on")){
-                    //delete favorite
-                    //putFavorite();
+                if (favorite.getTag().toString().equals("favorite_off")) {
+                    postFavorite();
+                } else if (favorite.getTag().toString().equals("favorite_on")) {
+                    putFavorite();
                 }
             }
         });
@@ -319,12 +319,12 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
 
     }
 
-    /*public void putFavorite() {
+    public void putFavorite() {
 
         String email = mainActivity.getEmailInfo();
-        if(email.equals("")){
-            mainActivity.openLoginPage();
-        }else{
+        if (email.equals("")) {
+            //mainActivity.openLoginPage();
+        } else {
             favorite.setTag("favorite_off");
             favorite.setImageResource(R.drawable.ic_action_favorite);
 
@@ -333,7 +333,7 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
                 call.enqueue(new Callback<PostResource>() {
                     @Override
                     public void onResponse(Call<PostResource> call, Response<PostResource> response) {
-                        mainActivity.refreshFavorite();
+                        //mainActivity.refreshFavorite();
                     }
 
                     @Override
@@ -350,7 +350,7 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
     public void postFavorite() {
 
         String email = mainActivity.getEmailInfo();
-        if(!email.equals("")){
+        if (!email.equals("")) {
 
             favorite.setTag("favorite_on");
             favorite.setImageResource(R.drawable.ic_action_favorited);
@@ -360,7 +360,7 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
             call.enqueue(new Callback<PostResource>() {
                 @Override
                 public void onResponse(Call<PostResource> call, Response<PostResource> response) {
-                    mainActivity.refreshFavorite();
+                    //mainActivity.refreshFavorite();
 
                 }
 
@@ -371,9 +371,9 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
                 }
             });
         } else {
-            mainActivity.openLoginPage();
+            //mainActivity.openLoginPage();
         }
-    }*/
+    }
 
     public void setMediaSource(Uri mp4VideoUri){
         videoSource = new ExtractorMediaSource(mp4VideoUri, dataSourceFactory, extractorsFactory, null, null);
@@ -453,28 +453,24 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
         }
     }
 
-
-
-
-
-    public void onMinimized(){
+    public void onMinimized() {
         buttonHide();
         //textHide();
         //removeProgress();
     }
 
-    public void onStartTouch(){
+    public void onStartTouch() {
     }
 
-    public void onMaximized(){
+    public void onMaximized() {
         buttonShow();
         //showText();
     }
 
-    public void onResumeFragment(){
+    public void onResumeFragment() {
     }
 
-    public void onPauseFragment(){
+    public void onPauseFragment() {
         //removeProgress();
     }
 
@@ -512,16 +508,36 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
         }
 
         Handler handlers = new Handler();
-        /*handlers.postDelayed(new Runnable() {
+        handlers.postDelayed(new Runnable() {
             @Override public void run() {
                checkFavorite();
             }
-        }, 100);*/
+        }, 100);
 
         setMediaSource(Uri.parse(url));
         //player.setVideoURI(Uri.parse(url));
+        setWatchedVideo();
         initNowPlayCnt();
         startVideo();
+    }
+
+    private void setWatchedVideo() {
+
+        String email = MyCustomApplication.getMainInstance().getEmailInfo();
+
+        Call<PostResource> call = apiInterface.postWatched(email, videoIds);
+        call.enqueue(new Callback<PostResource>() {
+            @Override
+            public void onResponse(Call<PostResource> call, Response<PostResource> response) {
+                Log.e("watched video id ", " :: " + videoIds + " ");
+            }
+
+            @Override
+            public void onFailure(Call<PostResource> call, Throwable t) {
+                call.cancel();
+            }
+        });
+
     }
 
 

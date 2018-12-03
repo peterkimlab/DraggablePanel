@@ -30,7 +30,7 @@ public class ExploreFragment extends Fragment {
 
     private FragmentExploreBinding binding;
     private ExploreFragmentAdapter mAdapter;
-    private List<Datums> sentenceList, patternList, popularList, watchedList, chatList;
+    private List<Datums> sentenceList, patternList, popularList, watchedList, watchedRefineList, chatList;
     private HashMap<String, List<Datums>> dataset;
     private APIInterface apiInterface;
 
@@ -172,6 +172,7 @@ public class ExploreFragment extends Fragment {
     public void getDataWatchedSentences(int current_page, String sort) {
 
         String email = MyCustomApplication.getMainInstance().getEmailInfo();
+        watchedRefineList = new ArrayList<>();
 
         disposable.add(
                 apiInterface.getWatched(current_page + "", email)
@@ -181,6 +182,8 @@ public class ExploreFragment extends Fragment {
                         .subscribeWith(new DisposableObserver<SearchResource>() {
                             @Override
                             public void onNext(SearchResource searchResource) {
+                                String origin = "";
+                                String refine = "";
                                 if (searchResource != null && searchResource.hits != null) {
                                     watchedList.addAll(searchResource.hits.hits);
                                     dataset.put(DataTypeMusicFragment.EXPLORE_WATCHED_TYPE, watchedList);

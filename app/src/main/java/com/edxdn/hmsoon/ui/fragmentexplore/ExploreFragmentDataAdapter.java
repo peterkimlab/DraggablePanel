@@ -63,7 +63,7 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_explore_video_started_type, null);
                 return new PopularItemRowHolder(view);
             case ExploreFragmentAdapter.WATCHED_TYPE:
-                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_explore_video_started_type, null);
+                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_explore_watched_type, null);
                 return new WatchedItemRowHolder(view);
             case ExploreFragmentAdapter.CHAT_TYPE:
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_explore_chat, null);
@@ -135,6 +135,7 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
                         ((MainActivity)mContext).setVideoUrl(mDataList.get(i));
                     }
                 });
+                ((WatchedItemRowHolder) holder).tvTitle.setText(singleItem.getVtitle());
                 break;
             case ExploreFragmentAdapter.CHAT_TYPE:
                 ((ChatItemRowHolder) holder).tvSentence.setText(singleItem.getSentence());
@@ -155,8 +156,9 @@ public class ExploreFragmentDataAdapter extends RecyclerView.Adapter<RecyclerVie
 
         if (itemsList != null && itemsList.size() != 0 && itemsList.get(0).getvType() == ExploreFragmentAdapter.POPULAR_TYPE) {
             return 4;
+        } else if (itemsList != null && itemsList.size() != 0 && itemsList.get(0).getvType() == ExploreFragmentAdapter.WATCHED_TYPE) {
+            return 2;
         }
-
         return (null != itemsList ? itemsList.size() : 0);
     }
 
