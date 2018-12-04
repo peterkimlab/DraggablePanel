@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context="com.edxdn.hmsoon.ui.fragmentmypage.MyPageFragment">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_multipe_view_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/standard_bottom_navigation_bar_bottom">
-        <Button
+        android:orientation="vertical"
+        tools:context="com.edxdn.hmsoon.ui.fragmentmypage.MyPageFragment">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_multipe_view_type"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:text="탈퇴하기"/>
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/standard_bottom_navigation_bar_bottom">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text="탈퇴하기"/>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</layout>

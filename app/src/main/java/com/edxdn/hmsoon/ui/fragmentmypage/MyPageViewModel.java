@@ -1,34 +1,22 @@
 package com.edxdn.hmsoon.ui.fragmentmypage;
 
-import android.databinding.DataBindingUtil;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import com.edxdn.hmsoon.R;
-import com.edxdn.hmsoon.databinding.FragmentMypageBinding;
-import java.util.ArrayList;
-import java.util.List;
 
-public class MyPageFragment extends Fragment {
+public class MyPageViewModel extends Fragment {
 
-    private RecyclerView rvMultipleViewType;
+    /*private RecyclerView rvMultipleViewType;
     private List<Object> mData;
 
-    public static MyPageFragment newInstance() {
-        return new MyPageFragment();
+    public static MyPageViewModel newInstance() {
+        return new MyPageViewModel();
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_mypage, container, false);
 
-        FragmentMypageBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_mypage, container, false);
-
-        rvMultipleViewType = (RecyclerView) binding.rvMultipeViewType;
+        rvMultipleViewType = (RecyclerView) view.findViewById(R.id.rv_multipe_view_type);
         mData = new ArrayList<>();
         rvMultipleViewType.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
 
@@ -38,7 +26,7 @@ public class MyPageFragment extends Fragment {
         rvMultipleViewType.setAdapter(adapter);
         rvMultipleViewType.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        return binding.getRoot();
+        return view;
     }
 
     private void initViewData() {
@@ -53,5 +41,5 @@ public class MyPageFragment extends Fragment {
         mData.add(new BasicRowItems("즐겨찾기", R.drawable.icon_favorite));
         mData.add(new BasicRowItems("About", R.drawable.icon_opencon));
         //mData.add("Text 0");
-    }
+    }*/
 }
