@@ -1,4 +1,4 @@
-package com.edxdn.hmsoon.ui.main;
+package com.edxdn.hmsoon.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
