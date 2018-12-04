@@ -1,6 +1,7 @@
 package com.edxdn.hmsoon.ui.fragmentmypage;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.edxdn.hmsoon.R;
+import com.edxdn.hmsoon.activity.InAppActivity;
+import com.edxdn.hmsoon.ui.main.LoginActivity;
+import com.edxdn.hmsoon.ui.main.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
@@ -180,6 +184,8 @@ public class MyPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         Toast.makeText(mContext, "알림" , Toast.LENGTH_SHORT).show();
                     } else if (getAdapterPosition() == PAYMENT) {
                         Toast.makeText(mContext, "결제" , Toast.LENGTH_SHORT).show();
+                        Intent intentInAppActivity = new Intent(mContext, InAppActivity.class);
+                        mContext.startActivity(intentInAppActivity);
                     } else if (getAdapterPosition() == PLAYED) {
                         Toast.makeText(mContext, "재생이력" , Toast.LENGTH_SHORT).show();
                     } else if (getAdapterPosition() == FAVORITE) {

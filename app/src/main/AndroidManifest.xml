@@ -22,8 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.edxdn.hmsoon.ui.main.MainActivity"/>
         <activity android:name="com.edxdn.hmsoon.ui.record.AudioRecorderActivity"/>
         <activity android:name="com.edxdn.hmsoon.ui.main.SplashActivity"/>
-        <activity android:name="com.edxdn.hmsoon.ui.main.MainActivity"/>
+        <activity android:name="com.edxdn.hmsoon.activity.InAppActivity"/>
     </application>
 </manifest>
