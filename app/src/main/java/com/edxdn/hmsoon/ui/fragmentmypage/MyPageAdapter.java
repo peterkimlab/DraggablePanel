@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.edxdn.hmsoon.R;
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.List;
 
 public class MyPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -16,10 +18,16 @@ public class MyPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private Context mContext;
     private List<Object> mObjects;
 
-    public static final int PROFILE = 0;
-    public static final int STUDIED = 1;
-    public static final int PAIDITEM = 2;
-    public static final int BASICROW = 3;
+    public final int PROFILE = 0;
+    public final int STUDIED = 1;
+    public final int PAIDITEM = 2;
+    public final int BASICROW = 3;
+    public final int NOTIFICATION = 4;
+    public final int PAYMENT= 5;
+    public final int PLAYED= 6;
+    public final int FAVORITE= 7;
+    public final int ABOUT= 8;
+    private FirebaseAuth mAuth;
 
     public MyPageAdapter(Context context, List<Object> objects) {
         mContext = context;
@@ -155,6 +163,9 @@ public class MyPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         public BasicRowViewHolder(View itemView) {
             super(itemView);
+
+            mAuth = FirebaseAuth.getInstance();
+
             tvName = (TextView) itemView.findViewById(R.id.tv_user_name);
             ivIcon = (ImageView) itemView.findViewById(R.id.iv_profile_image);
 
@@ -162,7 +173,18 @@ public class MyPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 @Override
                 public void onClick(View view) {
                     BasicRowItems user = (BasicRowItems) mObjects.get(getAdapterPosition());
-                    Toast.makeText(mContext, user.getName() + ", " , Toast.LENGTH_SHORT).show();
+                    if (getAdapterPosition() == BASICROW) {
+                        Toast.makeText(mContext, "로그아웃" , Toast.LENGTH_SHORT).show();
+                        mAuth.signOut();
+                    } else if (getAdapterPosition() == NOTIFICATION) {
+                        Toast.makeText(mContext, "알림" , Toast.LENGTH_SHORT).show();
+                    } else if (getAdapterPosition() == PAYMENT) {
+                        Toast.makeText(mContext, "결제" , Toast.LENGTH_SHORT).show();
+                    } else if (getAdapterPosition() == PLAYED) {
+                        Toast.makeText(mContext, "재생이력" , Toast.LENGTH_SHORT).show();
+                    } else if (getAdapterPosition() == FAVORITE) {
+                        Toast.makeText(mContext, "즐겨찾기" , Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }

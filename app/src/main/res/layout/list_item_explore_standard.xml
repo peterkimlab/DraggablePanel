@@ -12,6 +12,8 @@
         android:layout_marginLeft="@dimen/explore_main_title_text_view_margin_left"
         android:layout_marginBottom="@dimen/explore_main_title_text_view_margin_bottom"
         android:textSize="30dp"
+        android:fontFamily="@font/notosanscjkkr_regular"
+        android:includeFontPadding="false"
         android:textStyle="bold"
         android:textColor="@color/black"/>
     <android.support.v7.widget.RecyclerView

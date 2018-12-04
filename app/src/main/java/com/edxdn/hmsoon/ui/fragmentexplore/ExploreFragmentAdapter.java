@@ -153,7 +153,7 @@ public class ExploreFragmentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     ((PopularViewHolder) holder).recycler_view_list.setAdapter(itemListDataAdapter);
                     ((PopularViewHolder) holder).recycler_view_list.setNestedScrollingEnabled(false);
                 }
-                ((PopularViewHolder) holder).itemMainTitle.setText("인기영상");
+                ((PopularViewHolder) holder).itemMainTitle.setText("인기 영상");
                 break;
             case WATCHED_TYPE:
                 dataList = dataset.get(DataTypeMusicFragment.EXPLORE_WATCHED_TYPE);

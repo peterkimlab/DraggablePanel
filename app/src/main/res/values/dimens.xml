@@ -71,6 +71,7 @@
     //Common
     <dimen name="standard_layout_margin">23dp</dimen>
     <dimen name="standard_image_bottom">3dp</dimen>
+    <dimen name="standard_bottom_navigation_bar_bottom">100dp</dimen>
 
     //Explore
     <dimen name="explore_main_title_layout_margin_top">15dp</dimen>

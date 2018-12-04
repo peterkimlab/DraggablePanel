@@ -12,7 +12,8 @@
         android:layout_marginLeft="@dimen/explore_main_title_text_view_margin_left"
         android:layout_marginBottom="@dimen/explore_main_title_text_view_margin_bottom"
         android:textSize="30dp"
-        android:textStyle="bold"
+        android:fontFamily="@font/notosanscjkkr_regular"
+        android:includeFontPadding="false"
         android:textColor="@color/black"
         android:text="MAIN"/>
     <RelativeLayout
@@ -28,6 +29,8 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/btnMore"
             android:text="sub Title"
+            android:fontFamily="@font/notosanscjkkr_regular"
+            android:includeFontPadding="false"
             android:textColor="@android:color/black"
             android:textSize="20sp" />
         <Button
