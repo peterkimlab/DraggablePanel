@@ -20,47 +20,6 @@
             app:contentInsetStartWithNavigation="0dp"
             style="@style/Base_ToolbarStyle"
             app:layout_scrollFlags="scroll|enterAlways|snap">
-            <!--<LinearLayout
-                android:id="@+id/toolbarlayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/red"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-                    <TextView
-                        android:id="@+id/searchText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="5dp"
-                        android:gravity="left"
-                        android:hint="Search"
-                        android:textColor="@color/purple4"
-                        android:textSize="16dp" />
-                    <ImageView
-                        android:id="@+id/mainClearBtn"
-                        android:layout_width="25dp"
-                        android:layout_height="20dp"
-                        android:layout_gravity="right|center_vertical"
-                        android:layout_marginRight="15dp"
-                        android:layout_weight="0"
-                        android:src="@drawable/ic_action_clear" />
-                </FrameLayout>
-                <ImageView
-                    android:id="@+id/mainSearchBtn"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="0"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_action_search_color" />
-            </LinearLayout>-->
             <LinearLayout
                 android:id="@+id/toolbarlayout2"
                 android:layout_width="match_parent"
