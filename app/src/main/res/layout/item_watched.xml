@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+<!--
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        card:cardCornerRadius="5dp">
+-->
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0">
+        <ImageView
+            android:id="@+id/thumbnail"
+            android:layout_width="123dp"
+            android:layout_height="69dp"
+            android:layout_centerInParent="true"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop" />
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text_time"/>
+    </FrameLayout>
+    <!--   </android.support.v7.widget.CardView>
+  -->
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:layout_marginLeft="5dp"
+          android:orientation="vertical">
+          <TextView
+              android:id="@+id/sentence"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_weight="0"
+              android:layout_gravity="center_vertical|left"
+              android:text=""
+              android:textColor="#000000"
+              android:textSize="14dp"
+              android:maxLines="2"
+              android:ellipsize="end"
+              android:singleLine="false"
+              android:layout_marginTop="10dp"
+              />
+
+          <TextView
+              android:id="@+id/vtitle"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_weight="0"
+              android:layout_gravity="center_vertical|left"
+              android:text=""
+              android:ellipsize="end"
+              android:singleLine="true"
+              android:textSize="12dp" />
+
+          <TextView
+              android:id="@+id/cnt"
+              android:layout_width="wrap_content"
+              android:layout_height="match_parent"
+              android:layout_weight="1"
+              android:layout_gravity="bottom|left"
+              android:gravity="bottom|left"
+              android:textSize="10dp" />
+      </LinearLayout>
+
+  </LinearLayout>

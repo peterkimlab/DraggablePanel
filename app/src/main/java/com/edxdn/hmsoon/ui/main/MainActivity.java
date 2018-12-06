@@ -35,6 +35,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.edxdn.hmsoon.activity.SplashActivity;
 import com.edxdn.hmsoon.ui.fragmentcommon.ContentsFragment;
 import com.edxdn.hmsoon.ui.fragmentcommon.ConversationFragment;
+import com.edxdn.hmsoon.ui.fragmentcommon.WatchedFragment;
 import com.edxdn.hmsoon.ui.youtube.PlayMusicFragment;
 import com.edxdn.hmsoon.R;
 import com.github.pedrovgs.DraggableListener;
@@ -874,10 +875,10 @@ public class MainActivity extends AppCompatActivity {
                 return searchresultFragment;
             /*case 17:
                 FavoriteFragment favoriteFragment = new FavoriteFragment();
-                return favoriteFragment;
+                return favoriteFragment;*/
             case 18:
                 WatchedFragment watchedFragment = new WatchedFragment();
-                return watchedFragment; */
+                return watchedFragment;
             case 19:
                 mPlayMusicFragment = new PlayMusicFragment();
                 return mPlayMusicFragment;
