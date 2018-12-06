@@ -138,9 +138,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private AppBarLayout appBarLayout;
     private LinearLayout toolbarlayout;
-    private LinearLayout toolbarlayout2;
     private TextView searchText;
-    private TextView searchText2;
 
     private PlayMusicFragment mPlayMusicFragment;
 
@@ -182,10 +180,8 @@ public class MainActivity extends AppCompatActivity {
         draggable_panel = (DraggablePanel) findViewById(R.id.draggable_panel);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         appBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
-        //toolbarlayout = (LinearLayout) findViewById(R.id.toolbarlayout);
-        toolbarlayout2 = (LinearLayout) findViewById(R.id.toolbarlayout2);
-        //searchText = (TextView) findViewById(R.id.searchText);
-        searchText2 = (TextView) findViewById(R.id.searchText2);
+        toolbarlayout = (LinearLayout) findViewById(R.id.toolbarlayout);
+        searchText = (TextView) findViewById(R.id.searchText);
 
         BottomNavigationNotShiftHelper.disableShiftMode(bottomNavigation);
         backPressCloseHandler = new BackPressCloseHandler(this);
@@ -233,9 +229,8 @@ public class MainActivity extends AppCompatActivity {
                             onBackPressed();
                         }
                     });
-                    //toolbarlayout.setVisibility(View.GONE);
-                    toolbarlayout2.setVisibility(View.VISIBLE);
-                    searchText2.setText(CURRENT_TITLE);
+                    toolbarlayout.setVisibility(View.VISIBLE);
+                    searchText.setText(CURRENT_TITLE);
                 } /*else {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                     getSupportActionBar().setDisplayShowHomeEnabled(false);
@@ -788,9 +783,11 @@ public class MainActivity extends AppCompatActivity {
         } else if(type.equals("favorite")) {
             navItemIndex = 17;
             CURRENT_TAG = TAG_MOVIES;
+            CURRENT_TITLE = "favorite";
         } else if(type.equals("watched")) {
             navItemIndex = 18;
             CURRENT_TAG = TAG_MOVIES;
+            CURRENT_TITLE = "watched";
         } else if(type.equals("music")) {
             navItemIndex = 19;
             CURRENT_TAG = TAG_MOVIES;

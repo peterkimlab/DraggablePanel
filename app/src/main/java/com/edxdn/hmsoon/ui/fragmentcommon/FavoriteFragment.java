@@ -62,7 +62,7 @@ public class FavoriteFragment extends Fragment implements MainActivity.onKeyBack
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.activity_favorite, container, false);
+        View view = inflater.inflate(R.layout.fragment_favorite, container, false);
 
         datumList = new ArrayList<>();
 
@@ -119,7 +119,7 @@ public class FavoriteFragment extends Fragment implements MainActivity.onKeyBack
         mAdapter = new FavoriteAdapter(getActivity(), datumList);
         playlisRecyclerView.setAdapter(mAdapter);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
+        /*mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -147,7 +147,7 @@ public class FavoriteFragment extends Fragment implements MainActivity.onKeyBack
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light
-        );
+        );*/
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -155,6 +155,13 @@ public class FavoriteFragment extends Fragment implements MainActivity.onKeyBack
                 getData(1, email);
             }
         }, 0);
+
+        Handler handler2 = new Handler();
+        handler2.postDelayed(new Runnable() {
+            @Override public void run() {
+                mainActivity.showToolbar();
+            }
+        }, 200);
 
         return view;
     }
@@ -206,11 +213,12 @@ public class FavoriteFragment extends Fragment implements MainActivity.onKeyBack
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-    //    ((MainActivity) getActivity()).setOnKeyBackPressedListener(this);
+        ((MainActivity)getActivity()).getBottomNavigation().setVisibility(View.GONE);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        ((MainActivity)getActivity()).getBottomNavigation().setVisibility(View.VISIBLE);
     }
 }
