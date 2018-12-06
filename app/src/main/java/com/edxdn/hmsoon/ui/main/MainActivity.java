@@ -35,6 +35,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.edxdn.hmsoon.activity.SplashActivity;
 import com.edxdn.hmsoon.ui.fragmentcommon.ContentsFragment;
 import com.edxdn.hmsoon.ui.fragmentcommon.ConversationFragment;
+import com.edxdn.hmsoon.ui.fragmentcommon.FavoriteFragment;
 import com.edxdn.hmsoon.ui.fragmentcommon.WatchedFragment;
 import com.edxdn.hmsoon.ui.youtube.PlayMusicFragment;
 import com.edxdn.hmsoon.R;
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
     public static String SEARCH_YOUTUBE_VALUE = "";
     public static String SEARCH_YOUTUBE_CHANNEL_VALUE = "";
     public static boolean SEARCH_CHECK = false;
+    public static boolean FAVORITE_CHECK = false;
 
     public List<Voice> allvoices;
     public List<Voice> voices;
@@ -585,6 +587,11 @@ public class MainActivity extends AppCompatActivity {
         return videoFragment;
     }
 
+    public void refreshFavorite() {
+        MainActivity.FAVORITE_CHECK = true;
+        //libFragment.favoriteData();
+    }
+
     public void seekTo(int seek){
         videoFragment.seekTo(seek);
     }
@@ -873,9 +880,9 @@ public class MainActivity extends AppCompatActivity {
             case 16:
                 SearchFragment searchresultFragment = new SearchFragment();
                 return searchresultFragment;
-            /*case 17:
+            case 17:
                 FavoriteFragment favoriteFragment = new FavoriteFragment();
-                return favoriteFragment;*/
+                return favoriteFragment;
             case 18:
                 WatchedFragment watchedFragment = new WatchedFragment();
                 return watchedFragment;

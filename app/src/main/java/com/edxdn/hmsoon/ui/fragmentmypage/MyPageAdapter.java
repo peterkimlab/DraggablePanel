@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.edxdn.hmsoon.R;
-import com.edxdn.hmsoon.activity.FavoriteActivity;
 import com.edxdn.hmsoon.activity.InAppActivity;
 import com.edxdn.hmsoon.application.MyCustomApplication;
 import com.google.firebase.auth.FirebaseAuth;
@@ -188,11 +187,12 @@ public class MyPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         mContext.startActivity(intentInAppActivity);
                     } else if (getAdapterPosition() == PLAYED) {
                         Toast.makeText(mContext, "재생이력" , Toast.LENGTH_SHORT).show();
-                        MyCustomApplication.getMainInstance().onClickItems("watched", "");
+                        MyCustomApplication.getMainInstance().onClickItems("watched", "watched");
                     } else if (getAdapterPosition() == FAVORITE) {
                         Toast.makeText(mContext, "즐겨찾기" , Toast.LENGTH_SHORT).show();
-                        Intent intentfavoriteActivity = new Intent(mContext, FavoriteActivity.class);
-                        mContext.startActivity(intentfavoriteActivity);
+                        MyCustomApplication.getMainInstance().onClickItems("favorite", "favorite");
+                        /*Intent intentfavoriteActivity = new Intent(mContext, FavoriteActivity.class);
+                        mContext.startActivity(intentfavoriteActivity);*/
                     }
                 }
             });

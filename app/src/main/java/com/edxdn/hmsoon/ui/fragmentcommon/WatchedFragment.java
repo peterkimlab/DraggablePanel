@@ -155,6 +155,13 @@ public class WatchedFragment extends Fragment implements MainActivity.onKeyBackP
             }
         }, 0);
 
+        /*Handler handler2 = new Handler();
+        handler2.postDelayed(new Runnable() {
+            @Override public void run() {
+                mainActivity.showToolbar();
+            }
+        }, 200);*/
+
         return view;
     }
 

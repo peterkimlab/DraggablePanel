@@ -1,32 +1,27 @@
-package com.edxdn.hmsoon.activity;
+package com.edxdn.hmsoon.ui.fragmentcommon;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import com.edxdn.hmsoon.R;
 import com.edxdn.hmsoon.api.APIClient;
 import com.edxdn.hmsoon.api.APIInterface;
 import com.edxdn.hmsoon.api.Datums;
 import com.edxdn.hmsoon.api.SearchResource;
-import com.edxdn.hmsoon.application.MyCustomApplication;
 import com.edxdn.hmsoon.ui.adapter.EndlessRecyclerOnScrollListener;
 import com.edxdn.hmsoon.ui.adapter.RecyclerItemClickListener;
 import com.edxdn.hmsoon.ui.adapter.SpacesItemDecoration;
 import com.edxdn.hmsoon.ui.main.MainActivity;
-import com.edxdn.hmsoon.util.HummingUtils;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -34,30 +29,44 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class FavoriteActivity extends AppCompatActivity {
-
+@SuppressLint("ValidFragment")
+public class FavoriteFragment extends Fragment implements MainActivity.onKeyBackPressedListener {
     private String Tag = "FavoriteFragment";
 
     private RecyclerView playlisRecyclerView;
     private APIInterface apiInterface;
+
     private List<Datums> datumList;
     private FavoriteAdapter mAdapter;
     private Handler mHandler;
+
+    private MainActivity mainActivity;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private String email = "";
     private CompositeDisposable disposable = new CompositeDisposable();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorite);
+    public FavoriteFragment() {
+    }
 
+    public static FavoriteFragment newInstance() {
+        return new FavoriteFragment();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         apiInterface = APIClient.getClient().create(APIInterface.class);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.activity_favorite, container, false);
+
         datumList = new ArrayList<>();
 
-        playlisRecyclerView = (RecyclerView) findViewById(R.id.your_play_list);
-
-        getData(1, MyCustomApplication.getMainInstance().getEmailInfo());
+        playlisRecyclerView = (RecyclerView)view.findViewById(R.id.your_play_list);
 
         SpacesItemDecoration decoration = new SpacesItemDecoration(20);
         playlisRecyclerView.addItemDecoration(decoration);
@@ -66,7 +75,7 @@ public class FavoriteActivity extends AppCompatActivity {
         );
         playlisRecyclerView.addItemDecoration(mDividerItemDecoration);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         playlisRecyclerView.setLayoutManager(layoutManager);
         playlisRecyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
             @Override
@@ -84,7 +93,7 @@ public class FavoriteActivity extends AppCompatActivity {
         });
         playlisRecyclerView.setHasFixedSize(true);
         playlisRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(this, playlisRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                new RecyclerItemClickListener(getActivity(), playlisRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         Message message= Message.obtain();
                         message.what = position;
@@ -95,22 +104,27 @@ public class FavoriteActivity extends AppCompatActivity {
                 })
         );
 
+
+        mainActivity = (MainActivity) getActivity();
+
+        email = mainActivity.getEmailInfo();
+
         mHandler = new Handler(){
             public void handleMessage(Message msg){
                 Datums datums = datumList.get(msg.what);
-                MyCustomApplication.getMainInstance().setVideoUrl(datums);
+                mainActivity.setVideoUrl(datums);
             }
         };
 
-        mAdapter = new FavoriteAdapter(this, datumList);
+        mAdapter = new FavoriteAdapter(getActivity(), datumList);
         playlisRecyclerView.setAdapter(mAdapter);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipe_layout);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 MainActivity.SEARCH_CHECK = false;
-                //datumList.clear();
+                datumList.clear();
                 mAdapter.notifyDataSetChanged();
 
                 new Handler().postDelayed(new Runnable() {
@@ -134,6 +148,25 @@ public class FavoriteActivity extends AppCompatActivity {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light
         );
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override public void run() {
+                getData(1, email);
+            }
+        }, 0);
+
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(MainActivity.FAVORITE_CHECK){
+            MainActivity.FAVORITE_CHECK = false;
+            datumList.clear();
+            getData(1, email);
+        }
     }
 
     public void getData(int current_page, String email) {
@@ -162,86 +195,22 @@ public class FavoriteActivity extends AppCompatActivity {
                             }
                         })
         );
-        /*if (!email.equals("")) {
-            //Call<SearchResource> call = apiInterface.getFavorite(current_page+"", email);
-            Call<SearchResource> call = apiInterface.getWatched(current_page + "", email);
-            call.enqueue(new retrofit2.Callback<SearchResource>() {
-                @Override
-                public void onResponse(Call<SearchResource> call, Response<SearchResource> response) {
-                    SearchResource resource = response.body();
-                    if (resource != null && resource.hits != null) {
-                        datumList.addAll(resource.hits.hits);
-                        mainActivity.setFavoriteList(datumList);
-                    }
-                    mAdapter.notifyDataSetChanged();
-                }
-                @Override
-                public void onFailure(Call<SearchResource> call, Throwable t) {
-                    call.cancel();
-                }
-            });
-        }*/
     }
 
-    public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder> {
+    @Override
+    public void onBack() {
+        mainActivity.setOnKeyBackPressedListener(null);
+        mainActivity.onBackPressed();
+    }
 
-        private final String TAG = FavoriteAdapter.class.getSimpleName();
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    //    ((MainActivity) getActivity()).setOnKeyBackPressedListener(this);
+    }
 
-        private Context context;
-        private List<Datums> playlists;
-
-        public FavoriteAdapter(Context context, List<Datums> playlists) {
-            this.context = context;
-            this.playlists = playlists;
-        }
-
-        @Override
-        public FavoriteViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(context).inflate(R.layout.item_search, parent, false);
-            return new FavoriteViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(final FavoriteViewHolder holder, int position) {
-            final Datums playlistObject = playlists.get(position);
-            holder.sentence.setText(HummingUtils.getSentenceByMode(playlistObject, context));
-            holder.vtitle.setText(HummingUtils.getTitleByMode(playlistObject, context));
-            holder.time.setText(HummingUtils.getTime(playlistObject, context));
-            if (HummingUtils.isEmpty(holder.time)) {
-                holder.time.setVisibility(View.GONE);
-            }
-            Picasso.with(context).load(HummingUtils.IMAGE_PATH+playlistObject.source.get(HummingUtils.ElasticField.THUMBNAIL_URL)).into(holder.thumbnail, new Callback() {
-                @Override
-                public void onSuccess() {
-                    holder.thumbnail.setVisibility(View.VISIBLE);
-                }
-
-                @Override
-                public void onError() {
-                    holder.thumbnail.setVisibility(View.VISIBLE);
-                }
-            });
-        }
-
-        @Override
-        public int getItemCount() {
-            return playlists.size();
-        }
-
-        public class FavoriteViewHolder extends RecyclerView.ViewHolder{
-
-            public TextView sentence;
-            public TextView vtitle;
-            public TextView time;
-            public ImageView thumbnail;
-
-            public FavoriteViewHolder(View itemView) {
-                super(itemView);
-                sentence = (TextView)itemView.findViewById(R.id.sentence);
-                vtitle = (TextView)itemView.findViewById(R.id.vtitle);
-                time = (TextView)itemView.findViewById(R.id.time);
-                thumbnail = (ImageView)itemView.findViewById(R.id.thumbnail);
-            }
-        }
+    @Override
+    public void onDetach() {
+        super.onDetach();
     }
 }
