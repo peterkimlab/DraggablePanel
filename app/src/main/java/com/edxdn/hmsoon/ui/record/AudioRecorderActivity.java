@@ -1,10 +1,13 @@
 package com.edxdn.hmsoon.ui.record;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -14,6 +17,8 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.cleveroad.audiovisualization.DbmHandler;
 import com.cleveroad.audiovisualization.GLAudioVisualizationView;
 import com.edxdn.hmsoon.R;
@@ -21,6 +26,7 @@ import com.edxdn.hmsoon.ui.record.model.AudioChannel;
 import com.edxdn.hmsoon.ui.record.model.AudioSampleRate;
 import com.edxdn.hmsoon.ui.record.model.AudioSource;
 import java.io.File;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 import omrecorder.AudioChunk;
@@ -56,6 +62,7 @@ public class AudioRecorderActivity extends AppCompatActivity
     private ImageButton restartView;
     private ImageButton recordView;
     private ImageButton playView;
+    private RelativeLayout rlEvaluation, rlRepeat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +120,8 @@ public class AudioRecorderActivity extends AppCompatActivity
         restartView = (ImageButton) findViewById(R.id.restart);
         recordView = (ImageButton) findViewById(R.id.record);
         playView = (ImageButton) findViewById(R.id.play);
+        rlEvaluation = (RelativeLayout) findViewById(R.id.rlEvaluation);
+        rlRepeat = (RelativeLayout) findViewById(R.id.rlRepeat);
 
         contentLayout.setBackgroundColor(Util.getDarkerColor(color));
         contentLayout.addView(visualizerView, 0);
@@ -130,6 +139,29 @@ public class AudioRecorderActivity extends AppCompatActivity
             recordView.setColorFilter(Color.BLACK);
             playView.setColorFilter(Color.BLACK);
         }
+
+        rlEvaluation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getBaseContext(), "평가하기", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
+                try{
+                    startActivityForResult(intent,200);
+                } catch (ActivityNotFoundException a){
+                    Toast.makeText(getApplicationContext(),"Intent problem", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        rlRepeat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getBaseContext(), "반복하기", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     @Override
