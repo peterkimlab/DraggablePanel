@@ -22,6 +22,9 @@ import android.widget.Toast;
 import com.cleveroad.audiovisualization.DbmHandler;
 import com.cleveroad.audiovisualization.GLAudioVisualizationView;
 import com.edxdn.hmsoon.R;
+import com.edxdn.hmsoon.activity.EvaluationActivity;
+import com.edxdn.hmsoon.activity.LoginActivity;
+import com.edxdn.hmsoon.ui.main.MainActivity;
 import com.edxdn.hmsoon.ui.record.model.AudioChannel;
 import com.edxdn.hmsoon.ui.record.model.AudioSampleRate;
 import com.edxdn.hmsoon.ui.record.model.AudioSource;
@@ -144,14 +147,8 @@ public class AudioRecorderActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Toast.makeText(getBaseContext(), "평가하기", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
-                try{
-                    startActivityForResult(intent,200);
-                } catch (ActivityNotFoundException a){
-                    Toast.makeText(getApplicationContext(),"Intent problem", Toast.LENGTH_SHORT).show();
-                }
+                Intent intentMainActivity = new Intent(getBaseContext(), EvaluationActivity.class);
+                startActivity(intentMainActivity);
             }
         });
 

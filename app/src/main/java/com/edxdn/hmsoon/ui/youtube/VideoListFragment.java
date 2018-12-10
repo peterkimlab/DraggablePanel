@@ -203,7 +203,7 @@ public class VideoListFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setOffscreenPageLimit(0);
 
-        customSTT = new CustomSTT(getActivity(), new CustomSTT.CallListener() {
+        /*customSTT = new CustomSTT(getActivity(), new CustomSTT.CallListener() {
             @Override
             public void speechStatus(String status) {
                 if(status.equals("onResults")
@@ -215,7 +215,7 @@ public class VideoListFragment extends Fragment {
             public void speechResult(String speak) {
                 setSpeakResult(speak);
             }
-        }, "en-US");
+        }, "en-US");*/
 
         timeLineView = view.findViewById(R.id.timeLineView);
 
@@ -1268,10 +1268,10 @@ public class VideoListFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        if(customSTT != null) {
+        /*if(customSTT != null) {
             customSTT.stopCustomSTT();
             customSTT = null;
-        }
+        }*/
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -1288,8 +1288,6 @@ public class VideoListFragment extends Fragment {
                 }
             }
         }, 100);
-
-
 
         super.onDestroy();
     }

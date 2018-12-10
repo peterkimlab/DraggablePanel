@@ -26,5 +26,6 @@
         <activity android:name="com.edxdn.hmsoon.ui.record.AudioRecorderActivity"/>
         <activity android:name="com.edxdn.hmsoon.activity.SplashActivity"/>
         <activity android:name="com.edxdn.hmsoon.activity.InAppActivity"/>
+        <activity android:name="com.edxdn.hmsoon.activity.EvaluationActivity"/>
     </application>
 </manifest>
