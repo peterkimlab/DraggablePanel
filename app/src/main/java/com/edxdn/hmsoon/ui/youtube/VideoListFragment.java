@@ -21,12 +21,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,18 +36,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
+import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.edxdn.hmsoon.api.APIClient;
 import com.edxdn.hmsoon.api.APIInterface;
 import com.edxdn.hmsoon.api.PostResource;
 import com.edxdn.hmsoon.api.SearchResource;
-import com.edxdn.hmsoon.ui.record.AndroidAudioRecorder;
-import com.edxdn.hmsoon.ui.record.model.AudioChannel;
-import com.edxdn.hmsoon.ui.record.model.AudioSampleRate;
-import com.edxdn.hmsoon.ui.record.model.AudioSource;
 import com.edxdn.hmsoon.R;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.edxdn.hmsoon.api.Datums;
@@ -70,12 +64,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.regex.Pattern;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import android.widget.RelativeLayout;
+import android.view.ViewGroup.LayoutParams;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 @SuppressLint("ValidFragment")
 public class VideoListFragment extends Fragment {
@@ -140,6 +136,8 @@ public class VideoListFragment extends Fragment {
 
     List<String> filePAthList = new ArrayList<>();
     List<String> fileNameList = new ArrayList<>();
+
+    private PopupWindow mPopupWindow;
 
     private static final int REQUEST_RECORD_AUDIO = 0;
     private static final String AUDIO_FILE_PATH =
@@ -241,7 +239,6 @@ public class VideoListFragment extends Fragment {
         totalDur = (TextView) view.findViewById(R.id.totalDur);
         currentDur = (TextView) view.findViewById(R.id.currentDur);
 
-
         textButton = (Button) view.findViewById(R.id.text);
         textButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -249,10 +246,22 @@ public class VideoListFragment extends Fragment {
                 //mainActivity.getVideoFragment().showHideText();
             }
         });
+
+        LayoutInflater inflaterPopupWindow = (LayoutInflater) getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        View customView = inflaterPopupWindow.inflate(R.layout.popup_window,null);
+        mPopupWindow = new PopupWindow(customView,
+                LayoutParams.WRAP_CONTENT,
+                LayoutParams.WRAP_CONTENT
+        );
+        mPopupWindow.setFocusable(true);
+        if (Build.VERSION.SDK_INT >= 21) {
+            mPopupWindow.setElevation(5.0f);
+        }
         texttButton = (Button) view.findViewById(R.id.textt);
         texttButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(android.view.View p0) {
+                mPopupWindow.showAtLocation(customView, Gravity.CENTER,0,0);
                 //mainActivity.getVideoFragment().showHideTextKr();
             }
         });
@@ -275,6 +284,7 @@ public class VideoListFragment extends Fragment {
         smallTextt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(android.view.View p0) {
+
                 //mainActivity.getVideoFragment().showHideTextKr();
             }
         });

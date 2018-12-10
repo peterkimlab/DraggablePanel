@@ -18,18 +18,14 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.cleveroad.audiovisualization.DbmHandler;
 import com.cleveroad.audiovisualization.GLAudioVisualizationView;
 import com.edxdn.hmsoon.R;
 import com.edxdn.hmsoon.activity.EvaluationActivity;
-import com.edxdn.hmsoon.activity.LoginActivity;
-import com.edxdn.hmsoon.ui.main.MainActivity;
 import com.edxdn.hmsoon.ui.record.model.AudioChannel;
 import com.edxdn.hmsoon.ui.record.model.AudioSampleRate;
 import com.edxdn.hmsoon.ui.record.model.AudioSource;
 import java.io.File;
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 import omrecorder.AudioChunk;

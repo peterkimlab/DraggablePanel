@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_custom_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="2dp">
+    <TextView
+        android:id="@+id/tvEnglish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="English - is a sample popup window."
+        android:layout_centerInParent="true"
+        android:padding="5sp"/>
+    <TextView
+        android:id="@+id/tvKorea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Korean - is a sample popup window."
+        android:layout_centerInParent="true"
+        android:padding="5sp"/>
+</LinearLayout>
