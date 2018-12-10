@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.support.annotation.ColorRes;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -82,8 +83,8 @@ public class VideoListFragment extends Fragment {
     private TabLayout tabLayout;
     private AppBarLayout appBarLayout;
     private ViewPager viewPager;
-    private TextView totalDur, otherVoices, currentDur;
-    private Button textButton, texttButton, textsButton;
+    private TextView totalDur, otherVoices, currentDur, playSpeed40, playSpeed60, playSpeed80, playSpeed100, playSpeed120;
+    private Button textButton, texttButton, textsButton, smallTexta, smallTextt;
     private ImageView repeatOne, repeat, playSpeed, shuffle, rewind, forward, smallArtworkDown, prev, play, next, record;
     private TextView alltext, alltextkr, speakko;
     public Thread mGoogleThread = null;
@@ -94,7 +95,7 @@ public class VideoListFragment extends Fragment {
     private String textKo = "";
 
    // private ImageView smallPrev;
-    private ImageButton smallToggle, smallTexta, korengBtn, announceBtn, btnRecord;
+    private ImageButton smallToggle, korengBtn, announceBtn, btnRecord;
   //  private ImageView smallNext;
     private ProgressBar songProgress;
     private AppCompatSeekBar seekbar;
@@ -237,68 +238,44 @@ public class VideoListFragment extends Fragment {
 
         });
 
-        //totalDur = (TextView) view.findViewById(R.id.totalDur);
-        //currentDur = (TextView) view.findViewById(R.id.currentDur);
+        totalDur = (TextView) view.findViewById(R.id.totalDur);
+        currentDur = (TextView) view.findViewById(R.id.currentDur);
 
-        /*textButton = (Button) view.findViewById(R.id.text);
+
+        textButton = (Button) view.findViewById(R.id.text);
         textButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                mainActivity.getVideoFragment().showHideText();
+            public void onClick(android.view.View p0) {
+                //mainActivity.getVideoFragment().showHideText();
             }
         });
         texttButton = (Button) view.findViewById(R.id.textt);
         texttButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                mainActivity.getVideoFragment().showHideTextKr();
+            public void onClick(android.view.View p0) {
+                //mainActivity.getVideoFragment().showHideTextKr();
+            }
+        });
+        textsButton = (Button) view.findViewById(R.id.texts);
+        textsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View p0) {
+                //mainActivity.getVideoFragment().showHideTextSpeak();
             }
         });
 
-
-        smallTexta = (ImageButton) view.findViewById(R.id.small_texta);
+        smallTexta = (Button) view.findViewById(R.id.small_texta);
         smallTexta.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                mainActivity.getVideoFragment().showHideText();
-            }
-        });*/
-
-        btnRecord = (ImageButton) view.findViewById(R.id.btnRecord);
-        btnRecord.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AndroidAudioRecorder.with(getActivity())
-                        // Required
-                        .setFilePath(AUDIO_FILE_PATH)
-                        .setColor(ContextCompat.getColor(getContext(), R.color.orange_app_identity_color))
-                        .setRequestCode(REQUEST_RECORD_AUDIO)
-
-                        // Optional
-                        .setSource(AudioSource.MIC)
-                        .setChannel(AudioChannel.STEREO)
-                        .setSampleRate(AudioSampleRate.HZ_48000)
-                        .setAutoStart(false)
-                        .setKeepDisplayOn(true)
-
-                        // Start recording
-                        .record();
+            public void onClick(android.view.View p0) {
+                //mainActivity.getVideoFragment().showHideText();
             }
         });
-
-        korengBtn = (ImageButton) view.findViewById(R.id.korengBtn);
-        korengBtn.setOnClickListener(new View.OnClickListener() {
+        smallTextt = (Button) view.findViewById(R.id.small_textt);
+        smallTextt.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View p0) {
-                showHideTextKr();
-            }
-        });
-
-        announceBtn = (ImageButton) view.findViewById(R.id.announceBtn);
-        announceBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showHideTextSpeak();
+            public void onClick(android.view.View p0) {
+                //mainActivity.getVideoFragment().showHideTextKr();
             }
         });
         /*textButton.setOnClickListener(new android.view.View.OnClickListener() {
@@ -307,6 +284,47 @@ public class VideoListFragment extends Fragment {
                 mainActivity.getVideoFragment().showHideText();
             }
         });*/
+        playSpeed40 = (TextView) view.findViewById(R.id.playSpeed40);
+        playSpeed40.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View p0) {
+                playSpeed(40);
+
+            }
+        });
+        playSpeed60 = (TextView) view.findViewById(R.id.playSpeed60);
+        playSpeed60.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View p0) {
+                playSpeed(60);
+
+            }
+        });
+        playSpeed80 = (TextView) view.findViewById(R.id.playSpeed80);
+        playSpeed80.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View p0) {
+                playSpeed(80);
+
+            }
+        });
+        playSpeed100 = (TextView) view.findViewById(R.id.playSpeed100);
+        playSpeed100.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View p0) {
+                playSpeed(100);
+
+            }
+        });
+        playSpeed120 = (TextView) view.findViewById(R.id.playSpeed120);
+        playSpeed120.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View p0) {
+                playSpeed(120);
+
+            }
+        });
+
 
         prev = (ImageView) view.findViewById(R.id.prev);
         prev.setOnClickListener(new View.OnClickListener() {
@@ -315,7 +333,7 @@ public class VideoListFragment extends Fragment {
                 setNextVideo(mainActivity.getVideoFragment().getNowPlayListNo(),false);
             }
         });
-        play = (ImageView) view.findViewById(R.id.play_pause_toggle);
+        play = (FloatingActionButton) view.findViewById(R.id.play_pause_toggle);
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View p0) {
@@ -354,35 +372,6 @@ public class VideoListFragment extends Fragment {
         });
         smallNext.setVisibility(View.GONE);*/
 
-        playSpeed = (ImageView) view.findViewById(R.id.playSpeed);
-        playSpeed.setTag("100");
-        playSpeed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (playSpeed.getTag().toString().equals("100")) {
-                    playSpeed(120);
-                    playSpeed.setTag("120");
-                    playSpeed.setImageResource(R.drawable.icon_x_120);
-                } else if (playSpeed.getTag().toString().equals("120")) {
-                    playSpeed(40);
-                    playSpeed.setTag("40");
-                    playSpeed.setImageResource(R.drawable.icon_x_40);
-                } else if (playSpeed.getTag().toString().equals("40")) {
-                    playSpeed(60);
-                    playSpeed.setTag("60");
-                    playSpeed.setImageResource(R.drawable.icon_x_60);
-                } else if (playSpeed.getTag().toString().equals("60")) {
-                    playSpeed(80);
-                    playSpeed.setTag("80");
-                    playSpeed.setImageResource(R.drawable.icon_x_80);
-                } else if (playSpeed.getTag().toString().equals("80")) {
-                    playSpeed(100);
-                    playSpeed.setTag("100");
-                    playSpeed.setImageResource(R.drawable.icon_x_100);
-                }
-            }
-        });
-
         repeatOne = (ImageView) view.findViewById(R.id.repeatOne);
         repeatOne.setTag("1");
         repeatOne.setOnClickListener(new View.OnClickListener() {
@@ -403,19 +392,21 @@ public class VideoListFragment extends Fragment {
             }
         });
         repeat = (ImageView) view.findViewById(R.id.repeat);
-        repeat.setTag("all");
+        repeat.setTag("off");
         repeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View p0) {
-                if (repeat.getTag().toString().equals("all")) {
-                    repeat.setTag("one");
-                    repeat.setImageResource(R.drawable.icon_replay_one);
-                    Toast.makeText(getContext().getApplicationContext(), "같은 영상이 반복 됩니다.", Toast.LENGTH_LONG).show();
-                } else if (repeat.getTag().toString().equals("one")) {
+                if(repeat.getTag().toString().equals("off")){
                     repeat.setTag("all");
-                    repeat.setImageResource(R.drawable.icon_replay_active);
-                    Toast.makeText(getContext().getApplicationContext(), "유사 패턴 영상이 반복 됩니다.", Toast.LENGTH_LONG).show();
+                    repeat.setImageResource(R.drawable.rep_one);
+                }else if(repeat.getTag().toString().equals("all")){
+                    repeat.setImageResource(R.drawable.rep_all);
+                    repeat.setTag("one");
+                }else if(repeat.getTag().toString().equals("one")){
+                    repeat.setImageResource(R.drawable.rep_no);
+                    repeat.setTag("off");
                 }
+
             }
         });
         shuffle = (ImageView) view.findViewById(R.id.shuffle);
@@ -425,35 +416,12 @@ public class VideoListFragment extends Fragment {
             public void onClick(View p0) {
                 if(shuffle.getTag().toString().equals("off")){
                     shuffle.setTag("on");
-                    shuffle.setImageResource(R.drawable.icon_shuffle_active);
-                    Toast.makeText(getContext().getApplicationContext(), "랜덤 영상이 반복 됩니다.", Toast.LENGTH_LONG).show();
-                } else {
+                    shuffle.setImageResource(R.drawable.shuf_on);
+                }else{
                     shuffle.setTag("off");
-                    shuffle.setImageResource(R.drawable.icon_shuffle);
+                    shuffle.setImageResource(R.drawable.shuf_off);
 
                 }
-            }
-        });
-
-        record = (ImageView) view.findViewById(R.id.record);
-        record.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AndroidAudioRecorder.with(getActivity())
-                        // Required
-                        .setFilePath(AUDIO_FILE_PATH)
-                        .setColor(ContextCompat.getColor(getContext(), R.color.orange_app_identity_color))
-                        .setRequestCode(REQUEST_RECORD_AUDIO)
-
-                        // Optional
-                        .setSource(AudioSource.MIC)
-                        .setChannel(AudioChannel.STEREO)
-                        .setSampleRate(AudioSampleRate.HZ_48000)
-                        .setAutoStart(false)
-                        .setKeepDisplayOn(true)
-
-                        // Start recording
-                        .record();
             }
         });
 
@@ -474,8 +442,7 @@ public class VideoListFragment extends Fragment {
                 updateProgress(mainActivity.getVideoFragment().getCurrentPosition());
             }
         });
-        //forward.setVisibility(View.GONE);
-
+        forward.setVisibility(View.GONE);
         smallArtworkDown = (ImageView) view.findViewById(R.id.small_artwork_down);
         smallArtworkDown.setOnClickListener(new View.OnClickListener() {
             @Override
