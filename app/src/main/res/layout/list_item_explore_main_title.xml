@@ -5,17 +5,32 @@
     android:layout_marginTop="@dimen/explore_main_title_layout_margin_top"
     android:layout_marginBottom="@dimen/explore_main_title_layout_margin_bottom"
     android:orientation="vertical">
-    <TextView
-        android:id="@+id/itemMainTitle"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/explore_main_title_text_view_margin_left"
-        android:layout_marginBottom="@dimen/explore_main_title_text_view_margin_bottom"
-        android:textSize="30dp"
-        android:fontFamily="@font/notosanscjkkr_regular"
-        android:includeFontPadding="false"
-        android:textColor="@color/black"
-        android:text="MAIN"/>
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/itemMainTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/explore_main_title_text_view_margin_left"
+            android:layout_marginBottom="@dimen/explore_main_title_text_view_margin_bottom"
+            android:textSize="30dp"
+            android:fontFamily="@font/notosanscjkkr_regular"
+            android:includeFontPadding="false"
+            android:textColor="@color/black"
+            android:text="MAIN"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <ImageButton
+            android:id="@+id/searchBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/ic_action_search"/>
+    </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
