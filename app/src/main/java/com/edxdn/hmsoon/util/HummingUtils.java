@@ -27,7 +27,7 @@ public class HummingUtils {
 
     public static String APP_SAVE_NAME = "SaveAppData";
     public static String APP_SAVE_SEARCH_RECORD = "RecordSearchData";
-    public static String IMAGE_PATH = "https://video.hmsoon.edxdn.com/";
+    public static String IMAGE_PATH = "http://video.hmsoon.edxdn.com/";
 
     public static boolean isEmpty(TextView time) {
         if(time == null){

@@ -77,7 +77,7 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
     private static Handler songProgressHandler;
 
     private SimpleExoPlayerView simpleExoPlayerView;
-    private SimpleExoPlayer player;
+    private SimpleExoPlayer mSimpleExoPlayer;
     private MediaSource videoSource;
     private DefaultDataSourceFactory dataSourceFactory;
     private ExtractorsFactory extractorsFactory;
@@ -182,12 +182,12 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
         //LoadControl loadControl = new DefaultLoadControl();
 
         //player = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
-        player = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector);
+        mSimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector);
 
         simpleExoPlayerView.setUseController(true);
         simpleExoPlayerView.requestFocus();
 
-        simpleExoPlayerView.setPlayer(player);
+        simpleExoPlayerView.setPlayer(mSimpleExoPlayer);
         simpleExoPlayerView.setDefaultArtwork(null);
 
        // DefaultBandwidthMeter bandwidthMeterA = new DefaultBandwidthMeter();
@@ -195,7 +195,7 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
         extractorsFactory = new DefaultExtractorsFactory();
 
         setMediaSource(Uri.parse(videoUrl));
-        player.addListener(new ExoPlayer.EventListener() {
+        mSimpleExoPlayer.addListener(new ExoPlayer.EventListener() {
 
             @Override
             public void onTimelineChanged(Timeline timeline, Object manifest, int reason) {
@@ -218,9 +218,9 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
                     // media actually playing
                     simpleExoPlayerView.hideController();
                     PlaybackParameters params = new PlaybackParameters(playSpeed, 1.0f);
-                    player.setPlaybackParameters(params);
-                    int duration = (int) player.getDuration();
-                    if (player.getDuration() > duration) {
+                    mSimpleExoPlayer.setPlaybackParameters(params);
+                    int duration = (int) mSimpleExoPlayer.getDuration();
+                    if (mSimpleExoPlayer.getDuration() > duration) {
                         duration++;
                     }
                     mainActivity.getVideoListFragment().maxProgress(duration);
@@ -303,7 +303,7 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
             @Override
             public void onPlayerError(ExoPlaybackException error) {
                 Log.e(TAG, "Listener-onPlayerError...");
-                player.stop();
+                mSimpleExoPlayer.stop();
                 //player.prepare(videoSource);
                 //player.setPlayWhenReady(true);
             }
@@ -314,8 +314,8 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
             }
         });
 
-        player.setPlayWhenReady(true); //run file/link when ready to play.
-        player.setVideoDebugListener(this); //for listening to resolution change and  outputing the resolution
+        mSimpleExoPlayer.setPlayWhenReady(true); //run file/link when ready to play.
+        mSimpleExoPlayer.setVideoDebugListener(this); //for listening to resolution change and  outputing the resolution
 
     }
 
@@ -377,7 +377,7 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
 
     public void setMediaSource(Uri mp4VideoUri){
         videoSource = new ExtractorMediaSource(mp4VideoUri, dataSourceFactory, extractorsFactory, null, null);
-        player.prepare(videoSource);
+        mSimpleExoPlayer.prepare(videoSource);
     }
 
     @Override
@@ -423,19 +423,19 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
     }
 
     public int getTotalDuration(){
-        return (int)player.getDuration();
+        return (int)mSimpleExoPlayer.getDuration();
     }
 
     public void seekTo(int seek){
-        player.seekTo(seek);
+        mSimpleExoPlayer.seekTo(seek);
     }
 
     public void seekToCurrent(int seek){
-        player.seekTo(player.getCurrentPosition()+seek);
+        mSimpleExoPlayer.seekTo(mSimpleExoPlayer.getCurrentPosition()+seek);
     }
 
     public int getCurrentPosition(){
-        return (int)player.getCurrentPosition();
+        return (int)mSimpleExoPlayer.getCurrentPosition();
     }
 
     public String getVideoUrl(){
@@ -503,7 +503,7 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
         videoUrl = url;
         youtubeid = youtubeidParam;
 
-        if (player == null) {
+        if (mSimpleExoPlayer == null) {
             initExoPlayer(view);
         }
 
@@ -542,10 +542,10 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
 
 
     public void startVideo() {
-        if (player.getContentPosition() >= player.getDuration()) {
-            player.seekTo(0);
+        if (mSimpleExoPlayer.getContentPosition() >= mSimpleExoPlayer.getDuration()) {
+            mSimpleExoPlayer.seekTo(0);
         }
-        player.setPlayWhenReady(true);
+        mSimpleExoPlayer.setPlayWhenReady(true);
 
         Handler handlers2 = new Handler();
         handlers2.postDelayed(new Runnable() {
@@ -629,9 +629,9 @@ public class VideoFragment extends Fragment implements VideoRendererEventListene
     }
 
     public void updateProgress() {
-            int pos = (int)player.getCurrentPosition();
+            int pos = (int) mSimpleExoPlayer.getCurrentPosition();
             mainActivity.getVideoListFragment().updateProgress(pos);
-            if(runProgress && player.getDuration() > pos){
+            if(runProgress && mSimpleExoPlayer.getDuration() > pos){
                 songProgressHandler.postDelayed(progressRunnable, 100);
             }
     }
